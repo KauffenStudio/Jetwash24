@@ -1,0 +1,266 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "minutes": "minutes",
+    "hours": "hours",
+    "hour": "hour",
+    "from": "from"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "gallery": "Gallery",
+    "booking": "Book Now",
+    "contact": "Contact",
+    "admin": "Admin",
+    "worker": "Worker",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "tagline": "Professional Detailing in the Algarve",
+    "headline": "Your Car Deserves the Best",
+    "description": "We transform the interior and exterior of your vehicle with premium detailing techniques. Results that speak for themselves.",
+    "cta": "Book Now",
+    "scrollDown": "See services"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Choose the ideal service for your vehicle",
+    "interior": "Interior",
+    "exterior": "Exterior",
+    "addons": "Add-ons",
+    "duration": "Duration",
+    "includes": "Includes",
+    "bookNow": "Book Now",
+    "from": "from",
+    "vehicleAdjustment": "Price varies by vehicle size",
+    "categories": {
+      "INTERIOR": "Interior",
+      "EXTERIOR": "Exterior"
+    }
+  },
+  "vehicleSizes": {
+    "SMALL": "Small Car",
+    "MEDIUM": "Medium Car",
+    "SUV": "SUV",
+    "LARGE": "Large Vehicle",
+    "adjustments": {
+      "SMALL": "No extra charge",
+      "MEDIUM": "+€10",
+      "SUV": "+€20",
+      "LARGE": "+€30"
+    }
+  },
+  "gallery": {
+    "title": "Real Transformations",
+    "subtitle": "See the result of our work — real photos from our customers",
+    "before": "Before",
+    "after": "After",
+    "noPhotos": "Photos Coming Soon",
+    "noPhotosDesc": "We are preparing our gallery. Check back soon to see amazing transformations."
+  },
+  "bookingCta": {
+    "title": "Ready to Transform Your Car?",
+    "subtitle": "Book now and experience the difference of professional detailing",
+    "cta": "Book Now",
+    "callUs": "Or call us"
+  },
+  "location": {
+    "title": "Find Us",
+    "subtitle": "Easy to find, close to you",
+    "address": "Address",
+    "hours": "Opening Hours",
+    "hoursValue": "Every day: 09:00 – 17:00",
+    "phone": "Phone",
+    "openMaps": "Open in Google Maps",
+    "nearShopping": "3-minute walk from Algarve Shopping",
+    "directions": "Get Directions"
+  },
+  "contact": {
+    "title": "Contact",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
+  },
+  "booking": {
+    "title": "Book Your Service",
+    "subtitle": "Reserve your service in minutes",
+    "steps": {
+      "vehicle": "Vehicle",
+      "service": "Service",
+      "extras": "Extras",
+      "datetime": "Date & Time",
+      "details": "Details",
+      "review": "Payment"
+    },
+    "step1": {
+      "title": "Select Your Vehicle",
+      "subtitle": "Price varies by vehicle size"
+    },
+    "step2": {
+      "title": "Choose Your Service",
+      "subtitle": "Select the service that best fits your needs"
+    },
+    "step3": {
+      "title": "Add-on Services",
+      "subtitle": "Add extras for an even better result (optional)",
+      "skip": "Continue without extras"
+    },
+    "step4": {
+      "title": "Choose Date & Time",
+      "subtitle": "Select your preferred day and time",
+      "selectDate": "Select a date",
+      "availableSlots": "Available time slots",
+      "noSlots": "No available slots on this day. Try another date.",
+      "loadingSlots": "Checking availability..."
+    },
+    "step5": {
+      "title": "Your Details",
+      "subtitle": "We need a few details to confirm your booking",
+      "name": "Full Name",
+      "namePlaceholder": "John Smith",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+351 900 000 000",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "carModel": "Car Model",
+      "carModelPlaceholder": "E.g. BMW X3 2021",
+      "licensePlate": "License Plate",
+      "licensePlatePlaceholder": "XX-00-XX",
+      "notes": "Additional Notes (optional)",
+      "notesPlaceholder": "Any details we should know?",
+      "privacy": "Your details are used only for managing your booking."
+    },
+    "step6": {
+      "title": "Review & Pay",
+      "subtitle": "Confirm the details and proceed to payment",
+      "payNow": "Pay Now",
+      "processing": "Processing...",
+      "securePayment": "Secure payment with Stripe",
+      "paymentMethods": "Card • Apple Pay • Google Pay • MBWay"
+    },
+    "summary": {
+      "title": "Booking Summary",
+      "vehicle": "Vehicle",
+      "service": "Service",
+      "extras": "Extras",
+      "date": "Date",
+      "time": "Time",
+      "duration": "Estimated duration",
+      "basePrice": "Base price",
+      "vehicleAdjustment": "Vehicle size adjustment",
+      "extrasPrice": "Extras",
+      "total": "Total",
+      "none": "None"
+    },
+    "cancellation": {
+      "policy": "Free cancellation up to 12 hours before your appointment."
+    }
+  },
+  "success": {
+    "title": "Booking Confirmed!",
+    "subtitle": "Your payment has been processed successfully",
+    "description": "We sent a confirmation email to {email} with all your booking details.",
+    "bookingDetails": "Booking Details",
+    "backHome": "Back to Home",
+    "newBooking": "New Booking"
+  },
+  "cancelled": {
+    "title": "Payment Cancelled",
+    "subtitle": "Your payment was not completed",
+    "description": "Your booking has been cancelled. No amount was charged.",
+    "tryAgain": "Try Again",
+    "backHome": "Back to Home"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "dashboard": "Dashboard",
+    "bookings": "Bookings",
+    "calendar": "Calendar",
+    "services": "Services",
+    "gallery": "Gallery",
+    "blockedSlots": "Block Slots",
+    "logout": "Logout",
+    "welcome": "Welcome",
+    "todayBookings": "Today's bookings",
+    "weekBookings": "This week's bookings",
+    "monthRevenue": "This month's revenue",
+    "totalBookings": "Total bookings",
+    "status": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled",
+      "COMPLETED": "Completed"
+    },
+    "actions": {
+      "cancel": "Cancel Booking",
+      "complete": "Mark as Completed",
+      "viewDetails": "View Details"
+    },
+    "blockSlot": {
+      "title": "Block Time Slot",
+      "date": "Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "reason": "Reason (optional)",
+      "create": "Block Slot"
+    },
+    "gallery": {
+      "upload": "Add Photo",
+      "before": "Before Photo",
+      "after": "After Photo",
+      "description": "Description",
+      "service": "Service Performed",
+      "uploading": "Uploading...",
+      "deleteConfirm": "Are you sure you want to delete this image?"
+    },
+    "login": {
+      "title": "Admin Access",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "error": "Invalid credentials"
+    }
+  },
+  "worker": {
+    "title": "Worker Schedule",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "noJobs": "No appointments for this day",
+    "jobDetails": "Appointment Details",
+    "logout": "Logout",
+    "login": {
+      "title": "Worker Access",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "error": "Invalid credentials"
+    }
+  },
+  "footer": {
+    "tagline": "Professional detailing in the Algarve",
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "contact": "Contact",
+    "links": "Links"
+  },
+  "whatsapp": {
+    "tooltip": "Chat with us on WhatsApp"
+  }
+}

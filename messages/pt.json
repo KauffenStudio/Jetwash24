@@ -1,0 +1,266 @@
+{
+  "common": {
+    "loading": "A carregar...",
+    "error": "Ocorreu um erro",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "back": "Voltar",
+    "next": "Seguinte",
+    "continue": "Continuar",
+    "submit": "Submeter",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "yes": "Sim",
+    "no": "Não",
+    "minutes": "minutos",
+    "hours": "horas",
+    "hour": "hora",
+    "from": "a partir de"
+  },
+  "nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "gallery": "Galeria",
+    "booking": "Reservar",
+    "contact": "Contacto",
+    "admin": "Admin",
+    "worker": "Trabalhador",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "hero": {
+    "tagline": "Detailing Profissional no Algarve",
+    "headline": "O Seu Carro Merece o Melhor",
+    "description": "Transformamos o interior e exterior do seu veículo com técnicas de detailing premium. Resultados que falam por si.",
+    "cta": "Reservar Agora",
+    "scrollDown": "Ver serviços"
+  },
+  "services": {
+    "title": "Os Nossos Serviços",
+    "subtitle": "Escolha o serviço ideal para o seu veículo",
+    "interior": "Interior",
+    "exterior": "Exterior",
+    "addons": "Extras",
+    "duration": "Duração",
+    "includes": "Inclui",
+    "bookNow": "Reservar",
+    "from": "a partir de",
+    "vehicleAdjustment": "Preço varia consoante o tamanho do veículo",
+    "categories": {
+      "INTERIOR": "Interior",
+      "EXTERIOR": "Exterior"
+    }
+  },
+  "vehicleSizes": {
+    "SMALL": "Carro Pequeno",
+    "MEDIUM": "Carro Médio",
+    "SUV": "SUV",
+    "LARGE": "Veículo Grande",
+    "adjustments": {
+      "SMALL": "Sem acréscimo",
+      "MEDIUM": "+10€",
+      "SUV": "+20€",
+      "LARGE": "+30€"
+    }
+  },
+  "gallery": {
+    "title": "Transformações Reais",
+    "subtitle": "Veja o resultado do nosso trabalho — fotografias reais dos nossos clientes",
+    "before": "Antes",
+    "after": "Depois",
+    "noPhotos": "Fotos em breve",
+    "noPhotosDesc": "Estamos a preparar a nossa galeria. Volte em breve para ver transformações incríveis."
+  },
+  "bookingCta": {
+    "title": "Pronto para Transformar o Seu Carro?",
+    "subtitle": "Reserve agora e experiencie a diferença do detailing profissional",
+    "cta": "Reservar Agora",
+    "callUs": "Ou ligue-nos"
+  },
+  "location": {
+    "title": "Onde Estamos",
+    "subtitle": "Fácil de encontrar, perto de si",
+    "address": "Morada",
+    "hours": "Horário",
+    "hoursValue": "Todos os dias: 09:00 – 17:00",
+    "phone": "Telefone",
+    "openMaps": "Abrir no Google Maps",
+    "nearShopping": "A 3 minutos a pé do Algarve Shopping",
+    "directions": "Como Chegar"
+  },
+  "contact": {
+    "title": "Contacto",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "phone": "Telefone",
+    "address": "Morada"
+  },
+  "booking": {
+    "title": "Reservar",
+    "subtitle": "Reserve o seu serviço em minutos",
+    "steps": {
+      "vehicle": "Veículo",
+      "service": "Serviço",
+      "extras": "Extras",
+      "datetime": "Data & Hora",
+      "details": "Dados",
+      "review": "Pagamento"
+    },
+    "step1": {
+      "title": "Selecione o Seu Veículo",
+      "subtitle": "O preço varia consoante o tamanho do veículo"
+    },
+    "step2": {
+      "title": "Escolha o Seu Serviço",
+      "subtitle": "Selecione o serviço que melhor se adapta às suas necessidades"
+    },
+    "step3": {
+      "title": "Serviços Adicionais",
+      "subtitle": "Adicione extras para um resultado ainda melhor (opcional)",
+      "skip": "Continuar sem extras"
+    },
+    "step4": {
+      "title": "Escolha a Data e Hora",
+      "subtitle": "Selecione o dia e hora que prefere",
+      "selectDate": "Selecione uma data",
+      "availableSlots": "Horários disponíveis",
+      "noSlots": "Sem horários disponíveis neste dia. Tente outra data.",
+      "loadingSlots": "A verificar disponibilidade..."
+    },
+    "step5": {
+      "title": "Os Seus Dados",
+      "subtitle": "Precisamos de alguns dados para confirmar a sua reserva",
+      "name": "Nome Completo",
+      "namePlaceholder": "João Silva",
+      "phone": "Número de Telefone",
+      "phonePlaceholder": "+351 900 000 000",
+      "email": "Email",
+      "emailPlaceholder": "joao@exemplo.com",
+      "carModel": "Modelo do Carro",
+      "carModelPlaceholder": "Ex: BMW X3 2021",
+      "licensePlate": "Matrícula",
+      "licensePlatePlaceholder": "XX-00-XX",
+      "notes": "Observações (opcional)",
+      "notesPlaceholder": "Algum detalhe que devemos saber?",
+      "privacy": "Os seus dados são utilizados apenas para a gestão da sua reserva."
+    },
+    "step6": {
+      "title": "Resumo e Pagamento",
+      "subtitle": "Confirme os detalhes e proceda ao pagamento",
+      "payNow": "Pagar Agora",
+      "processing": "A processar...",
+      "securePayment": "Pagamento seguro com Stripe",
+      "paymentMethods": "Cartão • Apple Pay • Google Pay • MBWay"
+    },
+    "summary": {
+      "title": "Resumo da Reserva",
+      "vehicle": "Veículo",
+      "service": "Serviço",
+      "extras": "Extras",
+      "date": "Data",
+      "time": "Hora",
+      "duration": "Duração estimada",
+      "basePrice": "Preço base",
+      "vehicleAdjustment": "Acréscimo por tamanho",
+      "extrasPrice": "Extras",
+      "total": "Total",
+      "none": "Nenhum"
+    },
+    "cancellation": {
+      "policy": "Cancelamento gratuito até 12 horas antes da marcação."
+    }
+  },
+  "success": {
+    "title": "Reserva Confirmada!",
+    "subtitle": "O seu pagamento foi processado com sucesso",
+    "description": "Enviámos um email de confirmação para {email} com todos os detalhes da sua reserva.",
+    "bookingDetails": "Detalhes da Reserva",
+    "backHome": "Voltar ao Início",
+    "newBooking": "Nova Reserva"
+  },
+  "cancelled": {
+    "title": "Pagamento Cancelado",
+    "subtitle": "O seu pagamento não foi concluído",
+    "description": "A sua reserva foi cancelada. Nenhum valor foi cobrado.",
+    "tryAgain": "Tentar Novamente",
+    "backHome": "Voltar ao Início"
+  },
+  "admin": {
+    "title": "Painel de Administração",
+    "dashboard": "Dashboard",
+    "bookings": "Reservas",
+    "calendar": "Calendário",
+    "services": "Serviços",
+    "gallery": "Galeria",
+    "blockedSlots": "Bloquear Horários",
+    "logout": "Sair",
+    "welcome": "Bem-vindo",
+    "todayBookings": "Reservas hoje",
+    "weekBookings": "Reservas esta semana",
+    "monthRevenue": "Receita este mês",
+    "totalBookings": "Total de reservas",
+    "status": {
+      "PENDING": "Pendente",
+      "CONFIRMED": "Confirmado",
+      "CANCELLED": "Cancelado",
+      "COMPLETED": "Concluído"
+    },
+    "actions": {
+      "cancel": "Cancelar Reserva",
+      "complete": "Marcar como Concluído",
+      "viewDetails": "Ver Detalhes"
+    },
+    "blockSlot": {
+      "title": "Bloquear Horário",
+      "date": "Data",
+      "startTime": "Hora de Início",
+      "endTime": "Hora de Fim",
+      "reason": "Motivo (opcional)",
+      "create": "Bloquear"
+    },
+    "gallery": {
+      "upload": "Adicionar Foto",
+      "before": "Foto Antes",
+      "after": "Foto Depois",
+      "description": "Descrição",
+      "service": "Serviço Realizado",
+      "uploading": "A carregar...",
+      "deleteConfirm": "Tem a certeza que quer eliminar esta imagem?"
+    },
+    "login": {
+      "title": "Acesso Admin",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Entrar",
+      "error": "Credenciais inválidas"
+    }
+  },
+  "worker": {
+    "title": "Agenda do Trabalhador",
+    "today": "Hoje",
+    "tomorrow": "Amanhã",
+    "noJobs": "Sem marcações para este dia",
+    "jobDetails": "Detalhes da Marcação",
+    "logout": "Sair",
+    "login": {
+      "title": "Acesso Trabalhador",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Entrar",
+      "error": "Credenciais inválidas"
+    }
+  },
+  "footer": {
+    "tagline": "Detailing profissional no Algarve",
+    "rights": "Todos os direitos reservados",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Uso",
+    "contact": "Contacto",
+    "links": "Links"
+  },
+  "whatsapp": {
+    "tooltip": "Falar connosco no WhatsApp"
+  }
+}

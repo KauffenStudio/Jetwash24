@@ -1,0 +1,44 @@
+{
+  "name": "jetwash24",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.15.0",
+    "@stripe/react-stripe-js": "^2.7.3",
+    "@stripe/stripe-js": "^3.5.0",
+    "@vercel/blob": "^0.23.4",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^3.6.0",
+    "next": "^14.2.5",
+    "next-auth": "^4.24.7",
+    "next-intl": "^3.15.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^3.4.0",
+    "stripe": "^16.2.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "prisma": "^5.15.0",
+    "tailwindcss": "^3.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}

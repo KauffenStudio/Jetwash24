@@ -121,7 +121,6 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
 
   const handleSelectVehicle = useCallback((size: VehicleSize) => {
     dispatch({ type: 'SET_VEHICLE', payload: size });
-    dispatch({ type: 'NEXT_STEP' });
   }, []);
 
   const handleSelectService = useCallback((service: Service) => {

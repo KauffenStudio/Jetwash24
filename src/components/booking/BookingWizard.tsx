@@ -149,6 +149,8 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handlePay = useCallback(async (captchaToken: string) => {
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
+    console.log('captchaToken:', captchaToken);
+
     try {
       // 1. Create the pending booking
       const bookingRes = await fetch('/api/bookings', {

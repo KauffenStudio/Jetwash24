@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { SessionProvider } from '@/components/providers/SessionProvider';
+import Script from 'next/script';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -62,6 +63,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={inter.variable}>
       <body className={inter.className}>
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="afterInteractive"
+        />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <Header />

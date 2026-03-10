@@ -143,12 +143,12 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
             console.log('[Turnstile] token received:', token);
             setCaptchaToken(token);
           }}
-          onExpire={() => {
-            console.log('[Turnstile] token expired');
+          onError={() => {
+            console.error('[Turnstile] error');
             setCaptchaToken(null);
           }}
-          onError={() => {
-            console.log('[Turnstile] error');
+          onExpire={() => {
+            console.warn('[Turnstile] expired');
             setCaptchaToken(null);
           }}
           options={{ theme: 'light', language: locale }}

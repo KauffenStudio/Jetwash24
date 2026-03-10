@@ -8,7 +8,7 @@ import { formatPrice, formatDurationLabel, formatDateShort } from '@/lib/utils';
 
 interface ReviewStepProps {
   state: BookingState;
-  onPay: (captchaToken: string) => Promise<void>;
+  onPay: (captchaToken: string | null) => Promise<void>;
   onBack: () => void;
 }
 
@@ -30,8 +30,9 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handlePay = async () => {
-    console.log('[ReviewStep] handlePay called, captchaToken:', captchaToken);
+    console.log('[ReviewStep] Pay clicked, token:', captchaToken);
     if (!captchaToken) {
+      alert('Please complete the captcha verification.');
       setCaptchaError(true);
       return;
     }
@@ -139,17 +140,15 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
           ref={turnstileRef}
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
           onSuccess={(token) => {
-            console.log('[Turnstile] onSuccess fired, token:', token);
+            console.log('[Turnstile] token received:', token);
             setCaptchaToken(token);
-            setCaptchaError(false);
-          }}
-          onError={() => {
-            console.log('[Turnstile] onError fired');
-            setCaptchaToken(null);
-            setCaptchaError(true);
           }}
           onExpire={() => {
-            console.log('[Turnstile] onExpire fired');
+            console.log('[Turnstile] token expired');
+            setCaptchaToken(null);
+          }}
+          onError={() => {
+            console.log('[Turnstile] error');
             setCaptchaToken(null);
           }}
           options={{ theme: 'light', language: locale }}

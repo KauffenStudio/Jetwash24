@@ -146,12 +146,19 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handleNext = useCallback(() => dispatch({ type: 'NEXT_STEP' }), []);
   const handleBack = useCallback(() => dispatch({ type: 'PREV_STEP' }), []);
 
-  const handlePay = useCallback(async (captchaToken: string) => {
+  const handlePay = useCallback(async (captchaToken: string | null) => {
+    console.log('[BookingWizard] received token:', captchaToken);
+
+    if (!captchaToken) {
+      alert('Captcha verification failed. Please refresh and try again.');
+      return;
+    }
+
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
-    console.log('captchaToken:', captchaToken);
-
     try {
+      if (!captchaToken) throw new Error('captchaToken missing');
+
       // 1. Create the pending booking
       const bookingRes = await fetch('/api/bookings', {
         method: 'POST',

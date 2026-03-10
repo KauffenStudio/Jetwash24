@@ -30,6 +30,7 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handlePay = async () => {
+    console.log('[ReviewStep] handlePay called, captchaToken:', captchaToken);
     if (!captchaToken) {
       setCaptchaError(true);
       return;
@@ -40,7 +41,6 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
       await onPay(captchaToken);
     } finally {
       setLoading(false);
-      // Reset widget so user can retry if payment fails
       turnstileRef.current?.reset();
       setCaptchaToken(null);
     }
@@ -139,14 +139,17 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
           ref={turnstileRef}
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
           onSuccess={(token) => {
+            console.log('[Turnstile] onSuccess fired, token:', token);
             setCaptchaToken(token);
             setCaptchaError(false);
           }}
           onError={() => {
+            console.log('[Turnstile] onError fired');
             setCaptchaToken(null);
             setCaptchaError(true);
           }}
           onExpire={() => {
+            console.log('[Turnstile] onExpire fired');
             setCaptchaToken(null);
           }}
           options={{ theme: 'light', language: locale }}

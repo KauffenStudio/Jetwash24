@@ -146,7 +146,7 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handleNext = useCallback(() => dispatch({ type: 'NEXT_STEP' }), []);
   const handleBack = useCallback(() => dispatch({ type: 'PREV_STEP' }), []);
 
-  const handlePay = useCallback(async () => {
+  const handlePay = useCallback(async (captchaToken: string) => {
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
     try {
@@ -164,6 +164,7 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
           totalPrice: state.totalPrice,
           totalDuration: state.totalDuration,
           vehicleAdjustment: state.vehicleAdjustment,
+          captchaToken,
         }),
       });
 

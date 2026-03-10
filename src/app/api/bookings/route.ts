@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { getAvailableSlots, calculateEndTime } from '@/lib/availability';
 import { getVehicleAdjustment } from '@/lib/utils';
 import { z } from 'zod';
-import { parseISO, startOfDay, endOfDay, addDays } from 'date-fns';
+import { parseISO, startOfDay, endOfDay } from 'date-fns';
 
 const customerSchema = z.object({
   name: z.string().min(1),
@@ -26,7 +26,26 @@ const createBookingSchema = z.object({
   totalPrice: z.number().positive(),
   totalDuration: z.number().int().positive(),
   vehicleAdjustment: z.number(),
+  captchaToken: z.string().min(1),
 });
+
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    // If secret not configured, skip verification (dev/test environments)
+    console.warn('TURNSTILE_SECRET_KEY not set — skipping captcha verification');
+    return true;
+  }
+
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret, response: token, remoteip: ip }),
+  });
+
+  const data = await res.json() as { success: boolean };
+  return data.success === true;
+}
 
 // GET /api/bookings — Admin/Worker only
 export async function GET(req: NextRequest) {
@@ -50,7 +69,6 @@ export async function GET(req: NextRequest) {
   if (statusParam) {
     where.status = statusParam;
   } else {
-    // Default: show active bookings only
     where.status = { in: ['CONFIRMED', 'PENDING', 'COMPLETED'] };
   }
 
@@ -68,7 +86,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(bookings);
 }
 
-// POST /api/bookings — Create a pending booking, return Stripe checkout URL
+// POST /api/bookings — Create a pending booking
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsed = createBookingSchema.safeParse(body);
@@ -86,7 +104,21 @@ export async function POST(req: NextRequest) {
     customer: customerData,
     totalDuration,
     vehicleAdjustment,
+    captchaToken,
   } = parsed.data;
+
+  // Verify Turnstile captcha
+  const clientIp = req.headers.get('cf-connecting-ip')
+    ?? req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+    ?? '';
+
+  const captchaValid = await verifyTurnstile(captchaToken, clientIp);
+  if (!captchaValid) {
+    return NextResponse.json(
+      { error: 'Security verification failed. Please try again.' },
+      { status: 403 },
+    );
+  }
 
   // Verify the service exists
   const service = await prisma.service.findUnique({ where: { id: serviceId } });
@@ -128,7 +160,6 @@ export async function POST(req: NextRequest) {
 
   let customerId: string;
   if (existingCustomer) {
-    // Update info in case it changed
     const updated = await prisma.customer.update({
       where: { id: existingCustomer.id },
       data: {
@@ -166,7 +197,7 @@ export async function POST(req: NextRequest) {
       totalPrice: calculatedPrice,
       vehicleAdjustment: vehicleAdj,
       status: 'PENDING',
-      paymentExpiresAt: new Date(Date.now() + 30 * 60 * 1000), // 30 min expiry
+      paymentExpiresAt: new Date(Date.now() + 30 * 60 * 1000),
       addons: {
         create: addonIds.map((addonId) => ({ addonId })),
       },

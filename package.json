@@ -14,6 +14,7 @@
     "db:generate": "prisma generate"
   },
   "dependencies": {
+    "@marsidev/react-turnstile": "^1.4.2",
     "@prisma/client": "^5.15.0",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^3.5.0",

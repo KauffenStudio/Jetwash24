@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { format, parseISO, startOfDay, endOfDay } from 'date-fns';
+import { parseISO, startOfDay, endOfDay } from 'date-fns';
 
 // Business hours (minutes from midnight)
 const OPEN_TIME = 9 * 60;   // 09:00 = 540 min
@@ -18,76 +18,71 @@ function minutesToTime(minutes: number): string {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
 
-interface BlockedPeriod {
+interface BookingPeriod {
   start: number; // minutes from midnight
-  end: number;   // minutes from midnight (inclusive of buffer for bookings)
+  end: number;   // minutes from midnight (duration + buffer)
+}
+
+interface BlockedPeriod {
+  start: number;
+  end: number;
 }
 
 export async function getAvailableSlots(
-  dateStr: string, // 'YYYY-MM-DD'
+  dateStr: string,       // 'YYYY-MM-DD'
   serviceDuration: number, // total service duration in minutes
 ): Promise<string[]> {
   const date = parseISO(dateStr);
   const dayStart = startOfDay(date);
   const dayEnd = endOfDay(date);
 
-  // Load existing CONFIRMED bookings and active PENDING bookings (not expired)
-  const existingBookings = await prisma.booking.findMany({
-    where: {
-      date: {
-        gte: dayStart,
-        lte: dayEnd,
+  // Fetch worker capacity, existing bookings, and blocked slots in parallel
+  const [workerCapacity, existingBookings, blockedSlots] = await Promise.all([
+    prisma.user.count({
+      where: { role: 'WORKER', isActive: true },
+    }),
+    prisma.booking.findMany({
+      where: {
+        date: { gte: dayStart, lte: dayEnd },
+        OR: [
+          { status: 'CONFIRMED' },
+          {
+            status: 'PENDING',
+            paymentExpiresAt: { gt: new Date() },
+          },
+        ],
       },
-      status: {
-        in: ['CONFIRMED', 'PENDING'],
+      select: {
+        startTime: true,
+        totalDuration: true,
       },
-      // Exclude expired pending bookings
-      OR: [
-        { status: 'CONFIRMED' },
-        {
-          status: 'PENDING',
-          paymentExpiresAt: { gt: new Date() },
-        },
-      ],
-    },
-    select: {
-      startTime: true,
-      totalDuration: true,
-    },
-  });
-
-  // Load blocked slots for the day
-  const blockedSlots = await prisma.blockedSlot.findMany({
-    where: {
-      date: {
-        gte: dayStart,
-        lte: dayEnd,
+    }),
+    prisma.blockedSlot.findMany({
+      where: {
+        date: { gte: dayStart, lte: dayEnd },
       },
-    },
-    select: {
-      startTime: true,
-      endTime: true,
-    },
-  });
+      select: {
+        startTime: true,
+        endTime: true,
+      },
+    }),
+  ]);
 
-  // Build blocked periods
-  const blockedPeriods: BlockedPeriod[] = [];
+  // Precompute booking periods (start + duration + buffer per booking)
+  const bookingPeriods: BookingPeriod[] = existingBookings.map((b) => ({
+    start: timeToMinutes(b.startTime),
+    end: timeToMinutes(b.startTime) + b.totalDuration + BUFFER_MINUTES,
+  }));
 
-  for (const booking of existingBookings) {
-    const start = timeToMinutes(booking.startTime);
-    // End = start + duration + buffer (so next slot must start after this)
-    const end = start + booking.totalDuration + BUFFER_MINUTES;
-    blockedPeriods.push({ start, end });
-  }
+  // Precompute fully-blocked periods (blocked slots block all workers)
+  const blockedPeriods: BlockedPeriod[] = blockedSlots.map((s) => ({
+    start: timeToMinutes(s.startTime),
+    end: timeToMinutes(s.endTime),
+  }));
 
-  for (const slot of blockedSlots) {
-    blockedPeriods.push({
-      start: timeToMinutes(slot.startTime),
-      end: timeToMinutes(slot.endTime),
-    });
-  }
+  // Effective capacity: at least 1 even if no workers seeded yet
+  const capacity = Math.max(workerCapacity, 1);
 
-  // Generate available slots
   const availableSlots: string[] = [];
 
   for (
@@ -97,12 +92,19 @@ export async function getAvailableSlots(
   ) {
     const slotEnd = slotStart + serviceDuration;
 
-    // Check if this slot overlaps with any blocked period
-    const isBlocked = blockedPeriods.some(
-      (period) => slotStart < period.end && slotEnd > period.start,
+    // Hard block: admin-created blocked slot covers this window
+    const isHardBlocked = blockedPeriods.some(
+      (p) => slotStart < p.end && slotEnd > p.start,
     );
+    if (isHardBlocked) continue;
 
-    if (!isBlocked) {
+    // Count how many existing bookings overlap this candidate slot
+    // Two intervals overlap when: start < otherEnd AND end > otherStart
+    const overlapping = bookingPeriods.filter(
+      (b) => slotStart < b.end && slotEnd > b.start,
+    ).length;
+
+    if (overlapping < capacity) {
       availableSlots.push(minutesToTime(slotStart));
     }
   }

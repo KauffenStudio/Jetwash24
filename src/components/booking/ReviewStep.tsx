@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { BookingState } from '@/types';
 import { formatPrice, formatDurationLabel, formatDateShort } from '@/lib/utils';
 
 interface ReviewStepProps {
   state: BookingState;
-  onPay: (captchaToken: string | null) => Promise<void>;
+  onPay: () => Promise<void>;
   onBack: () => void;
 }
 
@@ -25,25 +24,14 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const tCancel = useTranslations('booking.cancellation');
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaError, setCaptchaError] = useState(false);
-  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handlePay = async () => {
-    console.log('[ReviewStep] Pay clicked, token:', captchaToken);
-    if (!captchaToken) {
-      alert('Please complete the captcha verification.');
-      setCaptchaError(true);
-      return;
-    }
-    setCaptchaError(false);
+    console.log('[ReviewStep] Pay clicked');
     setLoading(true);
     try {
-      await onPay(captchaToken);
+      await onPay();
     } finally {
       setLoading(false);
-      turnstileRef.current?.reset();
-      setCaptchaToken(null);
     }
   };
 
@@ -134,34 +122,6 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
 
       <p className="text-xs text-surface-400 mb-6">{tCancel('policy')}</p>
 
-      {/* Turnstile captcha */}
-      <div className="mb-6">
-        <Turnstile
-          ref={turnstileRef}
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-          onSuccess={(token) => {
-            console.log('[Turnstile] token received:', token);
-            setCaptchaToken(token);
-          }}
-          onError={() => {
-            console.error('[Turnstile] error');
-            setCaptchaToken(null);
-          }}
-          onExpire={() => {
-            console.warn('[Turnstile] expired');
-            setCaptchaToken(null);
-          }}
-          options={{ theme: 'light', language: locale }}
-        />
-        {captchaError && (
-          <p className="text-red-500 text-sm mt-2">
-            {locale === 'pt'
-              ? 'Por favor complete a verificação de segurança.'
-              : 'Please complete the security verification.'}
-          </p>
-        )}
-      </div>
-
       <div className="flex justify-between">
         <button
           onClick={onBack}
@@ -172,7 +132,7 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
         </button>
         <button
           onClick={handlePay}
-          disabled={loading || !captchaToken}
+          disabled={loading}
           className="px-8 py-4 bg-gold text-black font-black text-lg rounded hover:bg-gold-light transition-all duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
         >
           {loading ? (

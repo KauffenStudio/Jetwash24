@@ -26,26 +26,7 @@ const createBookingSchema = z.object({
   totalPrice: z.number().positive(),
   totalDuration: z.number().int().positive(),
   vehicleAdjustment: z.number(),
-  captchaToken: z.string().min(1),
 });
-
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) {
-    // If secret not configured, skip verification (dev/test environments)
-    console.warn('TURNSTILE_SECRET_KEY not set — skipping captcha verification');
-    return true;
-  }
-
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ secret, response: token, remoteip: ip }),
-  });
-
-  const data = await res.json() as { success: boolean };
-  return data.success === true;
-}
 
 // GET /api/bookings — Admin/Worker only
 export async function GET(req: NextRequest) {
@@ -104,21 +85,7 @@ export async function POST(req: NextRequest) {
     customer: customerData,
     totalDuration,
     vehicleAdjustment,
-    captchaToken,
   } = parsed.data;
-
-  // Verify Turnstile captcha
-  const clientIp = req.headers.get('cf-connecting-ip')
-    ?? req.headers.get('x-forwarded-for')?.split(',')[0].trim()
-    ?? '';
-
-  const captchaValid = await verifyTurnstile(captchaToken, clientIp);
-  if (!captchaValid) {
-    return NextResponse.json(
-      { error: 'Security verification failed. Please try again.' },
-      { status: 403 },
-    );
-  }
 
   // Verify the service exists
   const service = await prisma.service.findUnique({ where: { id: serviceId } });

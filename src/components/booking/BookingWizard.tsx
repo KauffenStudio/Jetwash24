@@ -1,8 +1,7 @@
 'use client';
 
 import { useReducer, useCallback } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
 import { BookingState, BookingStep, VehicleSize, Service, Addon, CustomerForm } from '@/types';
 import { getVehicleAdjustment } from '@/lib/utils';
@@ -117,7 +116,6 @@ interface BookingWizardProps {
 export default function BookingWizard({ services, addons }: BookingWizardProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const locale = useLocale();
-  const router = useRouter();
 
   const handleSelectVehicle = useCallback((size: VehicleSize) => {
     dispatch({ type: 'SET_VEHICLE', payload: size });
@@ -146,19 +144,10 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handleNext = useCallback(() => dispatch({ type: 'NEXT_STEP' }), []);
   const handleBack = useCallback(() => dispatch({ type: 'PREV_STEP' }), []);
 
-  const handlePay = useCallback(async (captchaToken: string | null) => {
-    console.log('[BookingWizard] received token:', captchaToken);
-
-    if (!captchaToken) {
-      alert('Captcha verification failed. Please refresh and try again.');
-      return;
-    }
-
+  const handlePay = useCallback(async () => {
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
     try {
-      if (!captchaToken) throw new Error('captchaToken missing');
-
       // 1. Create the pending booking
       const bookingRes = await fetch('/api/bookings', {
         method: 'POST',
@@ -173,7 +162,6 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
           totalPrice: state.totalPrice,
           totalDuration: state.totalDuration,
           vehicleAdjustment: state.vehicleAdjustment,
-          captchaToken,
         }),
       });
 

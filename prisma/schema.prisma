@@ -1,6 +1,3 @@
-// JetWash24 — Prisma Schema
-// Database: PostgreSQL
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,92 +7,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ─── Enums ────────────────────────────────────────────────────────────────────
-
-enum Role {
-  ADMIN
-  WORKER
-}
-
-enum VehicleSize {
-  SMALL
-  MEDIUM
-  SUV
-  LARGE
-}
-
-enum ServiceCategory {
-  INTERIOR
-  EXTERIOR
-}
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
-  EXPIRED
-}
-
-// ─── Users (Admin + Worker) ───────────────────────────────────────────────────
-
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      Role     @default(WORKER)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("users")
-}
-
-// ─── Services ────────────────────────────────────────────────────────────────
-
-model Service {
-  id           String          @id @default(cuid())
-  name         String
-  namePt       String
-  nameEn       String
-  description  String?
-  descriptionPt String?
-  descriptionEn String?
-  includes     String[]        // List of features included
-  includesPt   String[]
-  includesEn   String[]
-  price        Float           // Base price (Small Car)
-  duration     Int             // Duration in minutes
-  category     ServiceCategory
-  isActive     Boolean         @default(true)
-  sortOrder    Int             @default(0)
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  bookings     Booking[]
-
-  @@map("services")
-}
-
-// ─── Add-on Services ─────────────────────────────────────────────────────────
-
 model Addon {
-  id        String         @id @default(cuid())
-  name      String
-  namePt    String
-  nameEn    String
-  price     Float
-  duration  Int            // Duration in minutes
-  isActive  Boolean        @default(true)
-  sortOrder Int            @default(0)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  bookings  BookingAddon[]
+  id             String         @id @default(cuid())
+  name           String
+  namePt         String
+  nameEn         String
+  price          Float
+  duration       Int
+  isActive       Boolean        @default(true)
+  sortOrder      Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  bookingAddons  BookingAddon[]
 
   @@map("addons")
 }
 
-// ─── Customers ───────────────────────────────────────────────────────────────
+model BlockedSlot {
+  id        String   @id @default(cuid())
+  date      DateTime
+  startTime String
+  endTime   String
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([date])
+  @@map("blocked_slots")
+}
+
+model BookingAddon {
+  id        String  @id @default(cuid())
+  bookingId String
+  addonId   String
+  addon     Addon   @relation(fields: [addonId], references: [id])
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("booking_addons")
+}
+
+model Booking {
+  id                String         @id @default(cuid())
+  customerId        String
+  serviceId         String
+  vehicleSize       VehicleSize
+  date              DateTime
+  startTime         String
+  endTime           String
+  totalDuration     Int
+  totalPrice        Float
+  vehicleAdjustment Float          @default(0)
+  depositAmount     Float          @default(0)
+  remainingAmount   Float          @default(0)
+  status            BookingStatus  @default(PENDING)
+  stripeSessionId   String?        @unique
+  stripePaymentId   String?
+  cancelledAt       DateTime?
+  cancellationNote  String?
+  paymentExpiresAt  DateTime?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  addons            BookingAddon[]
+  customer          Customer       @relation(fields: [customerId], references: [id])
+  service           Service        @relation(fields: [serviceId], references: [id])
+
+  @@index([date, status])
+  @@map("bookings")
+}
 
 model Customer {
   id           String    @id @default(cuid())
@@ -112,61 +89,6 @@ model Customer {
   @@map("customers")
 }
 
-// ─── Bookings ─────────────────────────────────────────────────────────────────
-
-model Booking {
-  id                String        @id @default(cuid())
-  customer          Customer      @relation(fields: [customerId], references: [id])
-  customerId        String
-  service           Service       @relation(fields: [serviceId], references: [id])
-  serviceId         String
-  addons            BookingAddon[]
-  vehicleSize       VehicleSize
-  date              DateTime      // Date of the appointment (UTC, time is 00:00)
-  startTime         String        // e.g. "09:00"
-  endTime           String        // e.g. "11:30"
-  totalDuration     Int           // Service + addons duration in minutes (no buffer)
-  totalPrice        Float
-  vehicleAdjustment Float         @default(0)
-  status            BookingStatus @default(PENDING)
-  stripeSessionId   String?       @unique
-  stripePaymentId   String?
-  cancelledAt       DateTime?
-  cancellationNote  String?
-  paymentExpiresAt  DateTime?     // PENDING bookings expire after 30 min
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-
-  @@index([date, status])
-  @@map("bookings")
-}
-
-model BookingAddon {
-  id        String  @id @default(cuid())
-  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  bookingId String
-  addon     Addon   @relation(fields: [addonId], references: [id])
-  addonId   String
-
-  @@map("booking_addons")
-}
-
-// ─── Blocked Slots ────────────────────────────────────────────────────────────
-
-model BlockedSlot {
-  id        String   @id @default(cuid())
-  date      DateTime // The date of the block
-  startTime String   // e.g. "12:00"
-  endTime   String   // e.g. "13:00"
-  reason    String?
-  createdAt DateTime @default(now())
-
-  @@index([date])
-  @@map("blocked_slots")
-}
-
-// ─── Gallery ──────────────────────────────────────────────────────────────────
-
 model GalleryImage {
   id               String   @id @default(cuid())
   beforeImageUrl   String
@@ -181,4 +103,65 @@ model GalleryImage {
   updatedAt        DateTime @updatedAt
 
   @@map("gallery_images")
+}
+
+model Service {
+  id            String          @id @default(cuid())
+  name          String
+  namePt        String
+  nameEn        String
+  description   String?
+  descriptionPt String?
+  descriptionEn String?
+  includes      String[]
+  includesPt    String[]
+  includesEn    String[]
+  price         Float
+  duration      Int
+  category      ServiceCategory
+  isActive      Boolean         @default(true)
+  sortOrder     Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  bookings      Booking[]
+
+  @@map("services")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(WORKER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  EXPIRED
+}
+
+enum Role {
+  ADMIN
+  WORKER
+}
+
+enum ServiceCategory {
+  INTERIOR
+  EXTERIOR
+}
+
+enum VehicleSize {
+  SMALL
+  MEDIUM
+  SUV
+  LARGE
 }

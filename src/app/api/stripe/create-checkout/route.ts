@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
   }
 
   const serviceName = locale === 'pt' ? booking.service.namePt : booking.service.nameEn;
+  const depositAmount = booking.depositAmount > 0 ? booking.depositAmount : Math.max(5, Math.round(booking.totalPrice * 0.2 * 100) / 100);
+  const remainingAmount = Math.round((booking.totalPrice - depositAmount) * 100) / 100;
   const addonsNames = booking.addons.map((a) =>
     locale === 'pt' ? a.addon.namePt : a.addon.nameEn,
   );
@@ -49,6 +51,9 @@ export async function POST(req: NextRequest) {
     addonsNames.length > 0 ? `Extras: ${addonsNames.join(', ')}` : null,
     `${locale === 'pt' ? 'Duração' : 'Duration'}: ${formatDurationLabel(booking.totalDuration, locale)}`,
     `${booking.customer.carModel} • ${booking.customer.licensePlate}`,
+    locale === 'pt'
+      ? `Restante a pagar no local: €${remainingAmount.toFixed(2)}`
+      : `Remaining to pay on-site: €${remainingAmount.toFixed(2)}`,
   ]
     .filter(Boolean)
     .join(' | ');
@@ -64,10 +69,12 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: `JetWash24 — ${serviceName}`,
+            name: locale === 'pt'
+              ? `JetWash24 — ${serviceName} (Sinal)`
+              : `JetWash24 — ${serviceName} (Deposit)`,
             description,
           },
-          unit_amount: Math.round(booking.totalPrice * 100), // cents
+          unit_amount: Math.round(depositAmount * 100), // cents — deposit only
         },
         quantity: 1,
       },

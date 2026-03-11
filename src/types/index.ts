@@ -62,6 +62,8 @@ export interface Booking {
   totalDuration: number;
   totalPrice: number;
   vehicleAdjustment: number;
+  depositAmount: number;
+  remainingAmount: number;
   status: BookingStatus;
   stripeSessionId: string | null;
   stripePaymentId: string | null;

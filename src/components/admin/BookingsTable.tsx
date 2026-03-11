@@ -117,6 +117,16 @@ export default function BookingsTable({ bookings, onCancel, onComplete }: Bookin
                             </p>
                           )}
                         </div>
+                        <div>
+                          <p className="text-xs font-semibold text-surface-400 uppercase mb-1">Pagamento</p>
+                          <p className="text-xs">Total: <span className="font-bold text-black">{formatPrice(booking.totalPrice)}</span></p>
+                          {booking.depositAmount > 0 && (
+                            <>
+                              <p className="text-xs text-green-700">Sinal pago: <span className="font-semibold">{formatPrice(booking.depositAmount)}</span></p>
+                              <p className="text-xs text-surface-500">Restante no local: <span className="font-semibold">{formatPrice(booking.remainingAmount)}</span></p>
+                            </>
+                          )}
+                        </div>
                         {booking.customer.notes && (
                           <div className="sm:col-span-2">
                             <p className="text-xs font-semibold text-surface-400 uppercase mb-1">Notas</p>

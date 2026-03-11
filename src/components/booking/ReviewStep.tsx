@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { BookingState } from '@/types';
 import { formatPrice, formatDurationLabel, formatDateShort } from '@/lib/utils';
+import { calculateDeposit } from '@/lib/deposit';
 
 interface ReviewStepProps {
   state: BookingState;
@@ -40,6 +41,8 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const serviceName = locale === 'pt' ? state.service.namePt : state.service.nameEn;
   const vehicleLabel = VEHICLE_LABELS[state.vehicleSize];
   const vehicleName = locale === 'pt' ? vehicleLabel.pt : vehicleLabel.en;
+  const depositAmount = calculateDeposit(state.totalPrice);
+  const remainingAmount = Math.round((state.totalPrice - depositAmount) * 100) / 100;
 
   return (
     <div className="animate-slide-up">
@@ -90,7 +93,24 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
             )}
             <div className="flex justify-between items-baseline pt-2 border-t border-surface-200">
               <span className="font-bold text-black text-lg">{locale === 'pt' ? 'Total' : 'Total'}</span>
-              <span className="font-black text-2xl text-gold">{formatPrice(state.totalPrice)}</span>
+              <span className="font-black text-2xl text-black">{formatPrice(state.totalPrice)}</span>
+            </div>
+            {/* Deposit breakdown */}
+            <div className="mt-3 pt-3 border-t-2 border-dashed border-surface-200 space-y-2">
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="font-bold text-black">{locale === 'pt' ? 'Sinal online' : 'Online deposit'}</span>
+                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga agora via Stripe' : 'Paid now via Stripe'}</p>
+                </div>
+                <span className="font-black text-xl text-gold">{formatPrice(depositAmount)}</span>
+              </div>
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="font-semibold text-surface-600">{locale === 'pt' ? 'Restante no local' : 'Remaining on-site'}</span>
+                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga no dia do serviço' : 'Paid on the day of service'}</p>
+                </div>
+                <span className="font-bold text-surface-600">{formatPrice(remainingAmount)}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -142,7 +162,7 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
             </>
           ) : (
             <>
-              {t('payNow')} — {formatPrice(state.totalPrice)}
+              {t('payNow')} — {formatPrice(depositAmount)}
             </>
           )}
         </button>

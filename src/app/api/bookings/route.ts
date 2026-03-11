@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getAvailableSlots, calculateEndTime } from '@/lib/availability';
 import { getVehicleAdjustment } from '@/lib/utils';
+import { calculateDeposit } from '@/lib/deposit';
 import { z } from 'zod';
 import { parseISO, startOfDay, endOfDay } from 'date-fns';
 
@@ -116,6 +117,8 @@ export async function POST(req: NextRequest) {
 
   const endTime = calculateEndTime(startTime, calculatedDuration);
   const bookingDate = parseISO(date);
+  const depositAmount = calculateDeposit(calculatedPrice);
+  const remainingAmount = Math.round((calculatedPrice - depositAmount) * 100) / 100;
 
   // Create or find customer
   const existingCustomer = await prisma.customer.findFirst({
@@ -163,6 +166,8 @@ export async function POST(req: NextRequest) {
       totalDuration: calculatedDuration,
       totalPrice: calculatedPrice,
       vehicleAdjustment: vehicleAdj,
+      depositAmount,
+      remainingAmount,
       status: 'PENDING',
       paymentExpiresAt: new Date(Date.now() + 30 * 60 * 1000),
       addons: {
@@ -176,5 +181,5 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ bookingId: booking.id, totalPrice: calculatedPrice }, { status: 201 });
+  return NextResponse.json({ bookingId: booking.id, totalPrice: calculatedPrice, depositAmount, remainingAmount }, { status: 201 });
 }

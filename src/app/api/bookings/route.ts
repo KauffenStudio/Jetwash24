@@ -27,6 +27,7 @@ const createBookingSchema = z.object({
   totalPrice: z.number().positive(),
   totalDuration: z.number().int().positive(),
   vehicleAdjustment: z.number(),
+  captchaToken: z.string().min(1),
 });
 
 // GET /api/bookings — Admin/Worker only
@@ -75,6 +76,20 @@ export async function POST(req: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.message }, { status: 400 });
+  }
+
+  // Verify Turnstile token
+  const turnstileRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      secret: process.env.TURNSTILE_SECRET_KEY,
+      response: parsed.data.captchaToken,
+    }),
+  });
+  const turnstileData = await turnstileRes.json() as { success: boolean };
+  if (!turnstileData.success) {
+    return NextResponse.json({ error: 'Bot verification failed. Please try again.' }, { status: 400 });
   }
 
   const {

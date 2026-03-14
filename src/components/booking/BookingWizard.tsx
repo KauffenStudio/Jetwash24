@@ -144,25 +144,29 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handleNext = useCallback(() => dispatch({ type: 'NEXT_STEP' }), []);
   const handleBack = useCallback(() => dispatch({ type: 'PREV_STEP' }), []);
 
-  const handlePay = useCallback(async () => {
+  const handlePay = useCallback(async (captchaToken: string) => {
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
     try {
       // 1. Create the pending booking
+      const payload = {
+        vehicleSize: state.vehicleSize,
+        serviceId: state.service.id,
+        addonIds: state.selectedAddons.map((a) => a.id),
+        date: state.date,
+        startTime: state.startTime,
+        customer: state.customer,
+        totalPrice: state.totalPrice,
+        totalDuration: state.totalDuration,
+        vehicleAdjustment: state.vehicleAdjustment,
+        captchaToken,
+      };
+      console.log('[BookingWizard] captchaToken before POST:', captchaToken);
+      console.log('[BookingWizard] payload:', payload);
       const bookingRes = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          vehicleSize: state.vehicleSize,
-          serviceId: state.service.id,
-          addonIds: state.selectedAddons.map((a) => a.id),
-          date: state.date,
-          startTime: state.startTime,
-          customer: state.customer,
-          totalPrice: state.totalPrice,
-          totalDuration: state.totalDuration,
-          vehicleAdjustment: state.vehicleAdjustment,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!bookingRes.ok) {

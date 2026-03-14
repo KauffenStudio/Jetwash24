@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { BookingState } from '@/types';
 import { formatPrice, formatDurationLabel, formatDateShort } from '@/lib/utils';
 import { calculateDeposit } from '@/lib/deposit';
 
 interface ReviewStepProps {
   state: BookingState;
-  onPay: () => Promise<void>;
+  onPay: (captchaToken: string) => Promise<void>;
   onBack: () => void;
 }
 
@@ -25,12 +26,21 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const tCancel = useTranslations('booking.cancellation');
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handlePay = async () => {
-    console.log('[ReviewStep] Pay clicked');
+    if (!captchaToken) {
+      alert(locale === 'pt' ? 'Por favor complete a verificação de segurança.' : 'Please complete the security check.');
+      return;
+    }
     setLoading(true);
     try {
-      await onPay();
+      await onPay(captchaToken);
+    } catch {
+      // Reset widget so user can retry
+      turnstileRef.current?.reset();
+      setCaptchaToken(null);
     } finally {
       setLoading(false);
     }
@@ -142,6 +152,16 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
 
       <p className="text-xs text-surface-400 mb-6">{tCancel('policy')}</p>
 
+      <div className="mb-6">
+        <Turnstile
+          ref={turnstileRef}
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token) => setCaptchaToken(token)}
+          onExpire={() => setCaptchaToken(null)}
+          onError={() => setCaptchaToken(null)}
+        />
+      </div>
+
       <div className="flex justify-between">
         <button
           onClick={onBack}
@@ -152,7 +172,7 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
         </button>
         <button
           onClick={handlePay}
-          disabled={loading}
+          disabled={loading || !captchaToken}
           className="px-8 py-4 bg-gold text-black font-black text-lg rounded hover:bg-gold-light transition-all duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
         >
           {loading ? (

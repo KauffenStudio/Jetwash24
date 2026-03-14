@@ -1,7 +1,9 @@
 /**
- * Calculates the deposit amount a customer pays online.
- * The deposit is 20% of the total price, with a minimum of €5.
+ * Fixed reservation deposit paid online to confirm the booking.
+ * The remaining balance is collected on-site after the job.
  */
-export function calculateDeposit(totalPrice: number): number {
-  return Math.max(5, Math.round(totalPrice * 0.2 * 100) / 100);
+export const RESERVATION_FEE = 4.99;
+
+export function calculateDeposit(_totalPrice: number): number {
+  return RESERVATION_FEE;
 }

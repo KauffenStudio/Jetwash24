@@ -109,8 +109,8 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
             <div className="mt-3 pt-3 border-t-2 border-dashed border-surface-200 space-y-2">
               <div className="flex justify-between items-start">
                 <div>
-                  <span className="font-bold text-black">{locale === 'pt' ? 'Sinal online' : 'Online deposit'}</span>
-                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga agora via Stripe' : 'Paid now via Stripe'}</p>
+                  <span className="font-bold text-black">{locale === 'pt' ? 'Sinal de reserva' : 'Reservation deposit'}</span>
+                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga agora para confirmar a reserva' : 'Paid now to confirm your booking'}</p>
                 </div>
                 <span className="font-black text-xl text-gold">{formatPrice(depositAmount)}</span>
               </div>

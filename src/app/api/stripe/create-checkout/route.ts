@@ -70,8 +70,8 @@ export async function POST(req: NextRequest) {
           currency: 'eur',
           product_data: {
             name: locale === 'pt'
-              ? `JetWash24 — ${serviceName} (Sinal)`
-              : `JetWash24 — ${serviceName} (Deposit)`,
+              ? `JetWash24 — ${serviceName} (Sinal de Reserva)`
+              : `JetWash24 — ${serviceName} (Reservation Deposit)`,
             description,
           },
           unit_amount: Math.round(depositAmount * 100), // cents — deposit only

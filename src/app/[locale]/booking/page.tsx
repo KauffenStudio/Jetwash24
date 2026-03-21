@@ -21,12 +21,19 @@ async function getData() {
   return { services, addons };
 }
 
-export default async function BookingPage() {
+export default async function BookingPage({
+  searchParams,
+}: {
+  searchParams: { serviceId?: string };
+}) {
   const { services, addons } = await getData();
+  const preSelectedService = searchParams?.serviceId
+    ? (services.find((s) => s.id === searchParams.serviceId) ?? null)
+    : null;
 
   return (
     <div className="pt-16 md:pt-20">
-      <BookingWizard services={services} addons={addons} />
+      <BookingWizard services={services} addons={addons} preSelectedService={preSelectedService} />
     </div>
   );
 }

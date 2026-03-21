@@ -42,29 +42,9 @@ export default async function ServicesSection() {
               <span className="flex-1 h-px bg-surface-200" />
             </p>
             <div className="space-y-4">
-              {interior.map((service) => {
-                const name = locale === 'pt' ? service.namePt : service.nameEn;
-                const includes = locale === 'pt' ? service.includesPt : service.includesEn;
-                return (
-                  <div key={service.id} className="border border-surface-100 rounded-xl p-5 hover:border-surface-300 hover:shadow-sm transition-all duration-200">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h4 className="font-bold text-black text-base">{name}</h4>
-                        <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>
-                      </div>
-                      <p className="text-2xl font-black text-black">{service.price}€</p>
-                    </div>
-                    <ul className="space-y-1">
-                      {includes.map((item, i) => (
-                        <li key={i} className="flex items-center gap-2 text-xs text-surface-500">
-                          <span className="w-1 h-1 rounded-full bg-gold flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
+              {interior.map((service) => (
+                <ServiceCard key={service.id} service={service} locale={locale} />
+              ))}
             </div>
           </div>
 
@@ -76,29 +56,9 @@ export default async function ServicesSection() {
               <span className="flex-1 h-px bg-surface-200" />
             </p>
             <div className="space-y-4">
-              {exterior.map((service) => {
-                const name = locale === 'pt' ? service.namePt : service.nameEn;
-                const includes = locale === 'pt' ? service.includesPt : service.includesEn;
-                return (
-                  <div key={service.id} className="border border-surface-100 rounded-xl p-5 hover:border-surface-300 hover:shadow-sm transition-all duration-200">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h4 className="font-bold text-black text-base">{name}</h4>
-                        <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>
-                      </div>
-                      <p className="text-2xl font-black text-black">{service.price}€</p>
-                    </div>
-                    <ul className="space-y-1">
-                      {includes.map((item, i) => (
-                        <li key={i} className="flex items-center gap-2 text-xs text-surface-500">
-                          <span className="w-1 h-1 rounded-full bg-gold flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
+              {exterior.map((service) => (
+                <ServiceCard key={service.id} service={service} locale={locale} />
+              ))}
             </div>
           </div>
         </div>
@@ -197,7 +157,7 @@ export default async function ServicesSection() {
                   <span className="text-gold font-bold not-line-through">{locale === 'pt' ? 'Com pacote: ' : 'With package: '}{fullPackage.price}€</span>
                 </p>
                 <Link
-                  href={`/${locale}/booking`}
+                  href={`/${locale}/booking?serviceId=${fullPackage.id}`}
                   className="flex-shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gold text-black font-black text-sm tracking-wide rounded-lg hover:bg-gold-light transition-all duration-200 hover:scale-[1.02]"
                   style={{ boxShadow: '0 0 20px rgba(201,168,76,0.25)' }}
                 >
@@ -215,5 +175,45 @@ export default async function ServicesSection() {
         )}
       </div>
     </section>
+  );
+}
+
+// ─── Clickable service card ───────────────────────────────────────────────────
+
+type ServiceRow = Awaited<ReturnType<typeof getServices>>[0];
+
+function ServiceCard({ service, locale }: { service: ServiceRow; locale: string }) {
+  const name = locale === 'pt' ? service.namePt : service.nameEn;
+  const includes = locale === 'pt' ? service.includesPt : service.includesEn;
+
+  return (
+    <Link
+      href={`/${locale}/booking?serviceId=${service.id}`}
+      className="group block border border-surface-100 rounded-xl p-5 hover:border-black hover:shadow-md transition-all duration-200 cursor-pointer"
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <h4 className="font-bold text-black text-base group-hover:text-gold transition-colors">{name}</h4>
+          <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <p className="text-2xl font-black text-black">{service.price}€</p>
+          <svg className="opacity-0 group-hover:opacity-100 transition-opacity text-gold" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <ul className="space-y-1">
+        {includes.map((item, i) => (
+          <li key={i} className="flex items-center gap-2 text-xs text-surface-500">
+            <span className="w-1 h-1 rounded-full bg-gold flex-shrink-0" />
+            {item}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs font-semibold text-surface-400 group-hover:text-gold transition-colors">
+        {locale === 'pt' ? 'Reservar →' : 'Book →'}
+      </p>
+    </Link>
   );
 }

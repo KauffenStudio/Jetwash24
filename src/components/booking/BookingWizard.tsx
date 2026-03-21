@@ -9,36 +9,36 @@ import { getVehicleAdjustment } from '@/lib/utils';
 import StepIndicator from './StepIndicator';
 import BookingSummary from './BookingSummary';
 import VehicleStep from './VehicleStep';
-import ServiceStep from './ServiceStep';
 import ExtrasStep from './ExtrasStep';
 import DateTimeStep from './DateTimeStep';
 import CustomerStep from './CustomerStep';
 
 // ─── State & Reducer ──────────────────────────────────────────────────────────
 
-const initialState: BookingState = {
-  step: 1,
-  vehicleSize: null,
-  service: null,
-  selectedAddons: [],
-  date: null,
-  startTime: null,
-  customer: {
-    name: '',
-    email: '',
-    phone: '',
-    carModel: '',
-    licensePlate: '',
-    notes: '',
-  },
-  totalPrice: 0,
-  totalDuration: 0,
-  vehicleAdjustment: 0,
-};
+function makeInitialState(preSelectedService: Service | null): BookingState {
+  return {
+    step: 1,
+    vehicleSize: null,
+    service: preSelectedService,
+    selectedAddons: [],
+    date: null,
+    startTime: null,
+    customer: {
+      name: '',
+      email: '',
+      phone: '',
+      carModel: '',
+      licensePlate: '',
+      notes: '',
+    },
+    totalPrice: preSelectedService?.price ?? 0,
+    totalDuration: preSelectedService?.duration ?? 0,
+    vehicleAdjustment: 0,
+  };
+}
 
 type BookingAction =
   | { type: 'SET_VEHICLE'; payload: VehicleSize }
-  | { type: 'SET_SERVICE'; payload: Service }
   | { type: 'TOGGLE_ADDON'; payload: Addon }
   | { type: 'SET_DATE'; payload: string }
   | { type: 'SET_TIME'; payload: string }
@@ -66,18 +66,8 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
   switch (action.type) {
     case 'SET_VEHICLE': {
       const next = { ...state, vehicleSize: action.payload };
+      // advance to step 2 (Extras) once vehicle is picked
       return recalculate({ ...next, step: Math.max(state.step, 2) as BookingStep });
-    }
-    case 'SET_SERVICE': {
-      const next = {
-        ...state,
-        service: action.payload,
-        selectedAddons: [],
-        date: null,
-        startTime: null,
-        step: 3 as BookingStep,
-      };
-      return recalculate(next);
     }
     case 'TOGGLE_ADDON': {
       const exists = state.selectedAddons.some((a) => a.id === action.payload.id);
@@ -93,7 +83,7 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
     case 'SET_CUSTOMER':
       return { ...state, customer: { ...state.customer, ...action.payload } };
     case 'NEXT_STEP':
-      return { ...state, step: Math.min(5, state.step + 1) as BookingStep };
+      return { ...state, step: Math.min(4, state.step + 1) as BookingStep };
     case 'PREV_STEP':
       return { ...state, step: Math.max(1, state.step - 1) as BookingStep };
     case 'SET_STEP':
@@ -108,20 +98,21 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
 interface BookingWizardProps {
   services: Service[];
   addons: Addon[];
+  preSelectedService: Service | null;
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function BookingWizard({ services, addons }: BookingWizardProps) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export default function BookingWizard({ addons, preSelectedService }: BookingWizardProps) {
+  const [state, dispatch] = useReducer(
+    reducer,
+    preSelectedService,
+    makeInitialState,
+  );
   const locale = useLocale();
 
   const handleSelectVehicle = useCallback((size: VehicleSize) => {
     dispatch({ type: 'SET_VEHICLE', payload: size });
-  }, []);
-
-  const handleSelectService = useCallback((service: Service) => {
-    dispatch({ type: 'SET_SERVICE', payload: service });
   }, []);
 
   const handleToggleAddon = useCallback((addon: Addon) => {
@@ -192,16 +183,6 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
               />
             )}
             {state.step === 2 && (
-              <ServiceStep
-                services={services}
-                selectedServiceId={state.service?.id ?? null}
-                vehicleSize={state.vehicleSize}
-                onSelect={handleSelectService}
-                onNext={handleNext}
-                onBack={handleBack}
-              />
-            )}
-            {state.step === 3 && (
               <ExtrasStep
                 addons={addons}
                 selectedAddonIds={state.selectedAddons.map((a) => a.id)}
@@ -210,7 +191,7 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
                 onBack={handleBack}
               />
             )}
-            {state.step === 4 && (
+            {state.step === 3 && (
               <DateTimeStep
                 totalDuration={state.totalDuration}
                 selectedDate={state.date}
@@ -221,7 +202,7 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
                 onBack={handleBack}
               />
             )}
-            {state.step === 5 && (
+            {state.step === 4 && (
               <CustomerStep
                 customer={state.customer}
                 onChange={handleSetCustomer}

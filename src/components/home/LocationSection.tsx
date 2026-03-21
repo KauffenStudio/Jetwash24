@@ -1,7 +1,9 @@
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import OpenStatus from '@/components/ui/OpenStatus';
 
 export default function LocationSection() {
   const t = useTranslations('location');
+  const locale = useLocale();
 
   const googleMapsUrl = 'https://maps.app.goo.gl/pP9NLzLJMNvBpoL19';
   const embedUrl =
@@ -46,14 +48,7 @@ export default function LocationSection() {
                   <span className="text-surface-600">Seg – Dom</span>
                   <span className="font-semibold text-black">09:00 – 17:00</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span className="text-green-600 text-sm font-medium">
-                    {new Date().getHours() >= 9 && new Date().getHours() < 17
-                      ? 'Aberto agora'
-                      : 'Fechado agora'}
-                  </span>
-                </div>
+                <OpenStatus locale={locale} />
               </div>
             </div>
 

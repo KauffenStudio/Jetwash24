@@ -123,107 +123,89 @@ export default async function ServicesSection() {
               }}
             />
 
-            <div className="relative z-10 p-8 sm:p-10 lg:p-12">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
+            <div className="relative z-10 p-8 sm:p-10">
 
-                {/* Left: headline + pricing */}
-                <div className="lg:w-80 flex-shrink-0 mb-8 lg:mb-0">
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gold/15 border border-gold/30 rounded-full mb-5">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              {/* ── Row 1: header — name left, price right ── */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gold/15 border border-gold/30 rounded-full mb-3">
+                    <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
                       <path d="M5 1L6.18 3.64L9 4.09L7 6.04L7.45 9L5 7.64L2.55 9L3 6.04L1 4.09L3.82 3.64L5 1Z" fill="#C9A84C"/>
                     </svg>
                     <span className="text-gold text-[10px] font-bold tracking-[0.2em] uppercase">
                       {locale === 'pt' ? 'Melhor Valor' : 'Best Value'}
                     </span>
                   </div>
-
-                  <h3 className="text-3xl sm:text-4xl font-black text-white mb-2 leading-tight">
-                    {locale === 'pt' ? 'Pacote' : 'Complete'}
-                    <br />
+                  <h3 className="text-3xl sm:text-4xl font-black text-white leading-tight">
+                    {locale === 'pt' ? 'Pacote ' : 'Complete '}
                     <span className="text-gold">{locale === 'pt' ? 'Completo' : 'Package'}</span>
                   </h3>
-
-                  <p className="text-white/50 text-sm mb-6">
+                  <p className="text-white/45 text-sm mt-2">
                     {locale === 'pt'
-                      ? 'Interior + Exterior num único serviço. Transformação total do seu veículo.'
-                      : 'Interior + Exterior in one service. Total vehicle transformation.'}
+                      ? 'Interior + Exterior num único serviço · ' + formatDurationLabel(fullPackage.duration, locale)
+                      : 'Interior + Exterior in one service · ' + formatDurationLabel(fullPackage.duration, locale)}
                   </p>
+                </div>
 
-                  {/* Pricing */}
-                  <div className="flex items-end gap-3 mb-2">
+                {/* Price block */}
+                <div className="sm:text-right flex-shrink-0">
+                  <div className="flex sm:justify-end items-baseline gap-3 mb-2">
+                    <span className="text-white/35 line-through text-xl font-medium">{originalPrice}€</span>
                     <span className="text-5xl font-black text-white">{fullPackage.price}€</span>
-                    <div className="mb-1">
-                      <p className="text-white/35 line-through text-lg font-medium">{originalPrice}€</p>
-                      <p className="text-[10px] text-white/40">{locale === 'pt' ? 'se separado' : 'if separate'}</p>
-                    </div>
                   </div>
-
-                  {/* Saving badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-lg mb-4">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-lg">
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                       <path d="M2 6L4.5 8.5L10 3" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <span className="text-black text-xs font-black tracking-wide">
                       {locale === 'pt' ? `POUPA ${saving}€` : `SAVE €${saving}`}
                     </span>
                   </div>
-
-                  <p className="text-white/30 text-xs mb-8">
-                    {formatDurationLabel(fullPackage.duration, locale)}
-                    {' · '}
-                    {locale === 'pt' ? 'aprox.' : 'approx.'}
-                  </p>
-
-                  <Link
-                    href={`/${locale}/booking`}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-black font-black text-sm tracking-wide rounded-lg hover:bg-gold-light transition-all duration-200 hover:scale-[1.02]"
-                    style={{ boxShadow: '0 0 24px rgba(201,168,76,0.3)' }}
-                  >
-                    {locale === 'pt' ? 'Reservar Pacote' : 'Book Package'}
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2.5 7H11.5M8 3.5L11.5 7L8 10.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </Link>
                 </div>
+              </div>
 
-                {/* Right: includes split in 2 columns */}
-                <div className="flex-1">
-                  <p className="text-white/40 text-[10px] font-bold tracking-[0.2em] uppercase mb-5">
-                    {locale === 'pt' ? 'Tudo incluído' : 'Everything included'}
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5">
-                    {(locale === 'pt' ? fullPackage.includesPt : fullPackage.includesEn).map((item, i) => (
-                      <div key={i} className="flex items-start gap-2.5">
-                        <div className="w-4 h-4 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </div>
-                        <span className="text-white/70 text-sm">{item}</span>
+              {/* ── Row 2: includes grid — full width ── */}
+              <div className="border-t border-white/10 pt-7 mb-7">
+                <p className="text-white/35 text-[10px] font-bold tracking-[0.2em] uppercase mb-5">
+                  {locale === 'pt' ? 'Tudo incluído' : 'Everything included'}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                  {(locale === 'pt' ? fullPackage.includesPt : fullPackage.includesEn).map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-gold/15 border border-gold/25 flex items-center justify-center flex-shrink-0">
+                        <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                          <path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* VS comparison strip */}
-                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4">
-                    <div className="flex items-center gap-2 text-xs text-white/40">
-                      <span className="px-2 py-0.5 border border-white/10 rounded text-white/25 line-through">
-                        {locale === 'pt' ? 'Interior Detalhada' : 'Detailed Interior'} 45€
-                      </span>
-                      <span className="text-white/20">+</span>
-                      <span className="px-2 py-0.5 border border-white/10 rounded text-white/25 line-through">
-                        {locale === 'pt' ? 'Exterior Detalhada' : 'Detailed Exterior'} 55€
-                      </span>
-                      <span className="text-white/20">=</span>
-                      <span className="text-white/30 line-through">{originalPrice}€</span>
+                      <span className="text-white/65 text-sm">{item}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs">
-                      <span className="text-gold font-bold">{locale === 'pt' ? 'Com pacote:' : 'With package:'}</span>
-                      <span className="text-gold font-black text-sm">{fullPackage.price}€</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
+              </div>
+
+              {/* ── Row 3: comparison + CTA ── */}
+              <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <p className="text-white/30 text-xs">
+                  {locale === 'pt' ? 'Interior Detalhada' : 'Detailed Interior'}{' '}
+                  <span className="line-through">45€</span>
+                  {' + '}
+                  {locale === 'pt' ? 'Exterior Detalhada' : 'Detailed Exterior'}{' '}
+                  <span className="line-through">55€</span>
+                  {' = '}
+                  <span className="line-through">{originalPrice}€</span>
+                  {'  →  '}
+                  <span className="text-gold font-bold not-line-through">{locale === 'pt' ? 'Com pacote: ' : 'With package: '}{fullPackage.price}€</span>
+                </p>
+                <Link
+                  href={`/${locale}/booking`}
+                  className="flex-shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gold text-black font-black text-sm tracking-wide rounded-lg hover:bg-gold-light transition-all duration-200 hover:scale-[1.02]"
+                  style={{ boxShadow: '0 0 20px rgba(201,168,76,0.25)' }}
+                >
+                  {locale === 'pt' ? 'Reservar Pacote' : 'Book Package'}
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7H11.5M8 3.5L11.5 7L8 10.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
               </div>
             </div>
 

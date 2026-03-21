@@ -36,10 +36,10 @@ export default async function ServicesSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 mb-6">
           {/* Interior column */}
           <div>
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-surface-400 mb-4 flex items-center gap-2">
-              <span className="flex-1 h-px bg-surface-100" />
+            <p className="text-sm font-black tracking-[0.2em] uppercase text-black mb-4 flex items-center gap-3">
+              <span className="flex-1 h-px bg-surface-200" />
               {t('interior')}
-              <span className="flex-1 h-px bg-surface-100" />
+              <span className="flex-1 h-px bg-surface-200" />
             </p>
             <div className="space-y-4">
               {interior.map((service) => {
@@ -70,10 +70,10 @@ export default async function ServicesSection() {
 
           {/* Exterior column */}
           <div>
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-surface-400 mb-4 flex items-center gap-2">
-              <span className="flex-1 h-px bg-surface-100" />
+            <p className="text-sm font-black tracking-[0.2em] uppercase text-black mb-4 flex items-center gap-3">
+              <span className="flex-1 h-px bg-surface-200" />
               {t('exterior')}
-              <span className="flex-1 h-px bg-surface-100" />
+              <span className="flex-1 h-px bg-surface-200" />
             </p>
             <div className="space-y-4">
               {exterior.map((service) => {

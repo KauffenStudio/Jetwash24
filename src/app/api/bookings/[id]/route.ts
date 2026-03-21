@@ -47,20 +47,6 @@ export async function PATCH(
   }
 
   if (action === 'cancel') {
-    // Check if eligible for cancellation (admin can always cancel)
-    if (booking.stripePaymentId) {
-      // Issue refund via Stripe
-      try {
-        const { stripe } = await import('@/lib/stripe');
-        await stripe.refunds.create({
-          payment_intent: booking.stripePaymentId,
-        });
-      } catch (err) {
-        console.error('Stripe refund failed:', err);
-        return NextResponse.json({ error: 'Refund failed. Please process manually in Stripe.' }, { status: 500 });
-      }
-    }
-
     const updated = await prisma.booking.update({
       where: { id: params.id },
       data: {

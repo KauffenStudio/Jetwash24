@@ -106,7 +106,7 @@
       "extras": "Extras",
       "datetime": "Data & Hora",
       "details": "Dados",
-      "review": "Pagamento"
+      "review": "Confirmação"
     },
     "step1": {
       "title": "Selecione o Seu Veículo",
@@ -147,12 +147,9 @@
       "privacy": "Os seus dados são utilizados apenas para a gestão da sua reserva."
     },
     "step6": {
-      "title": "Resumo e Pagamento",
-      "subtitle": "Confirme os detalhes e proceda ao pagamento",
-      "payNow": "Pagar Agora",
-      "processing": "A processar...",
-      "securePayment": "Pagamento seguro com Stripe",
-      "paymentMethods": "Cartão • Apple Pay • Google Pay • MBWay"
+      "title": "Confirmar Reserva",
+      "subtitle": "Verifique os detalhes e confirme a sua reserva",
+      "processing": "A confirmar..."
     },
     "summary": {
       "title": "Resumo da Reserva",
@@ -174,16 +171,16 @@
   },
   "success": {
     "title": "Reserva Confirmada!",
-    "subtitle": "O seu pagamento foi processado com sucesso",
+    "subtitle": "A sua reserva foi confirmada com sucesso",
     "description": "Enviámos um email de confirmação para {email} com todos os detalhes da sua reserva.",
     "bookingDetails": "Detalhes da Reserva",
     "backHome": "Voltar ao Início",
     "newBooking": "Nova Reserva"
   },
   "cancelled": {
-    "title": "Pagamento Cancelado",
-    "subtitle": "O seu pagamento não foi concluído",
-    "description": "A sua reserva foi cancelada. Nenhum valor foi cobrado.",
+    "title": "Reserva Cancelada",
+    "subtitle": "A sua reserva não foi concluída",
+    "description": "A sua reserva foi cancelada.",
     "tryAgain": "Tentar Novamente",
     "backHome": "Voltar ao Início"
   },

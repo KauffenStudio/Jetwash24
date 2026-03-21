@@ -106,7 +106,7 @@
       "extras": "Extras",
       "datetime": "Date & Time",
       "details": "Details",
-      "review": "Payment"
+      "review": "Confirmation"
     },
     "step1": {
       "title": "Select Your Vehicle",
@@ -147,12 +147,9 @@
       "privacy": "Your details are used only for managing your booking."
     },
     "step6": {
-      "title": "Review & Pay",
-      "subtitle": "Confirm the details and proceed to payment",
-      "payNow": "Pay Now",
-      "processing": "Processing...",
-      "securePayment": "Secure payment with Stripe",
-      "paymentMethods": "Card • Apple Pay • Google Pay • MBWay"
+      "title": "Confirm Booking",
+      "subtitle": "Check the details and confirm your booking",
+      "processing": "Confirming..."
     },
     "summary": {
       "title": "Booking Summary",
@@ -174,16 +171,16 @@
   },
   "success": {
     "title": "Booking Confirmed!",
-    "subtitle": "Your payment has been processed successfully",
+    "subtitle": "Your booking has been confirmed successfully",
     "description": "We sent a confirmation email to {email} with all your booking details.",
     "bookingDetails": "Booking Details",
     "backHome": "Back to Home",
     "newBooking": "New Booking"
   },
   "cancelled": {
-    "title": "Payment Cancelled",
-    "subtitle": "Your payment was not completed",
-    "description": "Your booking has been cancelled. No amount was charged.",
+    "title": "Booking Cancelled",
+    "subtitle": "Your booking was not completed",
+    "description": "Your booking has been cancelled.",
     "tryAgain": "Try Again",
     "backHome": "Back to Home"
   },

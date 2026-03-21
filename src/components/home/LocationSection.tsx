@@ -3,9 +3,9 @@ import { useTranslations } from 'next-intl';
 export default function LocationSection() {
   const t = useTranslations('location');
 
-  const googleMapsUrl = 'https://maps.google.com/?q=N125+610,+8800-076+Guia,+Portugal';
+  const googleMapsUrl = 'https://maps.app.goo.gl/pP9NLzLJMNvBpoL19';
   const embedUrl =
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.0!2d-8.284!3d37.144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sN125+610%2C+8800-076+Guia%2C+Portugal!5e0!3m2!1spt!2spt!4v1700000000000!5m2!1spt!2spt';
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d424.0!2d-8.2733417!3d37.1286649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1acf577a43e0c5%3A0x10c71f9cc1de2b20!2sJetWash24%20-%20Lavagem%20Autom%C3%B3vel!5e0!3m2!1spt!2spt!4v1742600000000!5m2!1spt!2spt';
 
   return (
     <section id="location" className="py-24 bg-[#F9F9F9]">

@@ -157,6 +157,7 @@ enum Role {
 enum ServiceCategory {
   INTERIOR
   EXTERIOR
+  FULL
 }
 
 enum VehicleSize {

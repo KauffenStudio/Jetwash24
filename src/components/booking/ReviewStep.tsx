@@ -1,15 +1,13 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { BookingState } from '@/types';
 import { formatPrice, formatDurationLabel, formatDateShort } from '@/lib/utils';
-import { calculateDeposit } from '@/lib/deposit';
 
 interface ReviewStepProps {
   state: BookingState;
-  onPay: (captchaToken: string) => Promise<void>;
+  onConfirm: () => Promise<void>;
   onBack: () => void;
 }
 
@@ -20,27 +18,16 @@ const VEHICLE_LABELS: Record<string, { pt: string; en: string }> = {
   LARGE: { pt: 'Veículo Grande', en: 'Large Vehicle' },
 };
 
-export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
+export default function ReviewStep({ state, onConfirm, onBack }: ReviewStepProps) {
   const t = useTranslations('booking.step6');
   const tCommon = useTranslations('common');
-  const tCancel = useTranslations('booking.cancellation');
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const turnstileRef = useRef<TurnstileInstance>(null);
 
-  const handlePay = async () => {
-    if (!captchaToken) {
-      alert(locale === 'pt' ? 'Por favor complete a verificação de segurança.' : 'Please complete the security check.');
-      return;
-    }
+  const handleConfirm = async () => {
     setLoading(true);
     try {
-      await onPay(captchaToken);
-    } catch {
-      // Reset widget so user can retry
-      turnstileRef.current?.reset();
-      setCaptchaToken(null);
+      await onConfirm();
     } finally {
       setLoading(false);
     }
@@ -51,8 +38,6 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
   const serviceName = locale === 'pt' ? state.service.namePt : state.service.nameEn;
   const vehicleLabel = VEHICLE_LABELS[state.vehicleSize];
   const vehicleName = locale === 'pt' ? vehicleLabel.pt : vehicleLabel.en;
-  const depositAmount = calculateDeposit(state.totalPrice);
-  const remainingAmount = Math.round((state.totalPrice - depositAmount) * 100) / 100;
 
   return (
     <div className="animate-slide-up">
@@ -105,23 +90,6 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
               <span className="font-bold text-black text-lg">{locale === 'pt' ? 'Total' : 'Total'}</span>
               <span className="font-black text-2xl text-black">{formatPrice(state.totalPrice)}</span>
             </div>
-            {/* Deposit breakdown */}
-            <div className="mt-3 pt-3 border-t-2 border-dashed border-surface-200 space-y-2">
-              <div className="flex justify-between items-start">
-                <div>
-                  <span className="font-bold text-black">{locale === 'pt' ? 'Sinal de reserva' : 'Reservation deposit'}</span>
-                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga agora para confirmar a reserva' : 'Paid now to confirm your booking'}</p>
-                </div>
-                <span className="font-black text-xl text-gold">{formatPrice(depositAmount)}</span>
-              </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <span className="font-semibold text-surface-600">{locale === 'pt' ? 'Restante no local' : 'Remaining on-site'}</span>
-                  <p className="text-xs text-surface-400">{locale === 'pt' ? 'Paga no dia do serviço' : 'Paid on the day of service'}</p>
-                </div>
-                <span className="font-bold text-surface-600">{formatPrice(remainingAmount)}</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -139,29 +107,6 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
         </div>
       </div>
 
-      {/* Payment info */}
-      <div className="bg-surface-50 border border-surface-200 rounded-lg p-4 mb-6 flex items-center gap-3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#0A0A0A" opacity="0.1" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        <div>
-          <p className="text-sm font-semibold text-black">{t('securePayment')}</p>
-          <p className="text-xs text-surface-500 mt-0.5">{t('paymentMethods')}</p>
-        </div>
-      </div>
-
-      <p className="text-xs text-surface-400 mb-6">{tCancel('policy')}</p>
-
-      <div className="mb-6">
-        <Turnstile
-          ref={turnstileRef}
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-          onSuccess={(token) => setCaptchaToken(token)}
-          onExpire={() => setCaptchaToken(null)}
-          onError={() => setCaptchaToken(null)}
-        />
-      </div>
-
       <div className="flex justify-between">
         <button
           onClick={onBack}
@@ -171,19 +116,17 @@ export default function ReviewStep({ state, onPay, onBack }: ReviewStepProps) {
           ← {tCommon('back')}
         </button>
         <button
-          onClick={handlePay}
-          disabled={loading || !captchaToken}
-          className="px-8 py-4 bg-gold text-black font-black text-lg rounded hover:bg-gold-light transition-all duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
+          onClick={handleConfirm}
+          disabled={loading}
+          className="px-8 py-4 bg-black text-white font-black text-lg rounded hover:bg-surface-800 transition-all duration-200 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
         >
           {loading ? (
             <>
-              <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-              {t('processing')}
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              {locale === 'pt' ? 'A confirmar...' : 'Confirming...'}
             </>
           ) : (
-            <>
-              {t('payNow')} — {formatPrice(depositAmount)}
-            </>
+            locale === 'pt' ? 'Reservar Agora' : 'Book Now'
           )}
         </button>
       </div>

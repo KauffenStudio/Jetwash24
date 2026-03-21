@@ -6,7 +6,7 @@ async function getGalleryImages() {
   return prisma.galleryImage.findMany({
     where: { isActive: true },
     orderBy: { sortOrder: 'asc' },
-    take: 6,
+    take: 9,
   });
 }
 

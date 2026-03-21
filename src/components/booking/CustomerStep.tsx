@@ -1,18 +1,21 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 import { CustomerForm } from '@/types';
 
 interface CustomerStepProps {
   customer: CustomerForm;
   onChange: (data: Partial<CustomerForm>) => void;
-  onNext: () => void;
+  onConfirm: () => Promise<void>;
   onBack: () => void;
 }
 
-export default function CustomerStep({ customer, onChange, onNext, onBack }: CustomerStepProps) {
+export default function CustomerStep({ customer, onChange, onConfirm, onBack }: CustomerStepProps) {
   const t = useTranslations('booking.step5');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
+  const [loading, setLoading] = useState(false);
 
   const isValid =
     customer.name.trim() &&
@@ -20,6 +23,15 @@ export default function CustomerStep({ customer, onChange, onNext, onBack }: Cus
     customer.phone.trim() &&
     customer.carModel.trim() &&
     customer.licensePlate.trim();
+
+  const handleBook = async () => {
+    setLoading(true);
+    try {
+      await onConfirm();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const field = (
     key: keyof CustomerForm,
@@ -77,16 +89,24 @@ export default function CustomerStep({ customer, onChange, onNext, onBack }: Cus
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 border border-surface-300 text-black font-medium rounded hover:border-black transition-colors"
+          disabled={loading}
+          className="px-6 py-3 border border-surface-300 text-black font-medium rounded hover:border-black transition-colors disabled:opacity-40"
         >
           ← {tCommon('back')}
         </button>
         <button
-          onClick={onNext}
-          disabled={!isValid}
-          className="px-8 py-3 bg-black text-white font-bold rounded hover:bg-surface-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          onClick={handleBook}
+          disabled={!isValid || loading}
+          className="px-8 py-4 bg-black text-white font-black text-lg rounded hover:bg-surface-800 transition-all duration-200 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3"
         >
-          {tCommon('continue')} →
+          {loading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              {locale === 'pt' ? 'A confirmar...' : 'Confirming...'}
+            </>
+          ) : (
+            locale === 'pt' ? 'Reservar Agora' : 'Book Now'
+          )}
         </button>
       </div>
     </div>

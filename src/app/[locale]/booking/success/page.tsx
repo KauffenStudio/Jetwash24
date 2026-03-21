@@ -1,33 +1,28 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { formatDateShort, formatPrice, formatDurationLabel } from '@/lib/utils';
-import { stripe } from '@/lib/stripe';
 
 interface SuccessPageProps {
   params: { locale: string };
-  searchParams: { session_id?: string };
+  searchParams: { booking_id?: string };
 }
 
 export default async function SuccessPage({ params, searchParams }: SuccessPageProps) {
   const { locale } = params;
-  const { session_id } = searchParams;
+  const { booking_id } = searchParams;
 
   let booking = null;
 
-  if (session_id) {
+  if (booking_id) {
     try {
-      const session = await stripe.checkout.sessions.retrieve(session_id);
-      const bookingId = session.metadata?.bookingId;
-      if (bookingId) {
-        booking = await prisma.booking.findUnique({
-          where: { id: bookingId },
-          include: {
-            customer: true,
-            service: true,
-            addons: { include: { addon: true } },
-          },
-        });
-      }
+      booking = await prisma.booking.findUnique({
+        where: { id: booking_id },
+        include: {
+          customer: true,
+          service: true,
+          addons: { include: { addon: true } },
+        },
+      });
     } catch {
       // Silently fail — still show success page
     }
@@ -35,7 +30,7 @@ export default async function SuccessPage({ params, searchParams }: SuccessPageP
 
   const t = {
     title: locale === 'pt' ? 'Reserva Confirmada!' : 'Booking Confirmed!',
-    subtitle: locale === 'pt' ? 'Pagamento processado com sucesso' : 'Payment processed successfully',
+    subtitle: locale === 'pt' ? 'Reserva confirmada com sucesso' : 'Booking confirmed successfully',
     description: locale === 'pt'
       ? 'Enviámos um email de confirmação com todos os detalhes.'
       : 'We sent a confirmation email with all the details.',

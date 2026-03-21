@@ -47,7 +47,7 @@ export default async function ServicesSection() {
 
         {/* Vehicle size note */}
         <p className="text-center text-surface-500 text-sm mt-10">
-          * {t('vehicleAdjustment')} (+10€ Médio / +20€ SUV / +30€ Grande)
+          * {t('vehicleAdjustment')} (+5€ Médio / +10€ SUV / +15€ Grande)
         </p>
 
         {/* CTA */}

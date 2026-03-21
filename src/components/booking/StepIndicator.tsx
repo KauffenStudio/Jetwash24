@@ -16,7 +16,6 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
     { key: 'extras', label: t('extras') },
     { key: 'datetime', label: t('datetime') },
     { key: 'details', label: t('details') },
-    { key: 'review', label: t('review') },
   ];
 
   return (

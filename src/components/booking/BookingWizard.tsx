@@ -13,7 +13,6 @@ import ServiceStep from './ServiceStep';
 import ExtrasStep from './ExtrasStep';
 import DateTimeStep from './DateTimeStep';
 import CustomerStep from './CustomerStep';
-import ReviewStep from './ReviewStep';
 
 // ─── State & Reducer ──────────────────────────────────────────────────────────
 
@@ -73,7 +72,7 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
       const next = {
         ...state,
         service: action.payload,
-        selectedAddons: [], // reset addons when service changes
+        selectedAddons: [],
         date: null,
         startTime: null,
         step: 3 as BookingStep,
@@ -94,7 +93,7 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
     case 'SET_CUSTOMER':
       return { ...state, customer: { ...state.customer, ...action.payload } };
     case 'NEXT_STEP':
-      return { ...state, step: Math.min(6, state.step + 1) as BookingStep };
+      return { ...state, step: Math.min(5, state.step + 1) as BookingStep };
     case 'PREV_STEP':
       return { ...state, step: Math.max(1, state.step - 1) as BookingStep };
     case 'SET_STEP':
@@ -144,12 +143,13 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
   const handleNext = useCallback(() => dispatch({ type: 'NEXT_STEP' }), []);
   const handleBack = useCallback(() => dispatch({ type: 'PREV_STEP' }), []);
 
-  const handlePay = useCallback(async (captchaToken: string) => {
+  const handleConfirm = useCallback(async () => {
     if (!state.service || !state.vehicleSize || !state.date || !state.startTime) return;
 
-    try {
-      // 1. Create the pending booking
-      const payload = {
+    const bookingRes = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         vehicleSize: state.vehicleSize,
         serviceId: state.service.id,
         addonIds: state.selectedAddons.map((a) => a.id),
@@ -159,44 +159,16 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
         totalPrice: state.totalPrice,
         totalDuration: state.totalDuration,
         vehicleAdjustment: state.vehicleAdjustment,
-        captchaToken,
-      };
-      console.log('[BookingWizard] captchaToken before POST:', captchaToken);
-      console.log('[BookingWizard] payload:', payload);
-      const bookingRes = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      }),
+    });
 
-      if (!bookingRes.ok) {
-        const err = await bookingRes.json();
-        alert(err.error || 'Booking failed. Please try again.');
-        return;
-      }
-
-      const { bookingId } = await bookingRes.json();
-
-      // 2. Create Stripe checkout session
-      const checkoutRes = await fetch('/api/stripe/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookingId, locale }),
-      });
-
-      if (!checkoutRes.ok) {
-        const err = await checkoutRes.json();
-        alert(err.error || 'Payment setup failed. Please try again.');
-        return;
-      }
-
-      const { url } = await checkoutRes.json();
-      if (url) {
-        window.location.href = url;
-      }
-    } catch {
-      alert('An unexpected error occurred. Please try again.');
+    if (!bookingRes.ok) {
+      const err = await bookingRes.json();
+      throw new Error(err.error || 'Booking failed. Please try again.');
     }
+
+    const { bookingId } = await bookingRes.json();
+    window.location.href = `/${locale}/booking/success?booking_id=${bookingId}`;
   }, [state, locale]);
 
   return (
@@ -253,14 +225,7 @@ export default function BookingWizard({ services, addons }: BookingWizardProps) 
               <CustomerStep
                 customer={state.customer}
                 onChange={handleSetCustomer}
-                onNext={handleNext}
-                onBack={handleBack}
-              />
-            )}
-            {state.step === 6 && (
-              <ReviewStep
-                state={state}
-                onPay={handlePay}
+                onConfirm={handleConfirm}
                 onBack={handleBack}
               />
             )}

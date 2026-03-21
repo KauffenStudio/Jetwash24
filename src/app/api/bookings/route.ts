@@ -4,7 +4,6 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getAvailableSlots, calculateEndTime } from '@/lib/availability';
 import { getVehicleAdjustment, formatDateShort, formatDurationLabel } from '@/lib/utils';
-import { calculateDeposit } from '@/lib/deposit';
 import { resend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend';
 import { z } from 'zod';
 import { parseISO, startOfDay, endOfDay } from 'date-fns';

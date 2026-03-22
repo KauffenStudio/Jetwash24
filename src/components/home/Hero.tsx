@@ -90,17 +90,17 @@ export default function Hero() {
         </div>
 
         {/* Stats strip */}
-        <div className="mt-16 pt-8 border-t border-white/10 grid grid-cols-3 gap-8">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 sm:gap-8">
           {[
-            { value: '100%', label: locale === 'pt' ? 'Resultados garantidos' : 'Results guaranteed' },
-            { value: '5★', label: locale === 'pt' ? 'Avaliação dos clientes' : 'Customer rating' },
-            { value: '1 dia', label: locale === 'pt' ? 'Reserva online' : 'Online booking' },
+            { value: '100%', label: locale === 'pt' ? 'Satisfação garantida' : 'Satisfaction guaranteed' },
+            { value: '5★', label: locale === 'pt' ? 'Avaliação' : 'Rating' },
+            { value: locale === 'pt' ? 'Seg–Dom' : 'Mon–Sun', label: locale === 'pt' ? 'Aberto todos os dias' : 'Open every day' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="text-2xl sm:text-3xl font-black text-white" style={{ textShadow: '0 0 20px rgba(201,168,76,0.3)' }}>
+              <p className="text-xl sm:text-3xl font-black text-white" style={{ textShadow: '0 0 20px rgba(201,168,76,0.3)' }}>
                 {stat.value}
               </p>
-              <p className="text-white/40 text-xs sm:text-sm mt-1">{stat.label}</p>
+              <p className="text-white/40 text-[11px] sm:text-sm mt-1 leading-tight">{stat.label}</p>
             </div>
           ))}
         </div>

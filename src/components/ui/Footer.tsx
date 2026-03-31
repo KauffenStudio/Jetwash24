@@ -71,6 +71,19 @@ export default function Footer() {
           <p className="text-white/30 text-xs">
             © {year} JetWash24 Detailing. {t('rights')}.
           </p>
+          <a
+            href="https://kauffen.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[10px] font-light tracking-[0.15em] uppercase text-white/30 hover:text-white/60 transition-colors duration-300 no-underline"
+          >
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" aria-hidden="true">
+              <circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="0.9" strokeDasharray="4 6.5" className="animate-crafted-spin-a origin-center"/>
+              <circle cx="16" cy="16" r="6.5" stroke="currentColor" strokeWidth="1.1" strokeDasharray="5.5 5" className="animate-crafted-spin-b origin-center"/>
+              <circle cx="16" cy="16" r="1.6" fill="currentColor"/>
+            </svg>
+            <span>Crafted by Kauffen Studios</span>
+          </a>
           <p className="text-white/20 text-xs">
             jetwash24.com
           </p>

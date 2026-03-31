@@ -45,6 +45,8 @@ const config: Config = {
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.4s ease-out',
+        'crafted-spin-a': 'craftedSpinA 12s linear infinite',
+        'crafted-spin-b': 'craftedSpinB 8s linear infinite reverse',
       },
       keyframes: {
         fadeIn: {
@@ -54,6 +56,12 @@ const config: Config = {
         slideUp: {
           '0%': { transform: 'translateY(16px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        craftedSpinA: {
+          to: { transform: 'rotate(360deg)' },
+        },
+        craftedSpinB: {
+          to: { transform: 'rotate(360deg)' },
         },
       },
     },

@@ -6,9 +6,27 @@
  * consistency, which is a primary local-ranking signal.
  */
 
-export const SITE_URL = (
+/**
+ * Canonical site origin. The apex domain 307-redirects to the `www` host
+ * (www is the primary on Vercel), so we normalise to `www` here to ensure
+ * canonical tags, hreflang and the sitemap all point to the final 200 URL
+ * — never to a redirecting one — regardless of how NEXT_PUBLIC_URL is set.
+ */
+function normalizeSiteUrl(raw: string): string {
+  try {
+    const url = new URL(raw);
+    if (url.hostname === 'jetwash24.com') {
+      url.hostname = 'www.jetwash24.com';
+    }
+    return url.origin;
+  } catch {
+    return 'https://www.jetwash24.com';
+  }
+}
+
+export const SITE_URL = normalizeSiteUrl(
   process.env.NEXT_PUBLIC_URL ?? 'https://www.jetwash24.com'
-).replace(/\/$/, '');
+);
 
 export const LOCALES = ['pt', 'en'] as const;
 export const DEFAULT_LOCALE = 'pt';

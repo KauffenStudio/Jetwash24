@@ -6,6 +6,8 @@ import { SessionProvider } from '@/components/providers/SessionProvider';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
+import { SITE_URL } from '@/lib/seo/business';
 import '../globals.css';
 
 const inter = Inter({
@@ -14,35 +16,92 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'JetWash24 | Detailing Profissional no Algarve',
-    template: '%s | JetWash24 Detailing',
-  },
-  description:
-    'Detailing profissional de interiores e exteriores em Guia, Algarve. Reserva online. A 3 minutos do Algarve Shopping.',
-  keywords: [
-    'car detailing algarve',
-    'detailing guia',
-    'limpeza carro algarve',
-    'limpeza interior carro',
-    'polish carro',
-    'jetwash24',
-  ],
-  openGraph: {
-    type: 'website',
-    locale: 'pt_PT',
-    alternateLocale: 'en_GB',
-    siteName: 'JetWash24 Detailing',
+/** Per-locale SEO copy so each language version is indexed on its own terms. */
+const SEO = {
+  pt: {
     title: 'JetWash24 | Detailing Profissional no Algarve',
-    description: 'Detailing profissional em Guia, Algarve. Reserve online.',
+    description:
+      'Detailing profissional de interiores e exteriores em Guia, Algarve. Reserva online. A 3 minutos do Algarve Shopping.',
+    ogTitle: 'JetWash24 | Detailing Profissional no Algarve',
+    ogDescription: 'Detailing profissional em Guia, Algarve. Reserve online.',
+    ogLocale: 'pt_PT',
+    keywords: [
+      'car detailing algarve',
+      'detailing guia',
+      'lavagem automóvel guia',
+      'limpeza carro algarve',
+      'limpeza interior carro',
+      'polimento faróis algarve',
+      'detailing albufeira',
+      'jetwash24',
+    ],
   },
-  robots: {
-    index: true,
-    follow: true,
+  en: {
+    title: 'JetWash24 | Professional Car Detailing in the Algarve',
+    description:
+      'Professional interior & exterior car detailing in Guia, Algarve. Book online. A 3-minute walk from Algarve Shopping.',
+    ogTitle: 'JetWash24 | Professional Car Detailing in the Algarve',
+    ogDescription: 'Professional car detailing in Guia, Algarve. Book online.',
+    ogLocale: 'en_GB',
+    keywords: [
+      'car detailing algarve',
+      'car detailing guia',
+      'car wash guia',
+      'car cleaning algarve',
+      'interior car cleaning',
+      'headlight restoration algarve',
+      'car detailing albufeira',
+      'jetwash24',
+    ],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL ?? 'https://jetwash24.com'),
-};
+} as const;
+
+type LocaleKey = keyof typeof SEO;
+
+export function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Metadata {
+  const key: LocaleKey = locale === 'en' ? 'en' : 'pt';
+  const copy = SEO[key];
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: copy.title,
+      template: '%s | JetWash24 Detailing',
+    },
+    description: copy.description,
+    keywords: [...copy.keywords],
+    alternates: {
+      canonical: `/${key}`,
+      languages: {
+        'pt-PT': '/pt',
+        'en-GB': '/en',
+        'x-default': '/pt',
+      },
+    },
+    openGraph: {
+      type: 'website',
+      locale: copy.ogLocale,
+      alternateLocale: key === 'pt' ? 'en_GB' : 'pt_PT',
+      siteName: 'JetWash24 Detailing',
+      url: `${SITE_URL}/${key}`,
+      title: copy.ogTitle,
+      description: copy.ogDescription,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: copy.ogTitle,
+      description: copy.ogDescription,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -62,6 +121,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={inter.variable}>
       <body className={inter.className}>
+        <LocalBusinessSchema locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <Header />

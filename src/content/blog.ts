@@ -37,7 +37,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'frequencia-lavar-carro-algarve',
     date: '2026-05-20',
-    cover: '/gallery/detail-1-after.jpg',
+    cover: '/blog/frequencia-lavar-carro.jpg',
     relatedService: 'exterior-detailing',
     pt: {
       category: 'Manutenção',
@@ -93,7 +93,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'proteger-pintura-verao',
     date: '2026-06-02',
-    cover: '/gallery/detail-9-after.jpg',
+    cover: '/blog/proteger-pintura-verao.jpg',
     relatedService: 'paint-correction',
     pt: {
       category: 'Proteção',
@@ -153,7 +153,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'tirar-areia-praia-interior',
     date: '2026-06-12',
-    cover: '/gallery/detail-10-after.jpg',
+    cover: '/blog/tirar-areia-interior.jpg',
     relatedService: 'interior-detailing',
     pt: {
       category: 'Interior',
@@ -209,7 +209,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'farois-amarelados-causas-solucao',
     date: '2026-06-18',
-    cover: '/gallery/headlight-bmw-after.jpg',
+    cover: '/blog/farois-amarelados.jpg',
     relatedService: 'headlight-restoration',
     pt: {
       category: 'Restauro',
@@ -265,7 +265,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'erros-lavar-carro-em-casa',
     date: '2026-06-24',
-    cover: '/gallery/detail-1-before.jpg',
+    cover: '/blog/erros-lavar-casa.jpg',
     relatedService: 'exterior-detailing',
     pt: {
       category: 'Dicas',

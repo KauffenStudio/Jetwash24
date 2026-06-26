@@ -22,6 +22,7 @@
   "nav": {
     "home": "Início",
     "services": "Serviços",
+    "blog": "Blog",
     "gallery": "Galeria",
     "booking": "Reservar",
     "contact": "Contacto",
@@ -190,7 +191,15 @@
     "bookings": "Reservas",
     "calendar": "Calendário",
     "services": "Serviços",
-    "gallery": "Galeria",
+    "gallery": {
+      "upload": "Adicionar Foto",
+      "before": "Foto Antes",
+      "after": "Foto Depois",
+      "description": "Descrição",
+      "service": "Serviço Realizado",
+      "uploading": "A carregar...",
+      "deleteConfirm": "Tem a certeza que quer eliminar esta imagem?"
+    },
     "blockedSlots": "Bloquear Horários",
     "logout": "Sair",
     "welcome": "Bem-vindo",
@@ -216,15 +225,6 @@
       "endTime": "Hora de Fim",
       "reason": "Motivo (opcional)",
       "create": "Bloquear"
-    },
-    "gallery": {
-      "upload": "Adicionar Foto",
-      "before": "Foto Antes",
-      "after": "Foto Depois",
-      "description": "Descrição",
-      "service": "Serviço Realizado",
-      "uploading": "A carregar...",
-      "deleteConfirm": "Tem a certeza que quer eliminar esta imagem?"
     },
     "login": {
       "title": "Acesso Admin",

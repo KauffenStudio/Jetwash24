@@ -4,6 +4,8 @@ import ServicesSection from '@/components/home/ServicesSection';
 import GallerySection from '@/components/home/GallerySection';
 import BookingCTA from '@/components/home/BookingCTA';
 import LocationSection from '@/components/home/LocationSection';
+import FaqSection from '@/components/home/FaqSection';
+import Testimonials from '@/components/home/Testimonials';
 
 export default function HomePage() {
   return (
@@ -15,7 +17,9 @@ export default function HomePage() {
       <Suspense fallback={<SectionSkeleton dark />}>
         <GallerySection />
       </Suspense>
+      <Testimonials />
       <BookingCTA />
+      <FaqSection />
       <LocationSection />
     </>
   );

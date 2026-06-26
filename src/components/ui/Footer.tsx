@@ -26,9 +26,12 @@ export default function Footer() {
           <div>
             <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-4">{t('links')}</p>
             <nav className="space-y-3">
-              <a href={`/${locale}#services`} className="block text-white/70 hover:text-white text-sm transition-colors">
+              <Link href={`/${locale}/services`} className="block text-white/70 hover:text-white text-sm transition-colors">
                 {locale === 'pt' ? 'Serviços' : 'Services'}
-              </a>
+              </Link>
+              <Link href={`/${locale}/blog`} className="block text-white/70 hover:text-white text-sm transition-colors">
+                Blog
+              </Link>
               <a href={`/${locale}#gallery`} className="block text-white/70 hover:text-white text-sm transition-colors">
                 {locale === 'pt' ? 'Galeria' : 'Gallery'}
               </a>

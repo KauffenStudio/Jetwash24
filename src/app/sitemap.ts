@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo/business';
+import { SERVICE_SLUGS } from '@/content/services';
+import { ARTICLE_SLUGS } from '@/content/blog';
 
 /**
  * Public, indexable routes (without locale prefix). Each becomes a sitemap
@@ -8,6 +10,18 @@ import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo/business';
  */
 const ROUTES = [
   { path: '', priority: 1.0, changeFrequency: 'weekly' as const },
+  { path: '/services', priority: 0.9, changeFrequency: 'monthly' as const },
+  ...SERVICE_SLUGS.map((slug) => ({
+    path: `/services/${slug}`,
+    priority: 0.8,
+    changeFrequency: 'monthly' as const,
+  })),
+  { path: '/blog', priority: 0.7, changeFrequency: 'weekly' as const },
+  ...ARTICLE_SLUGS.map((slug) => ({
+    path: `/blog/${slug}`,
+    priority: 0.6,
+    changeFrequency: 'monthly' as const,
+  })),
   { path: '/booking', priority: 0.8, changeFrequency: 'monthly' as const },
 ];
 

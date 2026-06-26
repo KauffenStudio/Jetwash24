@@ -22,6 +22,7 @@
   "nav": {
     "home": "Home",
     "services": "Services",
+    "blog": "Blog",
     "gallery": "Gallery",
     "booking": "Book Now",
     "contact": "Contact",
@@ -190,7 +191,15 @@
     "bookings": "Bookings",
     "calendar": "Calendar",
     "services": "Services",
-    "gallery": "Gallery",
+    "gallery": {
+      "upload": "Add Photo",
+      "before": "Before Photo",
+      "after": "After Photo",
+      "description": "Description",
+      "service": "Service Performed",
+      "uploading": "Uploading...",
+      "deleteConfirm": "Are you sure you want to delete this image?"
+    },
     "blockedSlots": "Block Slots",
     "logout": "Logout",
     "welcome": "Welcome",
@@ -216,15 +225,6 @@
       "endTime": "End Time",
       "reason": "Reason (optional)",
       "create": "Block Slot"
-    },
-    "gallery": {
-      "upload": "Add Photo",
-      "before": "Before Photo",
-      "after": "After Photo",
-      "description": "Description",
-      "service": "Service Performed",
-      "uploading": "Uploading...",
-      "deleteConfirm": "Are you sure you want to delete this image?"
     },
     "login": {
       "title": "Admin Access",

@@ -103,11 +103,12 @@ interface BookingWizardProps {
   services: Service[];
   addons: Addon[];
   preSelectedService: Service | null;
+  depositAmount: number;
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function BookingWizard({ services, addons, preSelectedService }: BookingWizardProps) {
+export default function BookingWizard({ services, addons, preSelectedService, depositAmount }: BookingWizardProps) {
   const [state, dispatch] = useReducer(
     reducer,
     preSelectedService,
@@ -158,6 +159,7 @@ export default function BookingWizard({ services, addons, preSelectedService }: 
         totalPrice: state.totalPrice,
         totalDuration: state.totalDuration,
         vehicleAdjustment: state.vehicleAdjustment,
+        locale,
       }),
     });
 
@@ -166,7 +168,13 @@ export default function BookingWizard({ services, addons, preSelectedService }: 
       throw new Error(err.error || 'Booking failed. Please try again.');
     }
 
-    const { bookingId } = await bookingRes.json();
+    const { bookingId, checkoutUrl } = await bookingRes.json();
+    // Deposit flow: send the customer to Stripe Checkout.
+    if (checkoutUrl) {
+      window.location.href = checkoutUrl;
+      return;
+    }
+    // No-deposit fallback: booking is already confirmed.
     window.location.href = `/${locale}/booking/success?booking_id=${bookingId}`;
   }, [state, locale]);
 
@@ -223,6 +231,7 @@ export default function BookingWizard({ services, addons, preSelectedService }: 
             {state.step === 5 && (
               <CustomerStep
                 customer={state.customer}
+                depositAmount={depositAmount}
                 onChange={handleSetCustomer}
                 onConfirm={handleConfirm}
                 onBack={handleBack}

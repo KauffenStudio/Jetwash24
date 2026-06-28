@@ -3,10 +3,17 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getAvailableSlots, calculateEndTime } from '@/lib/availability';
-import { getVehicleAdjustment, formatDateShort, formatDurationLabel } from '@/lib/utils';
-import { resend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend';
+import { getVehicleAdjustment } from '@/lib/utils';
+import { sendBookingEmails } from '@/lib/booking-emails';
+import { getStripe, isStripeConfigured, DEPOSIT_AMOUNT } from '@/lib/stripe';
 import { z } from 'zod';
 import { parseISO, startOfDay, endOfDay } from 'date-fns';
+
+// How long a PENDING (unpaid) booking holds its slot before expiring.
+// Kept just above Stripe Checkout's 30-minute minimum session lifetime.
+const HOLD_MINUTES = 31;
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL ?? 'https://www.jetwash24.com';
 
 const customerSchema = z.object({
   name: z.string().min(1),
@@ -27,8 +34,15 @@ const createBookingSchema = z.object({
   totalPrice: z.number().positive(),
   totalDuration: z.number().int().positive(),
   vehicleAdjustment: z.number(),
+  locale: z.enum(['pt', 'en']).optional().default('pt'),
   captchaToken: z.string().min(1).optional(),
 });
+
+const bookingInclude = {
+  customer: true,
+  service: true,
+  addons: { include: { addon: true } },
+} as const;
 
 // GET /api/bookings — Admin/Worker only
 export async function GET(req: NextRequest) {
@@ -57,11 +71,7 @@ export async function GET(req: NextRequest) {
 
   const bookings = await prisma.booking.findMany({
     where,
-    include: {
-      customer: true,
-      service: true,
-      addons: { include: { addon: true } },
-    },
+    include: bookingInclude,
     orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
     take: limitParam ? parseInt(limitParam) : undefined,
   });
@@ -69,7 +79,10 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(bookings);
 }
 
-// POST /api/bookings — Create a pending booking
+// POST /api/bookings — Create a booking.
+// With Stripe configured: creates a PENDING booking + a Checkout Session for
+// the deposit, and returns a checkoutUrl to redirect the customer to.
+// Without Stripe: confirms the booking directly (no deposit) and emails it.
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsed = createBookingSchema.safeParse(body);
@@ -85,8 +98,7 @@ export async function POST(req: NextRequest) {
     date,
     startTime,
     customer: customerData,
-    totalDuration,
-    vehicleAdjustment,
+    locale,
   } = parsed.data;
 
   // Verify the service exists
@@ -118,8 +130,14 @@ export async function POST(req: NextRequest) {
 
   const endTime = calculateEndTime(startTime, calculatedDuration);
   const bookingDate = parseISO(date);
-  const depositAmount = 0;
-  const remainingAmount = calculatedPrice;
+
+  const takeDeposit = isStripeConfigured();
+  // Deposit is deducted from the total; never exceeds the total.
+  const depositAmount = takeDeposit ? Math.min(DEPOSIT_AMOUNT, calculatedPrice) : 0;
+  const remainingAmount = calculatedPrice - depositAmount;
+  const paymentExpiresAt = takeDeposit
+    ? new Date(Date.now() + HOLD_MINUTES * 60 * 1000)
+    : null;
 
   // Create or find customer
   const existingCustomer = await prisma.customer.findFirst({
@@ -155,7 +173,6 @@ export async function POST(req: NextRequest) {
     customerId = newCustomer.id;
   }
 
-  // Create booking in PENDING state
   const booking = await prisma.booking.create({
     data: {
       customerId,
@@ -169,166 +186,65 @@ export async function POST(req: NextRequest) {
       vehicleAdjustment: vehicleAdj,
       depositAmount,
       remainingAmount,
-      status: 'CONFIRMED',
+      paymentExpiresAt,
+      status: takeDeposit ? 'PENDING' : 'CONFIRMED',
       addons: {
         create: addonIds.map((addonId) => ({ addonId })),
       },
     },
-    include: {
-      customer: true,
-      service: true,
-      addons: { include: { addon: true } },
-    },
+    include: bookingInclude,
   });
 
-  const dateStr = formatDateShort(booking.date instanceof Date ? booking.date : new Date(booking.date));
-
-  // Send confirmation email to customer
-  try {
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: booking.customer.email,
-      subject: `Reserva Confirmada — JetWash24 | ${dateStr} ${booking.startTime}`,
-      html: buildCustomerEmailHtml(booking, dateStr),
-    });
-  } catch (err) {
-    console.error('Customer email failed:', err);
+  // ── No Stripe: confirm immediately and email (legacy / fallback flow) ──
+  if (!takeDeposit) {
+    await sendBookingEmails(booking);
+    return NextResponse.json(
+      { bookingId: booking.id, totalPrice: calculatedPrice, depositAmount, remainingAmount },
+      { status: 201 },
+    );
   }
 
-  // Send notification email to admin
+  // ── Stripe: create a Checkout Session for the deposit ──
   try {
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
-      subject: `Nova Reserva — ${booking.customer.name} | ${dateStr} ${booking.startTime}`,
-      html: buildAdminEmailHtml(booking, dateStr),
+    const checkout = await getStripe().checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      customer_email: customerData.email,
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: 'eur',
+            unit_amount: Math.round(depositAmount * 100),
+            product_data: {
+              name: `Sinal de reserva — ${service.namePt}`,
+              description: `Sinal descontado do total (${calculatedPrice.toFixed(2)}€). Restante de ${remainingAmount.toFixed(2)}€ pago no local.`,
+            },
+          },
+        },
+      ],
+      metadata: { bookingId: booking.id },
+      success_url: `${BASE_URL}/${locale}/booking/success?booking_id=${booking.id}`,
+      cancel_url: `${BASE_URL}/${locale}/booking/cancel`,
+      expires_at: Math.floor(Date.now() / 1000) + HOLD_MINUTES * 60,
     });
+
+    await prisma.booking.update({
+      where: { id: booking.id },
+      data: { stripeSessionId: checkout.id },
+    });
+
+    return NextResponse.json(
+      { bookingId: booking.id, checkoutUrl: checkout.url, depositAmount, remainingAmount },
+      { status: 201 },
+    );
   } catch (err) {
-    console.error('Admin email failed:', err);
+    console.error('Stripe checkout creation failed:', err);
+    // Roll back the held booking so the slot is freed immediately.
+    await prisma.booking.delete({ where: { id: booking.id } }).catch(() => {});
+    return NextResponse.json(
+      { error: 'Não foi possível iniciar o pagamento. Tente novamente.' },
+      { status: 502 },
+    );
   }
-
-  return NextResponse.json({ bookingId: booking.id, totalPrice: calculatedPrice, depositAmount, remainingAmount }, { status: 201 });
-}
-
-// ─── Email HTML builders ──────────────────────────────────────────────────────
-
-type BookingWithDetails = {
-  id: string;
-  startTime: string;
-  endTime: string;
-  date: Date | string;
-  totalDuration: number;
-  totalPrice: number;
-  customer: { name: string; email: string; phone: string; carModel: string; licensePlate: string; notes: string | null };
-  service: { namePt: string; nameEn: string };
-  addons: { addon: { namePt: string; nameEn: string; price: number } }[];
-};
-
-function buildCustomerEmailHtml(booking: BookingWithDetails, dateStr: string): string {
-  const addonsHtml = booking.addons.length > 0
-    ? booking.addons.map((a) => `<li>${a.addon.namePt} — +${a.addon.price}€</li>`).join('')
-    : '<li>Nenhum</li>';
-
-  return `
-<!DOCTYPE html>
-<html lang="pt">
-<head><meta charset="UTF-8"><title>Reserva Confirmada</title></head>
-<body style="font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px;">
-  <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden;">
-    <div style="background: #0A0A0A; padding: 32px; text-align: center;">
-      <h1 style="color: #C9A84C; margin: 0; font-size: 24px; letter-spacing: 2px;">JETWASH24</h1>
-      <p style="color: #fff; margin: 8px 0 0; font-size: 14px;">Detailing Profissional</p>
-    </div>
-    <div style="padding: 32px;">
-      <h2 style="color: #0A0A0A; margin: 0 0 8px;">Reserva Confirmada!</h2>
-      <p style="color: #525252; margin: 0 0 24px;">Olá ${booking.customer.name}, a sua reserva foi confirmada. Aqui estão os detalhes:</p>
-
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Data</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${dateStr}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Hora</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${booking.startTime}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Serviço</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${booking.service.namePt}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Veículo</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${booking.customer.carModel}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Matrícula</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${booking.customer.licensePlate}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #E8E8E8;">
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Duração</td>
-          <td style="padding: 12px 0; font-weight: bold; text-align: right;">${formatDurationLabel(booking.totalDuration, 'pt')}</td>
-        </tr>
-        <tr>
-          <td style="padding: 12px 0; color: #737373; font-size: 14px;">Total</td>
-          <td style="padding: 12px 0; font-weight: bold; font-size: 18px; color: #C9A84C; text-align: right;">${booking.totalPrice.toFixed(2)}€</td>
-        </tr>
-      </table>
-
-      ${booking.addons.length > 0 ? `
-      <div style="margin-bottom: 24px;">
-        <p style="color: #737373; font-size: 14px; margin: 0 0 8px;">Extras:</p>
-        <ul style="margin: 0; padding-left: 20px; color: #0A0A0A;">${addonsHtml}</ul>
-      </div>` : ''}
-
-      <div style="background: #F3F3F3; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
-        <p style="margin: 0 0 4px; font-weight: bold; font-size: 14px;">Morada:</p>
-        <p style="margin: 0; color: #525252; font-size: 14px;">JetWash24, N125 610, 8800-076 Guia, Algarve</p>
-        <p style="margin: 8px 0 0; color: #525252; font-size: 13px;">A 3 minutos a pé do Algarve Shopping</p>
-      </div>
-
-      <a href="https://maps.google.com/?q=N125+610,+8800-076+Guia,+Portugal"
-         style="display: inline-block; background: #0A0A0A; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 14px; margin-bottom: 24px;">
-        Abrir no Google Maps
-      </a>
-
-      <div style="border-top: 1px solid #E8E8E8; padding-top: 16px;">
-        <p style="color: #737373; font-size: 13px; margin: 0;">
-          Cancelamento gratuito até 12 horas antes. Entre em contacto via WhatsApp: +351 928 380 478
-        </p>
-      </div>
-    </div>
-    <div style="background: #0A0A0A; padding: 20px; text-align: center;">
-      <p style="color: #737373; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} JetWash24 Detailing. Todos os direitos reservados.</p>
-    </div>
-  </div>
-</body>
-</html>`;
-}
-
-function buildAdminEmailHtml(booking: BookingWithDetails, dateStr: string): string {
-  const addonsNames = booking.addons.map((a) => a.addon.namePt).join(', ') || 'Nenhum';
-  return `
-<!DOCTYPE html>
-<html lang="pt">
-<head><meta charset="UTF-8"><title>Nova Reserva</title></head>
-<body style="font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px;">
-  <div style="max-width: 500px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 32px;">
-    <h2 style="color: #0A0A0A; margin: 0 0 20px;">Nova Reserva — JetWash24</h2>
-    <table style="width: 100%; border-collapse: collapse;">
-      <tr><td style="padding: 8px 0; color: #737373;">Data:</td><td style="padding: 8px 0; font-weight: bold;">${dateStr}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Hora:</td><td style="padding: 8px 0; font-weight: bold;">${booking.startTime} – ${booking.endTime}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Serviço:</td><td style="padding: 8px 0; font-weight: bold;">${booking.service.namePt}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Extras:</td><td style="padding: 8px 0;">${addonsNames}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Cliente:</td><td style="padding: 8px 0;">${booking.customer.name}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Email:</td><td style="padding: 8px 0;">${booking.customer.email}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Telefone:</td><td style="padding: 8px 0;">${booking.customer.phone}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Carro:</td><td style="padding: 8px 0;">${booking.customer.carModel}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Matrícula:</td><td style="padding: 8px 0;">${booking.customer.licensePlate}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373;">Duração:</td><td style="padding: 8px 0;">${formatDurationLabel(booking.totalDuration, 'pt')}</td></tr>
-      <tr><td style="padding: 8px 0; color: #737373; font-weight: bold;">Total:</td><td style="padding: 8px 0; font-weight: bold; color: #C9A84C; font-size: 18px;">${booking.totalPrice.toFixed(2)}€</td></tr>
-    </table>
-    ${booking.customer.notes ? `<p style="margin-top: 16px; color: #525252;"><strong>Notas:</strong> ${booking.customer.notes}</p>` : ''}
-  </div>
-</body>
-</html>`;
 }

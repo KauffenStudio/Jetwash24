@@ -6,16 +6,18 @@ import { CustomerForm } from '@/types';
 
 interface CustomerStepProps {
   customer: CustomerForm;
+  depositAmount: number;
   onChange: (data: Partial<CustomerForm>) => void;
   onConfirm: () => Promise<void>;
   onBack: () => void;
 }
 
-export default function CustomerStep({ customer, onChange, onConfirm, onBack }: CustomerStepProps) {
+export default function CustomerStep({ customer, depositAmount, onChange, onConfirm, onBack }: CustomerStepProps) {
   const t = useTranslations('booking.step5');
   const tCommon = useTranslations('common');
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
+  const hasDeposit = depositAmount > 0;
 
   const isValid =
     customer.name.trim() &&
@@ -84,6 +86,20 @@ export default function CustomerStep({ customer, onChange, onConfirm, onBack }: 
         {field('notes', t('notes'), t('notesPlaceholder'), false, 'text', true)}
       </div>
 
+      {hasDeposit && (
+        <div className="mt-6 flex items-start gap-3 rounded-lg border-2 border-surface-200 bg-surface-50 p-4">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="mt-0.5 flex-shrink-0">
+            <rect x="2" y="5" width="16" height="11" rx="2" stroke="#C9A84C" strokeWidth="1.5" />
+            <path d="M2 8.5h16" stroke="#C9A84C" strokeWidth="1.5" />
+          </svg>
+          <p className="text-sm text-surface-600">
+            {locale === 'pt'
+              ? `Para confirmar a marcação é pago um sinal de ${depositAmount}€ online (Stripe). Este valor é descontado do total — o restante é pago no local. O sinal não é reembolsável em caso de falta.`
+              : `To confirm your booking a ${depositAmount}€ deposit is paid online (Stripe). It is deducted from the total — the rest is paid on-site. The deposit is non-refundable in case of a no-show.`}
+          </p>
+        </div>
+      )}
+
       <p className="mt-4 text-xs text-surface-400">{t('privacy')}</p>
 
       <div className="flex justify-between mt-8">
@@ -102,8 +118,12 @@ export default function CustomerStep({ customer, onChange, onConfirm, onBack }: 
           {loading ? (
             <>
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              {locale === 'pt' ? 'A confirmar...' : 'Confirming...'}
+              {hasDeposit
+                ? (locale === 'pt' ? 'A redirecionar...' : 'Redirecting...')
+                : (locale === 'pt' ? 'A confirmar...' : 'Confirming...')}
             </>
+          ) : hasDeposit ? (
+            locale === 'pt' ? `Reservar e pagar ${depositAmount}€` : `Book & pay ${depositAmount}€`
           ) : (
             locale === 'pt' ? 'Reservar Agora' : 'Book Now'
           )}

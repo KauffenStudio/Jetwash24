@@ -77,6 +77,18 @@ export default async function SuccessPage({ params, searchParams }: SuccessPageP
                 <span>Total</span>
                 <span className="text-gold">{formatPrice(booking.totalPrice)}</span>
               </div>
+              {booking.depositAmount > 0 && (
+                <>
+                  <div className="flex justify-between text-green-600">
+                    <span>{locale === 'pt' ? 'Sinal pago online' : 'Deposit paid online'}</span>
+                    <span>−{formatPrice(booking.depositAmount)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold">
+                    <span>{locale === 'pt' ? 'A pagar no local' : 'Due on-site'}</span>
+                    <span>{formatPrice(booking.remainingAmount)}</span>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="mt-4 pt-4 border-t border-surface-200 text-xs text-surface-400 space-y-1">

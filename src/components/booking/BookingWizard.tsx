@@ -9,6 +9,7 @@ import { getVehicleAdjustment } from '@/lib/utils';
 import StepIndicator from './StepIndicator';
 import BookingSummary from './BookingSummary';
 import VehicleStep from './VehicleStep';
+import ServiceStep from './ServiceStep';
 import ExtrasStep from './ExtrasStep';
 import DateTimeStep from './DateTimeStep';
 import CustomerStep from './CustomerStep';
@@ -39,6 +40,7 @@ function makeInitialState(preSelectedService: Service | null): BookingState {
 
 type BookingAction =
   | { type: 'SET_VEHICLE'; payload: VehicleSize }
+  | { type: 'SET_SERVICE'; payload: Service }
   | { type: 'TOGGLE_ADDON'; payload: Addon }
   | { type: 'SET_DATE'; payload: string }
   | { type: 'SET_TIME'; payload: string }
@@ -66,9 +68,11 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
   switch (action.type) {
     case 'SET_VEHICLE': {
       const next = { ...state, vehicleSize: action.payload };
-      // advance to step 2 (Extras) once vehicle is picked
+      // advance to step 2 (Service) once vehicle is picked
       return recalculate({ ...next, step: Math.max(state.step, 2) as BookingStep });
     }
+    case 'SET_SERVICE':
+      return recalculate({ ...state, service: action.payload });
     case 'TOGGLE_ADDON': {
       const exists = state.selectedAddons.some((a) => a.id === action.payload.id);
       const addons = exists
@@ -83,7 +87,7 @@ function reducer(state: BookingState, action: BookingAction): BookingState {
     case 'SET_CUSTOMER':
       return { ...state, customer: { ...state.customer, ...action.payload } };
     case 'NEXT_STEP':
-      return { ...state, step: Math.min(4, state.step + 1) as BookingStep };
+      return { ...state, step: Math.min(5, state.step + 1) as BookingStep };
     case 'PREV_STEP':
       return { ...state, step: Math.max(1, state.step - 1) as BookingStep };
     case 'SET_STEP':
@@ -103,7 +107,7 @@ interface BookingWizardProps {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function BookingWizard({ addons, preSelectedService }: BookingWizardProps) {
+export default function BookingWizard({ services, addons, preSelectedService }: BookingWizardProps) {
   const [state, dispatch] = useReducer(
     reducer,
     preSelectedService,
@@ -113,6 +117,10 @@ export default function BookingWizard({ addons, preSelectedService }: BookingWiz
 
   const handleSelectVehicle = useCallback((size: VehicleSize) => {
     dispatch({ type: 'SET_VEHICLE', payload: size });
+  }, []);
+
+  const handleSelectService = useCallback((service: Service) => {
+    dispatch({ type: 'SET_SERVICE', payload: service });
   }, []);
 
   const handleToggleAddon = useCallback((addon: Addon) => {
@@ -183,6 +191,16 @@ export default function BookingWizard({ addons, preSelectedService }: BookingWiz
               />
             )}
             {state.step === 2 && (
+              <ServiceStep
+                services={services}
+                selectedServiceId={state.service?.id ?? null}
+                vehicleSize={state.vehicleSize}
+                onSelect={handleSelectService}
+                onNext={handleNext}
+                onBack={handleBack}
+              />
+            )}
+            {state.step === 3 && (
               <ExtrasStep
                 addons={addons}
                 selectedAddonIds={state.selectedAddons.map((a) => a.id)}
@@ -191,7 +209,7 @@ export default function BookingWizard({ addons, preSelectedService }: BookingWiz
                 onBack={handleBack}
               />
             )}
-            {state.step === 3 && (
+            {state.step === 4 && (
               <DateTimeStep
                 totalDuration={state.totalDuration}
                 selectedDate={state.date}
@@ -202,7 +220,7 @@ export default function BookingWizard({ addons, preSelectedService }: BookingWiz
                 onBack={handleBack}
               />
             )}
-            {state.step === 4 && (
+            {state.step === 5 && (
               <CustomerStep
                 customer={state.customer}
                 onChange={handleSetCustomer}

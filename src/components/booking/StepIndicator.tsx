@@ -12,6 +12,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
 
   const steps: { key: string; label: string }[] = [
     { key: 'vehicle', label: t('vehicle') },
+    { key: 'service', label: t('service') },
     { key: 'extras', label: t('extras') },
     { key: 'datetime', label: t('datetime') },
     { key: 'details', label: t('details') },

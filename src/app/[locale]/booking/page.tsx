@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import BookingWizard from '@/components/booking/BookingWizard';
+import { isStripeConfigured, DEPOSIT_AMOUNT } from '@/lib/stripe';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -31,9 +32,17 @@ export default async function BookingPage({
     ? (services.find((s) => s.id === searchParams.serviceId) ?? null)
     : null;
 
+  // Deposit is taken only when Stripe is configured.
+  const depositAmount = isStripeConfigured() ? DEPOSIT_AMOUNT : 0;
+
   return (
     <div className="pt-16 md:pt-20">
-      <BookingWizard services={services} addons={addons} preSelectedService={preSelectedService} />
+      <BookingWizard
+        services={services}
+        addons={addons}
+        preSelectedService={preSelectedService}
+        depositAmount={depositAmount}
+      />
     </div>
   );
 }

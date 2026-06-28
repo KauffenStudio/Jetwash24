@@ -102,7 +102,7 @@ export interface CustomerForm {
   notes: string;
 }
 
-export type BookingStep = 1 | 2 | 3 | 4;
+export type BookingStep = 1 | 2 | 3 | 4 | 5;
 
 export interface BookingState {
   step: BookingStep;

@@ -1,15 +1,17 @@
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
+import { LOCATIONS } from '@/content/locations';
 
 export default function Footer() {
   const t = useTranslations('footer');
   const locale = useLocale();
+  const isPt = locale === 'pt';
   const year = new Date().getFullYear();
 
   return (
     <footer className="bg-[#0A0A0A] border-t border-white/10 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
             <p className="text-2xl font-black tracking-widest mb-3">
@@ -41,6 +43,24 @@ export default function Footer() {
               <a href={`/${locale}#location`} className="block text-white/70 hover:text-white text-sm transition-colors">
                 {locale === 'pt' ? 'Localização' : 'Location'}
               </a>
+            </nav>
+          </div>
+
+          {/* Areas served */}
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-4">
+              {isPt ? 'Áreas' : 'Areas'}
+            </p>
+            <nav className="space-y-3">
+              {LOCATIONS.map((loc) => (
+                <Link
+                  key={loc.slug}
+                  href={`/${locale}/detailing/${loc.slug}`}
+                  className="block text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  {isPt ? `Detailing em ${loc.pt.city}` : `Detailing in ${loc.en.city}`}
+                </Link>
+              ))}
             </nav>
           </div>
 

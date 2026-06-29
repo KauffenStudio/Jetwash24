@@ -316,6 +316,292 @@ export const ARTICLES: Article[] = [
       ],
     },
   },
+  {
+    slug: 'revestimento-ceramico-vs-cera',
+    date: '2026-06-08',
+    cover: '/blog/proteger-pintura-verao.jpg',
+    relatedService: 'paint-correction',
+    pt: {
+      category: 'Proteção',
+      title: 'Revestimento cerâmico vs. cera: qual escolher no Algarve?',
+      excerpt:
+        'Cera, selante ou cerâmico? Comparamos durabilidade, proteção e custo para o sol e o sal do Algarve — e ajudamos a escolher.',
+      metaDescription:
+        'Revestimento cerâmico vs. cera no Algarve: durabilidade, proteção UV, repelência à água e custo comparados. Saiba qual compensa para o seu carro.',
+      readingMinutes: 5,
+      body: [
+        { type: 'p', text: 'Proteger a pintura no Algarve não é luxo — é manutenção. Entre o sol intenso, o sal do mar e a poeira, a questão não é "se" deve proteger o verniz, mas "com quê". As três opções mais comuns são a cera, o selante e o revestimento cerâmico.' },
+        { type: 'h2', text: 'Cera de carnaúba' },
+        { type: 'p', text: 'Dá um brilho quente e profundo e é a opção mais barata, mas dura pouco — tipicamente 4 a 8 semanas, menos ainda com o calor do verão algarvio. É ótima para quem gosta de cuidar do carro com frequência, mas exige reaplicação constante.' },
+        { type: 'h2', text: 'Selante sintético' },
+        { type: 'p', text: 'Um passo acima: protege 4 a 6 meses, repele melhor a água e resiste mais ao calor e aos detergentes. É o equilíbrio sensato entre custo e durabilidade para o uso diário.' },
+        { type: 'h2', text: 'Revestimento cerâmico' },
+        { type: 'ul', items: [
+          'Durabilidade de 1 a vários anos numa única aplicação',
+          'Forte proteção UV — trava a oxidação e o desbotar da cor',
+          'Repelência à água e à sujidade que facilita as lavagens',
+          'Resiste a sal, insetos e excrementos de aves melhor que a cera',
+        ] },
+        { type: 'p', text: 'É o investimento inicial mais alto, mas o que mais compensa para quem deixa o carro ao sol e quer reduzir a manutenção ao longo do ano.' },
+        { type: 'h2', text: 'A nossa recomendação' },
+        { type: 'p', text: 'Para a maioria dos carros no Algarve, um selante de qualidade cobre bem as necessidades. Se o carro fica exposto ao sol e quer máxima proteção e menos lavagens, o cerâmico vale a pena. Em qualquer caso, a pintura deve ser corrigida e descontaminada antes — proteger por cima de imperfeições só as sela por baixo.' },
+      ],
+    },
+    en: {
+      category: 'Protection',
+      title: 'Ceramic coating vs. wax: which to choose in the Algarve?',
+      excerpt:
+        'Wax, sealant or ceramic? We compare durability, protection and cost for the Algarve sun and salt — and help you choose.',
+      metaDescription:
+        'Ceramic coating vs. wax in the Algarve: durability, UV protection, water repellency and cost compared. Find out which is worth it for your car.',
+      readingMinutes: 5,
+      body: [
+        { type: 'p', text: 'Protecting your paint in the Algarve isn’t a luxury — it’s maintenance. Between intense sun, sea salt and dust, the question isn’t whether to protect the clear coat, but with what. The three most common options are wax, sealant and ceramic coating.' },
+        { type: 'h2', text: 'Carnauba wax' },
+        { type: 'p', text: 'It gives a warm, deep shine and is the cheapest option, but it doesn’t last long — typically 4 to 8 weeks, even less in the Algarve summer heat. Great if you enjoy frequent upkeep, but it needs constant reapplication.' },
+        { type: 'h2', text: 'Synthetic sealant' },
+        { type: 'p', text: 'A step up: it protects for 4 to 6 months, repels water better and stands up to heat and detergents. It’s the sensible balance of cost and durability for daily use.' },
+        { type: 'h2', text: 'Ceramic coating' },
+        { type: 'ul', items: [
+          'Lasts from 1 to several years from a single application',
+          'Strong UV protection — slows oxidation and colour fade',
+          'Water and dirt repellency that makes washing easier',
+          'Resists salt, insects and bird droppings better than wax',
+        ] },
+        { type: 'p', text: 'It’s the highest upfront cost, but the one that pays off most if your car sits in the sun and you want to cut down on maintenance through the year.' },
+        { type: 'h2', text: 'Our recommendation' },
+        { type: 'p', text: 'For most cars in the Algarve, a quality sealant covers your needs well. If the car is exposed to the sun and you want maximum protection and fewer washes, ceramic is worth it. Either way, the paint should be corrected and decontaminated first — protecting over imperfections just locks them in underneath.' },
+      ],
+    },
+  },
+  {
+    slug: 'cuidar-bancos-pele-calor-algarve',
+    date: '2026-06-13',
+    cover: '/blog/tirar-areia-interior.jpg',
+    relatedService: 'interior-detailing',
+    pt: {
+      category: 'Interior',
+      title: 'Como cuidar dos bancos em pele no calor do Algarve',
+      excerpt:
+        'O calor resseca e estala o couro. Veja como limpar, hidratar e proteger os bancos em pele para durarem anos no clima algarvio.',
+      metaDescription:
+        'Cuidar de bancos em pele no Algarve: porque o calor resseca o couro, com que frequência hidratar e os erros a evitar para não estalar.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'Bancos em pele dão classe ao interior, mas no Algarve são dos materiais que mais sofrem. O calor dentro de um carro ao sol ultrapassa facilmente os 60 °C, e isso resseca o couro, faz perder cor e, com o tempo, leva a fissuras e estalados que já não têm volta.' },
+        { type: 'h2', text: 'Porque o couro estala' },
+        { type: 'p', text: 'A pele tem óleos naturais que a mantêm flexível. O calor e os raios UV evaporam esses óleos; sem hidratação, a superfície torna-se rígida e racha nos pontos de maior tensão — assentos e laterais.' },
+        { type: 'h2', text: 'A rotina certa' },
+        { type: 'ul', items: [
+          'Limpe o pó e a sujidade com um produto próprio para couro (não detergentes agressivos)',
+          'Hidrate com um condicionador de pele a cada 2 a 3 meses no verão',
+          'Use parassol e, se possível, estacione à sombra',
+          'Limpe de imediato suor, protetor solar e bebidas — mancham e degradam',
+        ] },
+        { type: 'h2', text: 'Erros comuns' },
+        { type: 'p', text: 'Produtos multiusos e álcool retiram os óleos e aceleram o ressecamento. Demasiado condicionador deixa a superfície oleosa e escorregadia. O equilíbrio é limpar bem e hidratar com moderação, sempre com produtos próprios.' },
+        { type: 'h2', text: 'Quando vale a pena profissional' },
+        { type: 'p', text: 'Se o couro já está baço, manchado ou a começar a estalar, uma restauração de interior limpa em profundidade, hidrata e devolve cor e toque antes que o dano seja permanente. É bem mais barato do que substituir os bancos.' },
+      ],
+    },
+    en: {
+      category: 'Interior',
+      title: 'How to care for leather seats in the Algarve heat',
+      excerpt:
+        'Heat dries out and cracks leather. Here’s how to clean, condition and protect leather seats so they last for years in the Algarve climate.',
+      metaDescription:
+        'Caring for leather seats in the Algarve: why heat dries leather out, how often to condition, and the mistakes to avoid so it doesn’t crack.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'Leather seats add class to an interior, but in the Algarve they’re one of the materials that suffer most. The temperature inside a car in the sun easily passes 60 °C, and that dries out the leather, fades the colour and, over time, leads to cracks and splits that can’t be undone.' },
+        { type: 'h2', text: 'Why leather cracks' },
+        { type: 'p', text: 'Leather has natural oils that keep it supple. Heat and UV evaporate those oils; without conditioning, the surface stiffens and cracks at the highest-stress points — seat bases and bolsters.' },
+        { type: 'h2', text: 'The right routine' },
+        { type: 'ul', items: [
+          'Clean off dust and dirt with a dedicated leather product (not harsh detergents)',
+          'Condition with a leather conditioner every 2 to 3 months in summer',
+          'Use a sunshade and park in the shade where you can',
+          'Wipe up sweat, suncream and drinks straight away — they stain and degrade',
+        ] },
+        { type: 'h2', text: 'Common mistakes' },
+        { type: 'p', text: 'All-purpose cleaners and alcohol strip the oils and speed up drying. Too much conditioner leaves the surface oily and slippery. The balance is to clean well and condition in moderation, always with dedicated products.' },
+        { type: 'h2', text: 'When a professional is worth it' },
+        { type: 'p', text: 'If the leather is already dull, stained or starting to crack, an interior restoration deep-cleans, conditions and brings back colour and feel before the damage becomes permanent. It’s far cheaper than replacing the seats.' },
+      ],
+    },
+  },
+  {
+    slug: 'lavar-mao-vs-maquina-rolos',
+    date: '2026-06-18',
+    cover: '/blog/erros-lavar-casa.jpg',
+    relatedService: 'exterior-detailing',
+    pt: {
+      category: 'Manutenção',
+      title: 'Lavar o carro à mão vs. máquina de rolos: o que é melhor?',
+      excerpt:
+        'As máquinas de rolos são rápidas e baratas, mas riscam a pintura. Comparamos com a lavagem à mão e explicamos quando vale a pena cada uma.',
+      metaDescription:
+        'Lavagem à mão vs. máquina de rolos: qual risca menos a pintura, qual limpa melhor e quando compensa cada opção. Guia prático para o Algarve.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'A máquina de rolos é tentadora: cinco minutos, alguns euros e o carro sai molhado e aparentemente limpo. Mas "aparentemente" é a palavra-chave — e a longo prazo pode sair caro à pintura.' },
+        { type: 'h2', text: 'O problema das máquinas de rolos' },
+        { type: 'ul', items: [
+          'As escovas arrastam areia e sujidade de outros carros pela sua pintura',
+          'Isso cria swirls e micro-riscos visíveis ao sol',
+          'Não chegam a recantos, frisos e jantes como deve ser',
+          'Detergentes agressivos podem remover proteção e ressecar borrachas',
+        ] },
+        { type: 'h2', text: 'Porque a lavagem à mão ganha' },
+        { type: 'p', text: 'Uma lavagem à mão bem feita usa o método de dois baldes e luvas de microfibra macias, removendo a sujidade sem a esfregar contra o verniz. O resultado é mais seguro, mais completo e respeita a proteção da pintura.' },
+        { type: 'h2', text: 'Quando a máquina serve' },
+        { type: 'p', text: 'Num carro mais antigo, de trabalho, em que o aspeto não é prioridade, a máquina de rolos resolve. Para qualquer carro que queira manter bonito e valorizado, não compensa o risco.' },
+        { type: 'h2', text: 'A alternativa inteligente' },
+        { type: 'p', text: 'Alterne lavagens à mão de manutenção com um detailing exterior detalhado de tempos a tempos, que descontamina a pintura e renova a proteção. É o que mantém o verniz sem swirls e a brilhar todo o ano.' },
+      ],
+    },
+    en: {
+      category: 'Maintenance',
+      title: 'Hand wash vs. rollover car wash: which is better?',
+      excerpt:
+        'Rollover washes are fast and cheap, but they scratch the paint. We compare them with hand washing and explain when each makes sense.',
+      metaDescription:
+        'Hand wash vs. rollover car wash: which scratches less, which cleans better and when each is worth it. A practical guide for the Algarve.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'The rollover wash is tempting: five minutes, a few euros and the car comes out wet and seemingly clean. But "seemingly" is the key word — and over time it can cost the paint dearly.' },
+        { type: 'h2', text: 'The problem with rollover washes' },
+        { type: 'ul', items: [
+          'The brushes drag sand and dirt from other cars across your paint',
+          'That creates swirls and micro-scratches visible in the sun',
+          'They don’t properly reach nooks, trims and wheels',
+          'Harsh detergents can strip protection and dry out rubber seals',
+        ] },
+        { type: 'h2', text: 'Why hand washing wins' },
+        { type: 'p', text: 'A proper hand wash uses the two-bucket method and soft microfibre mitts, lifting dirt away rather than grinding it against the clear coat. The result is safer, more thorough and respects the paint’s protection.' },
+        { type: 'h2', text: 'When the machine is fine' },
+        { type: 'p', text: 'On an older, work car where looks aren’t a priority, the rollover does the job. For any car you want to keep looking good and holding its value, the risk isn’t worth it.' },
+        { type: 'h2', text: 'The smart alternative' },
+        { type: 'p', text: 'Alternate maintenance hand washes with a detailed exterior detail every so often, which decontaminates the paint and renews protection. That’s what keeps the clear coat swirl-free and shining all year.' },
+      ],
+    },
+  },
+  {
+    slug: 'detailing-antes-de-vender-carro',
+    date: '2026-06-23',
+    cover: '/blog/frequencia-lavar-carro.jpg',
+    relatedService: 'complete-package',
+    pt: {
+      category: 'Dicas',
+      title: 'Vale a pena fazer detailing antes de vender o carro?',
+      excerpt:
+        'Um carro impecável vende mais depressa e por mais dinheiro. Veja o retorno real de um detailing antes da venda e por onde começar.',
+      metaDescription:
+        'Detailing antes de vender o carro: quanto pode valorizar a venda, que serviços fazem mais diferença e se compensa o investimento.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'A primeira impressão vende. Quando um comprador abre a porta e o interior cheira a limpo, os plásticos brilham e a pintura está sem marcas, a perceção de valor sobe — e a margem de negociação desce a seu favor.' },
+        { type: 'h2', text: 'O retorno é real' },
+        { type: 'p', text: 'Um detailing completo custa uma fração do que pode acrescentar ao preço de venda. Carros bem apresentados vendem mais depressa e seguram melhor o valor pedido, porque transmitem que foram cuidados — algo que tranquiliza qualquer comprador.' },
+        { type: 'h2', text: 'O que faz mais diferença' },
+        { type: 'ul', items: [
+          'Interior detalhado — bancos, tapetes e cheiro a novo são o que mais impressiona',
+          'Restauro de faróis — faróis transparentes rejuvenescem a frente do carro',
+          'Correção de pintura — remove swirls e devolve brilho à cor',
+          'Limpeza de jantes e pneus — o detalhe que fecha a boa impressão',
+        ] },
+        { type: 'h2', text: 'Fotos que vendem' },
+        { type: 'p', text: 'A maioria das vendas começa online. Um carro detalhado fotografa muito melhor: a pintura reflete, o interior parece novo e o anúncio destaca-se entre dezenas de outros. Mais cliques significam vender mais depressa.' },
+        { type: 'h2', text: 'Por onde começar' },
+        { type: 'p', text: 'Para vender, o pacote completo é geralmente o que mais compensa — trata interior e exterior de uma vez. Se o orçamento for curto, priorize o interior e os faróis, que são o que o comprador mais nota.' },
+      ],
+    },
+    en: {
+      category: 'Tips',
+      title: 'Is it worth detailing your car before selling it?',
+      excerpt:
+        'A spotless car sells faster and for more. Here’s the real return of detailing before a sale and where to start.',
+      metaDescription:
+        'Detailing before selling your car: how much it can add to the sale, which services make the biggest difference and whether it pays off.',
+      readingMinutes: 4,
+      body: [
+        { type: 'p', text: 'First impressions sell. When a buyer opens the door and the interior smells clean, the plastics shine and the paint is mark-free, perceived value goes up — and the negotiation tips in your favour.' },
+        { type: 'h2', text: 'The return is real' },
+        { type: 'p', text: 'A full detail costs a fraction of what it can add to the sale price. Well-presented cars sell faster and hold their asking price better, because they signal that they’ve been looked after — something that reassures any buyer.' },
+        { type: 'h2', text: 'What makes the biggest difference' },
+        { type: 'ul', items: [
+          'Detailed interior — fresh seats, mats and smell are what impress most',
+          'Headlight restoration — clear headlights rejuvenate the front of the car',
+          'Paint correction — removes swirls and brings the colour’s shine back',
+          'Wheel and tyre cleaning — the detail that completes the impression',
+        ] },
+        { type: 'h2', text: 'Photos that sell' },
+        { type: 'p', text: 'Most sales start online. A detailed car photographs far better: the paint reflects, the interior looks new and the listing stands out among dozens of others. More clicks means a faster sale.' },
+        { type: 'h2', text: 'Where to start' },
+        { type: 'p', text: 'For selling, the complete package is usually the best value — it covers interior and exterior in one go. On a tight budget, prioritise the interior and the headlights, which are what buyers notice most.' },
+      ],
+    },
+  },
+  {
+    slug: 'o-que-e-correcao-de-pintura',
+    date: '2026-06-27',
+    cover: '/blog/farois-amarelados.jpg',
+    relatedService: 'paint-correction',
+    pt: {
+      category: 'Detailing',
+      title: 'O que é a correção de pintura e quando precisa dela',
+      excerpt:
+        'Swirls, riscos e pintura baça têm solução. Explicamos o que é a correção de pintura, como funciona e quando vale a pena.',
+      metaDescription:
+        'Correção de pintura explicada: o que são swirls e riscos, como funciona o polimento por etapas e quando o seu carro precisa de correção.',
+      readingMinutes: 5,
+      body: [
+        { type: 'p', text: 'Já reparou que, ao sol, a pintura do carro mostra uma teia de riscos circulares? Chamam-se swirls, e são o resultado de lavagens mal feitas, máquinas de rolos e panos errados. A correção de pintura é o processo que os remove de verdade — não os esconde.' },
+        { type: 'h2', text: 'O que são swirls e marcas' },
+        { type: 'p', text: 'O verniz é uma camada transparente fina por cima da cor. Pequenos riscos nessa camada refletem a luz em todas as direções, dando aquele aspeto baço e "riscado". A maioria está só no verniz — e é aí que a correção atua.' },
+        { type: 'h2', text: 'Como funciona' },
+        { type: 'ul', items: [
+          'Lava-se e descontamina-se a pintura para tirar toda a sujidade aderente',
+          'Com máquina de polir e abrasivos, remove-se uma camada microscópica de verniz',
+          'Isso nivela os riscos, em vez de os tapar temporariamente',
+          'Aplica-se proteção para selar a pintura no seu melhor estado',
+        ] },
+        { type: 'h2', text: 'Correção vs. cera de disfarce' },
+        { type: 'p', text: 'Ceras e "polishes" de loja preenchem os riscos por umas semanas e depois eles voltam. A correção remove-os de forma permanente (até à próxima vez que se risquem). É a diferença entre maquilhar e tratar.' },
+        { type: 'h2', text: 'Quando precisa de correção' },
+        { type: 'p', text: 'Se a pintura está baça, cheia de swirls ao sol, ou se vai aplicar um revestimento cerâmico, vale a pena corrigir primeiro. Não faz sentido selar imperfeições por baixo de uma proteção que vai durar anos.' },
+        { type: 'h2', text: 'Um aviso importante' },
+        { type: 'p', text: 'O verniz é fino e limitado — corrigir em excesso ou com técnica errada pode danificá-lo. Por isso a correção de pintura deve ser feita por quem sabe avaliar a espessura e escolher o passo certo para cada carro.' },
+      ],
+    },
+    en: {
+      category: 'Detailing',
+      title: 'What is paint correction and when do you need it?',
+      excerpt:
+        'Swirls, scratches and dull paint can be fixed. We explain what paint correction is, how it works and when it’s worth it.',
+      metaDescription:
+        'Paint correction explained: what swirls and scratches are, how multi-stage polishing works and when your car needs correction.',
+      readingMinutes: 5,
+      body: [
+        { type: 'p', text: 'Ever noticed that, in the sun, your car’s paint shows a web of circular scratches? They’re called swirls, and they come from poor washing, rollover machines and the wrong cloths. Paint correction is the process that genuinely removes them — it doesn’t just hide them.' },
+        { type: 'h2', text: 'What swirls and marks are' },
+        { type: 'p', text: 'Clear coat is a thin transparent layer over the colour. Tiny scratches in that layer reflect light in every direction, giving that dull, "scratched" look. Most of them sit only in the clear coat — and that’s where correction works.' },
+        { type: 'h2', text: 'How it works' },
+        { type: 'ul', items: [
+          'The paint is washed and decontaminated to remove all bonded dirt',
+          'With a polishing machine and abrasives, a microscopic layer of clear coat is removed',
+          'This levels the scratches, instead of covering them temporarily',
+          'Protection is applied to seal the paint at its best',
+        ] },
+        { type: 'h2', text: 'Correction vs. cover-up wax' },
+        { type: 'p', text: 'Shop waxes and "polishes" fill scratches for a few weeks and then they’re back. Correction removes them permanently (until they’re scratched again). It’s the difference between make-up and treatment.' },
+        { type: 'h2', text: 'When you need correction' },
+        { type: 'p', text: 'If the paint is dull, full of swirls in the sun, or you’re about to apply a ceramic coating, it’s worth correcting first. There’s no point sealing imperfections under protection that will last for years.' },
+        { type: 'h2', text: 'An important warning' },
+        { type: 'p', text: 'Clear coat is thin and finite — over-correcting or using the wrong technique can damage it. That’s why paint correction should be done by someone who can judge the thickness and choose the right step for each car.' },
+      ],
+    },
+  },
 ];
 
 export function getArticle(slug: string): Article | undefined {

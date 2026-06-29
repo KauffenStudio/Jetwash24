@@ -67,7 +67,7 @@ export const BUSINESS = {
     opens: '09:00',
     closes: '17:00',
   },
-  areaServed: ['Guia', 'Albufeira', 'Algarve', 'Faro'],
+  areaServed: ['Guia', 'Albufeira', 'Vilamoura', 'Faro', 'Algarve'],
 } as const;
 
 /**

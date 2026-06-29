@@ -8,6 +8,8 @@ import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
 import { SITE_URL } from '@/lib/seo/business';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import '../globals.css';
 
 const inter = Inter({
@@ -100,10 +102,23 @@ export function generateMetadata({
       index: true,
       follow: true,
     },
+    // Optional Search Console meta verification. Primary method is DNS
+    // (domain property); set GOOGLE_SITE_VERIFICATION only if using the
+    // HTML-tag method instead. Undefined renders no tag.
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
+    },
   };
 }
 
-export const dynamic = 'force-dynamic';
+/**
+ * Marketing pages (home, services, blog, area pages) are statically
+ * rendered and revalidated hourly (ISR) — fast TTFB and good Core Web
+ * Vitals, while admin/worker (cookies) and booking (searchParams) stay
+ * dynamic automatically. Replaces the previous blanket force-dynamic,
+ * which re-rendered every page on every request.
+ */
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return [{ locale: 'pt' }, { locale: 'en' }];
@@ -130,6 +145,8 @@ export default async function LocaleLayout({
             <WhatsAppButton />
           </SessionProvider>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -101,6 +101,9 @@ export default function ServicePage({
               </Link>
               <p className="text-white/70">
                 <span className="text-xs text-white/40">{isPt ? 'desde' : 'from'}</span>{' '}
+                {service.compareAtPrice && service.compareAtPrice > service.fromPrice && (
+                  <span className="text-xl font-semibold text-white/35 line-through">{service.compareAtPrice}€</span>
+                )}{' '}
                 <span className="text-3xl font-black text-white">{service.fromPrice}€</span>{' '}
                 <span className="text-sm text-white/40">· {isPt ? service.durationLabelPt : service.durationLabelEn}</span>
               </p>

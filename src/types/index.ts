@@ -15,6 +15,7 @@ export interface Service {
   includesPt: string[];
   includesEn: string[];
   price: number;
+  compareAtPrice: number | null;
   duration: number;
   category: ServiceCategory;
   isActive: boolean;

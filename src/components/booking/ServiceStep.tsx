@@ -31,7 +31,7 @@ export default function ServiceStep({
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 100; // Interior Detalhada 45€ + Exterior Detalhada 55€
+  const originalPrice = 130; // Interior Detalhada 60€ + Exterior Detalhada 70€
 
   return (
     <div className="animate-slide-up">
@@ -186,6 +186,10 @@ function ServiceGroup({
           const name = locale === 'pt' ? service.namePt : service.nameEn;
           const includes = locale === 'pt' ? service.includesPt : service.includesEn;
           const displayPrice = service.price + vehicleAdj;
+          const displayCompareAt =
+            service.compareAtPrice && service.compareAtPrice > service.price
+              ? service.compareAtPrice + vehicleAdj
+              : null;
 
           return (
             <button
@@ -200,6 +204,11 @@ function ServiceGroup({
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
+                    {displayCompareAt && (
+                      <span className={`text-lg font-semibold line-through ${isSelected ? 'text-white/40' : 'text-surface-400'}`}>
+                        {displayCompareAt}€
+                      </span>
+                    )}
                     <span className={`text-2xl font-black ${isSelected ? 'text-gold' : 'text-black'}`}>
                       {displayPrice}€
                     </span>

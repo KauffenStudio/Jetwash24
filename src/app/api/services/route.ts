@@ -21,6 +21,7 @@ const serviceSchema = z.object({
   includesPt: z.array(z.string()),
   includesEn: z.array(z.string()),
   price: z.number().positive(),
+  compareAtPrice: z.number().positive().optional(),
   duration: z.number().int().positive(),
   category: z.enum(['INTERIOR', 'EXTERIOR']),
   sortOrder: z.number().int().default(0),

@@ -96,6 +96,11 @@ export default function ServicesHubPage({
                       <div className="mt-6 flex items-center justify-between border-t border-surface-100 pt-5">
                         <p className="text-black">
                           <span className="text-xs text-surface-400">{isPt ? 'desde' : 'from'}</span>{' '}
+                          {service.compareAtPrice && service.compareAtPrice > service.fromPrice && (
+                            <span className="text-base font-semibold text-surface-400 line-through mr-1.5">
+                              {service.compareAtPrice}€
+                            </span>
+                          )}
                           <span className="text-2xl font-black">{service.fromPrice}€</span>
                         </p>
                         <span className="inline-flex items-center gap-2 text-sm font-bold text-black group-hover:text-gold transition-colors">

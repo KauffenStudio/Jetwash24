@@ -19,7 +19,7 @@ export default async function ServicesSection() {
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 100; // Interior Detalhada 45€ + Exterior Detalhada 55€
+  const originalPrice = 130; // Interior Detalhada 60€ + Exterior Detalhada 70€
   const saving = fullPackage ? originalPrice - fullPackage.price : 0;
 
   return (
@@ -147,10 +147,10 @@ export default async function ServicesSection() {
               <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <p className="text-white/30 text-xs">
                   {locale === 'pt' ? 'Interior Detalhada' : 'Detailed Interior'}{' '}
-                  <span className="line-through">45€</span>
+                  <span className="line-through">60€</span>
                   {' + '}
                   {locale === 'pt' ? 'Exterior Detalhada' : 'Detailed Exterior'}{' '}
-                  <span className="line-through">55€</span>
+                  <span className="line-through">70€</span>
                   {' = '}
                   <span className="line-through">{originalPrice}€</span>
                   {'  →  '}
@@ -197,7 +197,12 @@ function ServiceCard({ service, locale }: { service: ServiceRow; locale: string 
           <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>
         </div>
         <div className="flex items-center gap-2">
-          <p className="text-2xl font-black text-black">{service.price}€</p>
+          <p className="flex items-baseline gap-1.5">
+            {service.compareAtPrice && service.compareAtPrice > service.price && (
+              <span className="text-sm font-semibold text-surface-400 line-through">{service.compareAtPrice}€</span>
+            )}
+            <span className="text-2xl font-black text-black">{service.price}€</span>
+          </p>
           <svg className="opacity-0 group-hover:opacity-100 transition-opacity text-gold" width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

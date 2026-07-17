@@ -6,6 +6,7 @@ import { z } from 'zod';
 
 const updateSchema = z.object({
   price: z.number().positive().optional(),
+  compareAtPrice: z.number().positive().nullable().optional(),
   duration: z.number().int().positive().optional(),
   namePt: z.string().min(1).optional(),
   nameEn: z.string().min(1).optional(),

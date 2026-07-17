@@ -31,7 +31,7 @@ export default function ServiceStep({
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 130; // Interior Detalhada 60€ + Exterior Detalhada 70€
+  const originalPrice = 150; // Interior Detalhada 80€ + Exterior Detalhada 70€
 
   return (
     <div className="animate-slide-up">

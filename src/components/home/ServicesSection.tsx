@@ -19,7 +19,7 @@ export default async function ServicesSection() {
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 130; // Interior Detalhada 60€ + Exterior Detalhada 70€
+  const originalPrice = 150; // Interior Detalhada 80€ + Exterior Detalhada 70€
   const saving = fullPackage ? originalPrice - fullPackage.price : 0;
 
   return (
@@ -147,7 +147,7 @@ export default async function ServicesSection() {
               <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <p className="text-white/30 text-xs">
                   {locale === 'pt' ? 'Interior Detalhada' : 'Detailed Interior'}{' '}
-                  <span className="line-through">60€</span>
+                  <span className="line-through">80€</span>
                   {' + '}
                   {locale === 'pt' ? 'Exterior Detalhada' : 'Detailed Exterior'}{' '}
                   <span className="line-through">70€</span>

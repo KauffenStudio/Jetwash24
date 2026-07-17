@@ -369,8 +369,8 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'complete-package',
-    fromPrice: 100,
-    compareAtPrice: 110,
+    fromPrice: 140,
+    compareAtPrice: 150,
     durationLabelPt: '≈ 3 h',
     durationLabelEn: '≈ 3 h',
     pt: {

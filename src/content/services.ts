@@ -14,8 +14,10 @@ import type { FaqItem } from './faq';
 
 export type ServiceContent = {
   slug: string;
-  /** From-price in EUR (city-car base). */
+  /** From-price in EUR (city-car base) — the current "now" price. */
   fromPrice: number;
+  /** Optional crossed-out "before" price to show a promotional discount. */
+  compareAtPrice?: number;
   durationLabelPt: string;
   durationLabelEn: string;
   pt: ServiceCopy;
@@ -45,7 +47,8 @@ type ServiceCopy = {
 export const SERVICES: ServiceContent[] = [
   {
     slug: 'interior-detailing',
-    fromPrice: 15,
+    fromPrice: 40,
+    compareAtPrice: 50,
     durationLabelPt: '40 min – 3 h',
     durationLabelEn: '40 min – 3 h',
     pt: {
@@ -125,7 +128,8 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'exterior-detailing',
-    fromPrice: 15,
+    fromPrice: 30,
+    compareAtPrice: 40,
     durationLabelPt: '30 min – 1 h 30',
     durationLabelEn: '30 min – 1 h 30',
     pt: {
@@ -205,7 +209,8 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'headlight-restoration',
-    fromPrice: 30,
+    fromPrice: 45,
+    compareAtPrice: 55,
     durationLabelPt: '45 min – 1 h',
     durationLabelEn: '45 min – 1 h',
     pt: {
@@ -283,7 +288,8 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'paint-correction',
-    fromPrice: 90,
+    fromPrice: 105,
+    compareAtPrice: 115,
     durationLabelPt: '3 h+',
     durationLabelEn: '3 h+',
     pt: {
@@ -363,7 +369,8 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'complete-package',
-    fromPrice: 85,
+    fromPrice: 100,
+    compareAtPrice: 110,
     durationLabelPt: '≈ 3 h',
     durationLabelEn: '≈ 3 h',
     pt: {

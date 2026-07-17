@@ -8,7 +8,7 @@ export default function AdminServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<{ price: number; duration: number }>({ price: 0, duration: 0 });
+  const [editForm, setEditForm] = useState<{ price: number; compareAtPrice: number; duration: number }>({ price: 0, compareAtPrice: 0, duration: 0 });
 
   const fetchServices = async () => {
     const res = await fetch('/api/services');
@@ -21,14 +21,19 @@ export default function AdminServicesPage() {
 
   const startEdit = (service: Service) => {
     setEditingId(service.id);
-    setEditForm({ price: service.price, duration: service.duration });
+    setEditForm({ price: service.price, compareAtPrice: service.compareAtPrice ?? 0, duration: service.duration });
   };
 
   const saveEdit = async (id: string) => {
     await fetch(`/api/services/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editForm),
+      body: JSON.stringify({
+        price: editForm.price,
+        duration: editForm.duration,
+        // 0 (or blank) clears the "before" price
+        compareAtPrice: editForm.compareAtPrice > 0 ? editForm.compareAtPrice : null,
+      }),
     });
     setEditingId(null);
     fetchServices();
@@ -84,7 +89,17 @@ export default function AdminServicesPage() {
                   {isEditing ? (
                     <div className="flex items-center gap-3">
                       <div>
-                        <label className="block text-xs text-surface-400 mb-1">Preço (€)</label>
+                        <label className="block text-xs text-surface-400 mb-1">Preço antes (€)</label>
+                        <input
+                          type="number"
+                          value={editForm.compareAtPrice || ''}
+                          placeholder="—"
+                          onChange={(e) => setEditForm((f) => ({ ...f, compareAtPrice: Number(e.target.value) }))}
+                          className="w-20 px-2 py-1.5 border border-surface-300 rounded text-sm focus:outline-none focus:border-black"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-surface-400 mb-1">Preço agora (€)</label>
                         <input
                           type="number"
                           value={editForm.price}
@@ -119,7 +134,14 @@ export default function AdminServicesPage() {
                   ) : (
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className="text-xl font-black text-black">{formatPrice(service.price)}</p>
+                        <p className="text-xl font-black text-black">
+                          {service.compareAtPrice && service.compareAtPrice > service.price && (
+                            <span className="text-sm font-medium text-surface-400 line-through mr-2">
+                              {formatPrice(service.compareAtPrice)}
+                            </span>
+                          )}
+                          {formatPrice(service.price)}
+                        </p>
                         <p className="text-sm text-surface-500">{formatDurationLabel(service.duration, 'pt')}</p>
                       </div>
                       <div className="flex gap-2">

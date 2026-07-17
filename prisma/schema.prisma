@@ -116,7 +116,8 @@ model Service {
   includes      String[]
   includesPt    String[]
   includesEn    String[]
-  price         Float
+  price          Float
+  compareAtPrice Float?
   duration      Int
   category      ServiceCategory
   isActive      Boolean         @default(true)

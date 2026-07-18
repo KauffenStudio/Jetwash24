@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og';
 
 // Browser favicon. Brand palette (see tailwind.config.ts):
 // black #0A0A0A, white #FAFAFA, gold #C9A84C.
+// "JW" over "24" stacked so it stays legible and centred at 32px.
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 
@@ -13,18 +14,19 @@ export default function Icon() {
           height: '100%',
           width: '100%',
           display: 'flex',
-          alignItems: 'baseline',
+          flexDirection: 'column',
+          alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 15,
+          lineHeight: 1,
           fontWeight: 800,
-          letterSpacing: -0.5,
+          letterSpacing: -1,
           background:
             'linear-gradient(135deg, #0A0A0A 0%, #161616 60%, #0A0A0A 100%)',
-          borderRadius: 7,
+          borderRadius: 6,
         }}
       >
-        <span style={{ color: '#FAFAFA' }}>JW</span>
-        <span style={{ color: '#C9A84C' }}>24</span>
+        <span style={{ fontSize: 15, color: '#FAFAFA' }}>JW</span>
+        <span style={{ fontSize: 13, color: '#C9A84C' }}>24</span>
       </div>
     ),
     { ...size }

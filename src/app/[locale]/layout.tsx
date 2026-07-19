@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -17,6 +18,9 @@ const inter = Inter({
   variable: '--font-inter',
   display: 'swap',
 });
+
+/** Google tag (gtag.js) — shared by GA4 and Google Ads conversion tracking. */
+const GA_MEASUREMENT_ID = 'G-5CEH9TTQ3B';
 
 /** Per-locale SEO copy so each language version is indexed on its own terms. */
 const SEO = {
@@ -136,6 +140,19 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={inter.variable}>
       <body className={inter.className}>
+        {/* Google tag (gtag.js) */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <LocalBusinessSchema locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>

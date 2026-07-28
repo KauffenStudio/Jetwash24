@@ -2,7 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import { Service, VehicleSize } from '@/types';
-import { formatDurationLabel, getVehicleAdjustment } from '@/lib/utils';
+import { formatDurationLabel, getVehicleAdjustment, formatEuro } from '@/lib/utils';
 
 interface ServiceStepProps {
   services: Service[];
@@ -31,7 +31,7 @@ export default function ServiceStep({
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 150; // Interior Detalhada 80€ + Exterior Detalhada 70€
+  const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
 
   return (
     <div className="animate-slide-up">
@@ -96,11 +96,11 @@ export default function ServiceStep({
                 <div className="text-right flex-shrink-0">
                   {/* Saving pill */}
                   <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-gold rounded text-black text-[10px] font-black mb-1.5">
-                    -{originalPrice - fullPackage.price}€ {locale === 'pt' ? 'poupança' : 'saving'}
+                    -{formatEuro(originalPrice - fullPackage.price)}€ {locale === 'pt' ? 'poupança' : 'saving'}
                   </div>
                   <div className="flex items-baseline gap-2 justify-end">
-                    <span className="text-white/30 line-through text-sm">{originalPrice + vehicleAdj}€</span>
-                    <span className="text-3xl font-black text-gold">{fullPackage.price + vehicleAdj}€</span>
+                    <span className="text-white/30 line-through text-sm">{formatEuro(originalPrice + vehicleAdj)}€</span>
+                    <span className="text-3xl font-black text-gold">{formatEuro(fullPackage.price + vehicleAdj)}€</span>
                   </div>
 
                   {/* Selection indicator */}
@@ -206,11 +206,11 @@ function ServiceGroup({
                   <div className="flex items-center gap-3 mb-2">
                     {displayCompareAt && (
                       <span className={`text-lg font-semibold line-through ${isSelected ? 'text-white/40' : 'text-surface-400'}`}>
-                        {displayCompareAt}€
+                        {formatEuro(displayCompareAt)}€
                       </span>
                     )}
                     <span className={`text-2xl font-black ${isSelected ? 'text-gold' : 'text-black'}`}>
-                      {displayPrice}€
+                      {formatEuro(displayPrice)}€
                     </span>
                     <span className={`text-sm ${isSelected ? 'text-white/60' : 'text-surface-400'}`}>
                       {formatDurationLabel(service.duration, locale)}

@@ -78,12 +78,12 @@ export const SERVICE_OFFERS = [
   {
     namePt: 'Limpeza Interior Expresso',
     nameEn: 'Express Interior Refresh',
-    price: 15,
+    price: 39.9,
   },
   {
     namePt: 'Limpeza Interior Detalhada',
     nameEn: 'Detailed Interior Clean',
-    price: 45,
+    price: 79.9,
   },
   {
     namePt: 'Restauração Interior Premium',
@@ -93,16 +93,16 @@ export const SERVICE_OFFERS = [
   {
     namePt: 'Lavagem Exterior Express',
     nameEn: 'Express Exterior Wash',
-    price: 15,
+    price: 29.9,
   },
   {
     namePt: 'Limpeza Exterior Detalhada',
     nameEn: 'Detailed Exterior Clean',
-    price: 55,
+    price: 69.9,
   },
   {
     namePt: 'Pacote Completo',
     nameEn: 'Complete Package',
-    price: 85,
+    price: 139.9,
   },
 ] as const;

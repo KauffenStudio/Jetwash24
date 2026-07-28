@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
-import { formatDurationLabel } from '@/lib/utils';
+import { formatDurationLabel, formatEuro } from '@/lib/utils';
 
 async function getServices() {
   return prisma.service.findMany({
@@ -19,7 +19,7 @@ export default async function ServicesSection() {
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
-  const originalPrice = 150; // Interior Detalhada 80€ + Exterior Detalhada 70€
+  const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
   const saving = fullPackage ? originalPrice - fullPackage.price : 0;
 
   return (
@@ -110,15 +110,15 @@ export default async function ServicesSection() {
                 {/* Price block */}
                 <div className="sm:text-right flex-shrink-0">
                   <div className="flex sm:justify-end items-baseline gap-3 mb-2">
-                    <span className="text-white/35 line-through text-xl font-medium">{originalPrice}€</span>
-                    <span className="text-5xl font-black text-white">{fullPackage.price}€</span>
+                    <span className="text-white/35 line-through text-xl font-medium">{formatEuro(originalPrice)}€</span>
+                    <span className="text-5xl font-black text-white">{formatEuro(fullPackage.price)}€</span>
                   </div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-lg">
                     <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                       <path d="M2 6L4.5 8.5L10 3" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <span className="text-black text-xs font-black tracking-wide">
-                      {locale === 'pt' ? `POUPA ${saving}€` : `SAVE €${saving}`}
+                      {locale === 'pt' ? `POUPA ${formatEuro(saving)}€` : `SAVE €${formatEuro(saving)}`}
                     </span>
                   </div>
                 </div>
@@ -147,14 +147,14 @@ export default async function ServicesSection() {
               <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <p className="text-white/30 text-xs">
                   {locale === 'pt' ? 'Interior Detalhada' : 'Detailed Interior'}{' '}
-                  <span className="line-through">80€</span>
+                  <span className="line-through">79,90€</span>
                   {' + '}
                   {locale === 'pt' ? 'Exterior Detalhada' : 'Detailed Exterior'}{' '}
-                  <span className="line-through">70€</span>
+                  <span className="line-through">69,90€</span>
                   {' = '}
-                  <span className="line-through">{originalPrice}€</span>
+                  <span className="line-through">{formatEuro(originalPrice)}€</span>
                   {'  →  '}
-                  <span className="text-gold font-bold not-line-through">{locale === 'pt' ? 'Com pacote: ' : 'With package: '}{fullPackage.price}€</span>
+                  <span className="text-gold font-bold not-line-through">{locale === 'pt' ? 'Com pacote: ' : 'With package: '}{formatEuro(fullPackage.price)}€</span>
                 </p>
                 <Link
                   href={`/${locale}/booking?serviceId=${fullPackage.id}`}
@@ -199,9 +199,9 @@ function ServiceCard({ service, locale }: { service: ServiceRow; locale: string 
         <div className="flex items-center gap-2">
           <p className="flex items-baseline gap-1.5">
             {service.compareAtPrice && service.compareAtPrice > service.price && (
-              <span className="text-sm font-semibold text-surface-400 line-through">{service.compareAtPrice}€</span>
+              <span className="text-sm font-semibold text-surface-400 line-through">{formatEuro(service.compareAtPrice)}€</span>
             )}
-            <span className="text-2xl font-black text-black">{service.price}€</span>
+            <span className="text-2xl font-black text-black">{formatEuro(service.price)}€</span>
           </p>
           <svg className="opacity-0 group-hover:opacity-100 transition-opacity text-gold" width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

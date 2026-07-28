@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SERVICES } from '@/content/services';
+import { formatEuro } from '@/lib/utils';
 import { SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
 import TiltCard from '@/components/ui/TiltCard';
@@ -98,10 +99,10 @@ export default function ServicesHubPage({
                           <span className="text-xs text-surface-400">{isPt ? 'desde' : 'from'}</span>{' '}
                           {service.compareAtPrice && service.compareAtPrice > service.fromPrice && (
                             <span className="text-base font-semibold text-surface-400 line-through mr-1.5">
-                              {service.compareAtPrice}€
+                              {formatEuro(service.compareAtPrice)}€
                             </span>
                           )}
-                          <span className="text-2xl font-black">{service.fromPrice}€</span>
+                          <span className="text-2xl font-black">{formatEuro(service.fromPrice)}€</span>
                         </p>
                         <span className="inline-flex items-center gap-2 text-sm font-bold text-black group-hover:text-gold transition-colors">
                           {isPt ? 'Ver serviço' : 'View service'}

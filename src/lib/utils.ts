@@ -19,6 +19,17 @@ export function formatPrice(amount: number): string {
   }).format(amount);
 }
 
+/**
+ * Formats a euro amount for inline display next to a "€" sign.
+ * Whole numbers stay clean ("50"); non-round charm prices show two
+ * decimals with a comma ("39,90"). Used everywhere prices render as `{x}€`.
+ */
+export function formatEuro(amount: number): string {
+  return Number.isInteger(amount)
+    ? String(amount)
+    : amount.toFixed(2).replace('.', ',');
+}
+
 export function formatDate(date: Date | string, locale: string = 'pt'): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   return format(d, 'PPP', { locale: locale === 'pt' ? ptBR : undefined });

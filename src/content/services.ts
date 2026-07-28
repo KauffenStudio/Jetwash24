@@ -47,7 +47,7 @@ type ServiceCopy = {
 export const SERVICES: ServiceContent[] = [
   {
     slug: 'interior-detailing',
-    fromPrice: 40,
+    fromPrice: 39.9,
     compareAtPrice: 50,
     durationLabelPt: '40 min – 3 h',
     durationLabelEn: '40 min – 3 h',
@@ -128,7 +128,7 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'exterior-detailing',
-    fromPrice: 30,
+    fromPrice: 29.9,
     compareAtPrice: 40,
     durationLabelPt: '30 min – 1 h 30',
     durationLabelEn: '30 min – 1 h 30',
@@ -209,7 +209,7 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'headlight-restoration',
-    fromPrice: 45,
+    fromPrice: 44.9,
     compareAtPrice: 55,
     durationLabelPt: '45 min – 1 h',
     durationLabelEn: '45 min – 1 h',
@@ -288,7 +288,7 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'paint-correction',
-    fromPrice: 105,
+    fromPrice: 104.9,
     compareAtPrice: 115,
     durationLabelPt: '3 h+',
     durationLabelEn: '3 h+',
@@ -369,7 +369,7 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'complete-package',
-    fromPrice: 140,
+    fromPrice: 139.9,
     compareAtPrice: 150,
     durationLabelPt: '≈ 3 h',
     durationLabelEn: '≈ 3 h',

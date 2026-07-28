@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getLocation, LOCATION_SLUGS, LOCATIONS } from '@/content/locations';
 import { SERVICES } from '@/content/services';
+import { formatEuro } from '@/lib/utils';
 import { getArticle } from '@/content/blog';
 import { BUSINESS, SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
@@ -211,7 +212,7 @@ export default function LocationPage({
                     <div className="mt-6 flex items-center justify-between border-t border-surface-100 pt-5">
                       <p className="text-black">
                         <span className="text-xs text-surface-400">{isPt ? 'desde' : 'from'}</span>{' '}
-                        <span className="text-2xl font-black">{service.fromPrice}€</span>
+                        <span className="text-2xl font-black">{formatEuro(service.fromPrice)}€</span>
                       </p>
                       <span className="inline-flex items-center gap-2 text-sm font-bold text-black group-hover:text-gold transition-colors">
                         {isPt ? 'Ver serviço' : 'View service'}

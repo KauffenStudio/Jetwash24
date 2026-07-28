@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getService, SERVICE_SLUGS } from '@/content/services';
+import { formatEuro } from '@/lib/utils';
 import { SORTED_ARTICLES } from '@/content/blog';
 import { SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
@@ -102,9 +103,9 @@ export default function ServicePage({
               <p className="text-white/70">
                 <span className="text-xs text-white/40">{isPt ? 'desde' : 'from'}</span>{' '}
                 {service.compareAtPrice && service.compareAtPrice > service.fromPrice && (
-                  <span className="text-xl font-semibold text-white/35 line-through">{service.compareAtPrice}€</span>
+                  <span className="text-xl font-semibold text-white/35 line-through">{formatEuro(service.compareAtPrice)}€</span>
                 )}{' '}
-                <span className="text-3xl font-black text-white">{service.fromPrice}€</span>{' '}
+                <span className="text-3xl font-black text-white">{formatEuro(service.fromPrice)}€</span>{' '}
                 <span className="text-sm text-white/40">· {isPt ? service.durationLabelPt : service.durationLabelEn}</span>
               </p>
             </div>

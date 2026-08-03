@@ -23,7 +23,7 @@ const ADJUSTMENT_LABELS: Record<VehicleSize, string> = {
   MEDIUM: '+10€',
   SUV: '+20€',
   LARGE: '+30€',
-  SUPERCAR: '+30€',
+  SUPERCAR: '+50€',
 };
 
 export default function VehicleStep({ selectedSize, onSelect }: VehicleStepProps) {

@@ -6,7 +6,7 @@ export const VEHICLE_ADJUSTMENTS: Record<string, number> = {
   MEDIUM: 10,
   SUV: 20,
   LARGE: 30,
-  SUPERCAR: 30,
+  SUPERCAR: 50,
 };
 
 export function getVehicleAdjustment(vehicleSize: string): number {

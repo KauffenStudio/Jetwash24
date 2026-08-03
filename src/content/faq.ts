@@ -37,7 +37,7 @@ export const HOME_FAQ: LocalizedFaq = {
     },
     {
       q: 'O preço muda consoante o tamanho do carro?',
-      a: 'Sim. Os preços base são para citadinos. Acresce +10€ para carros médios, +20€ para SUV e +30€ para carros grandes/comerciais e supercarros, devido ao tempo e produto adicionais.',
+      a: 'Sim. Os preços base são para citadinos. Acresce +10€ para carros médios, +20€ para SUV, +30€ para carros grandes/comerciais e +50€ para supercarros, devido ao tempo e produto adicionais.',
     },
     {
       q: 'Os produtos são seguros para o meu carro?',
@@ -63,7 +63,7 @@ export const HOME_FAQ: LocalizedFaq = {
     },
     {
       q: 'Does the price depend on car size?',
-      a: 'Yes. Base prices are for city cars. Add +€10 for medium cars, +€20 for SUVs and +€30 for large/commercial vehicles and supercars, reflecting the extra time and product.',
+      a: 'Yes. Base prices are for city cars. Add +€10 for medium cars, +€20 for SUVs, +€30 for large/commercial vehicles and +€50 for supercars, reflecting the extra time and product.',
     },
     {
       q: 'Are the products safe for my car?',

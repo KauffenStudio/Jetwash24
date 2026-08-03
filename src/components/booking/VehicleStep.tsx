@@ -15,6 +15,7 @@ const VEHICLES: { size: VehicleSize; examples: string; image: string }[] = [
   { size: 'MEDIUM', examples: 'Golf, 308, Focus, Civic', image: '/vehicles/medium.png' },
   { size: 'SUV', examples: 'X3, Qashqai, CR-V, Tiguan', image: '/vehicles/suv.png' },
   { size: 'LARGE', examples: 'Transit, Sprinter, Ducato', image: '/vehicles/van.png' },
+  { size: 'SUPERCAR', examples: 'Ferrari, Lamborghini, Porsche, McLaren', image: '/vehicles/supercar.png' },
 ];
 
 const ADJUSTMENT_LABELS: Record<VehicleSize, string> = {
@@ -22,6 +23,7 @@ const ADJUSTMENT_LABELS: Record<VehicleSize, string> = {
   MEDIUM: '+10€',
   SUV: '+20€',
   LARGE: '+30€',
+  SUPERCAR: '+30€',
 };
 
 export default function VehicleStep({ selectedSize, onSelect }: VehicleStepProps) {

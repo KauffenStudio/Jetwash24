@@ -65,7 +65,7 @@ export default async function ServicesSection() {
 
         {/* Vehicle size note */}
         <p className="text-center text-surface-400 text-xs mb-12">
-          * {t('vehicleAdjustment')} (+5€ {locale === 'pt' ? 'Médio' : 'Medium'} / +10€ SUV / +15€ {locale === 'pt' ? 'Grande' : 'Large'})
+          * {t('vehicleAdjustment')} (+10€ {locale === 'pt' ? 'Médio' : 'Medium'} / +20€ SUV / +30€ {locale === 'pt' ? 'Grande / Supercarro' : 'Large / Supercar'})
         </p>
 
         {/* ── Pacote Completo — full-width featured card ─────────────────── */}

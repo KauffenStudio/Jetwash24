@@ -59,11 +59,13 @@
     "MEDIUM": "Medium Car",
     "SUV": "SUV",
     "LARGE": "Large Vehicle",
+    "SUPERCAR": "Supercar",
     "adjustments": {
       "SMALL": "No extra charge",
       "MEDIUM": "+€10",
       "SUV": "+€20",
-      "LARGE": "+€30"
+      "LARGE": "+€30",
+      "SUPERCAR": "+€30"
     }
   },
   "gallery": {

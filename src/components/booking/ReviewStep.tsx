@@ -16,6 +16,7 @@ const VEHICLE_LABELS: Record<string, { pt: string; en: string }> = {
   MEDIUM: { pt: 'Carro Médio', en: 'Medium Car' },
   SUV: { pt: 'SUV', en: 'SUV' },
   LARGE: { pt: 'Veículo Grande', en: 'Large Vehicle' },
+  SUPERCAR: { pt: 'Supercarro', en: 'Supercar' },
 };
 
 export default function ReviewStep({ state, onConfirm, onBack }: ReviewStepProps) {

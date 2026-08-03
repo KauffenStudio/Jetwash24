@@ -3,9 +3,10 @@ import { ptBR } from 'date-fns/locale';
 
 export const VEHICLE_ADJUSTMENTS: Record<string, number> = {
   SMALL: 0,
-  MEDIUM: 5,
-  SUV: 10,
-  LARGE: 15,
+  MEDIUM: 10,
+  SUV: 20,
+  LARGE: 30,
+  SUPERCAR: 30,
 };
 
 export function getVehicleAdjustment(vehicleSize: string): number {

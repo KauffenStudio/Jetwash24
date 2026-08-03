@@ -17,6 +17,7 @@ export default function BookingSummary({ state }: BookingSummaryProps) {
     MEDIUM: locale === 'pt' ? 'Carro Médio' : 'Medium Car',
     SUV: 'SUV',
     LARGE: locale === 'pt' ? 'Veículo Grande' : 'Large Vehicle',
+    SUPERCAR: locale === 'pt' ? 'Supercarro' : 'Supercar',
   };
 
   const serviceName = state.service

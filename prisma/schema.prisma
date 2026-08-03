@@ -166,4 +166,5 @@ enum VehicleSize {
   MEDIUM
   SUV
   LARGE
+  SUPERCAR
 }

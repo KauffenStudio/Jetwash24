@@ -25,7 +25,7 @@ const customerSchema = z.object({
 });
 
 const createBookingSchema = z.object({
-  vehicleSize: z.enum(['SMALL', 'MEDIUM', 'SUV', 'LARGE']),
+  vehicleSize: z.enum(['SMALL', 'MEDIUM', 'SUV', 'LARGE', 'SUPERCAR']),
   serviceId: z.string().min(1),
   addonIds: z.array(z.string()),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),

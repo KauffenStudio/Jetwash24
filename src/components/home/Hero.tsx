@@ -58,7 +58,11 @@ export default function Hero() {
 
         {/* Main headline */}
         <h1
-          className="text-5xl sm:text-7xl md:text-8xl font-black text-white leading-[0.92] tracking-tight mb-8 animate-slide-up"
+          className={`${
+            locale === 'pt'
+              ? 'text-4xl sm:text-6xl md:text-7xl'
+              : 'text-5xl sm:text-7xl md:text-8xl'
+          } font-black text-white leading-[0.92] tracking-tight mb-8 animate-slide-up`}
           style={{ textShadow: '0 4px 40px rgba(0,0,0,0.6)' }}
         >
           {t('headline')}

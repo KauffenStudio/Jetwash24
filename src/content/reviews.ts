@@ -45,6 +45,13 @@ export const REVIEWS: Review[] = [
     textEn:
       'Great conditions. They leave our car perfect, with no marks. Highly recommend, to both residents and visitors of the Algarve.',
   },
+  {
+    author: 'David Hildebrandt',
+    rating: 5,
+    date: '2026-08-07',
+    textPt: 'Muito satisfeito com o serviço e recomendo vivamente.',
+    textEn: 'Very happy with the service and highly recommend it.',
+  },
 ];
 
 export const HAS_REVIEWS = REVIEWS.length > 0;

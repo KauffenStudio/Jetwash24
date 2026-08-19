@@ -2,7 +2,8 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import { Service, VehicleSize } from '@/types';
-import { formatDurationLabel, getVehicleAdjustment, formatEuro } from '@/lib/utils';
+import { discountPercent, formatDurationLabel, getVehicleAdjustment, formatEuro } from '@/lib/utils';
+import DiscountBadge from '@/components/ui/DiscountBadge';
 
 interface ServiceStepProps {
   services: Service[];
@@ -190,6 +191,9 @@ function ServiceGroup({
             service.compareAtPrice && service.compareAtPrice > service.price
               ? service.compareAtPrice + vehicleAdj
               : null;
+          // Derived from the prices actually shown: the vehicle surcharge applies
+          // to both, so the percentage on screen always matches the numbers on screen.
+          const discount = discountPercent(displayPrice, displayCompareAt);
 
           return (
             <button
@@ -212,6 +216,9 @@ function ServiceGroup({
                     <span className={`text-2xl font-black ${isSelected ? 'text-gold' : 'text-black'}`}>
                       {formatEuro(displayPrice)}€
                     </span>
+                    {discount !== null && (
+                      <DiscountBadge percent={discount} variant={isSelected ? 'dark' : 'light'} />
+                    )}
                     <span className={`text-sm ${isSelected ? 'text-white/60' : 'text-surface-400'}`}>
                       {formatDurationLabel(service.duration, locale)}
                     </span>

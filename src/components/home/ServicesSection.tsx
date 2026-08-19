@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
-import { formatDurationLabel, formatEuro } from '@/lib/utils';
+import { discountPercent, formatDurationLabel, formatEuro } from '@/lib/utils';
+import DiscountBadge from '@/components/ui/DiscountBadge';
 
 async function getServices() {
   return prisma.service.findMany({
@@ -21,6 +22,7 @@ export default async function ServicesSection() {
 
   const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
   const saving = fullPackage ? originalPrice - fullPackage.price : 0;
+  const packageDiscount = fullPackage ? discountPercent(fullPackage.price, originalPrice) : null;
 
   return (
     <section id="services" className="py-24 bg-white">
@@ -119,6 +121,7 @@ export default async function ServicesSection() {
                     </svg>
                     <span className="text-black text-xs font-black tracking-wide">
                       {locale === 'pt' ? `POUPA ${formatEuro(saving)}€` : `SAVE €${formatEuro(saving)}`}
+                      {packageDiscount !== null && ` · −${packageDiscount}%`}
                     </span>
                   </div>
                 </div>
@@ -185,6 +188,7 @@ type ServiceRow = Awaited<ReturnType<typeof getServices>>[0];
 function ServiceCard({ service, locale }: { service: ServiceRow; locale: string }) {
   const name = locale === 'pt' ? service.namePt : service.nameEn;
   const includes = locale === 'pt' ? service.includesPt : service.includesEn;
+  const discount = discountPercent(service.price, service.compareAtPrice);
 
   return (
     <Link
@@ -193,7 +197,10 @@ function ServiceCard({ service, locale }: { service: ServiceRow; locale: string 
     >
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h4 className="font-bold text-black text-base group-hover:text-gold transition-colors">{name}</h4>
+          <div className="flex items-center gap-2">
+            <h4 className="font-bold text-black text-base group-hover:text-gold transition-colors">{name}</h4>
+            {discount !== null && <DiscountBadge percent={discount} />}
+          </div>
           <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>
         </div>
         <div className="flex items-center gap-2">

@@ -31,6 +31,23 @@ export function formatEuro(amount: number): string {
     : amount.toFixed(2).replace('.', ',');
 }
 
+/**
+ * Discount percentage between a crossed-out "before" price and the price now,
+ * e.g. 50 → 39.90 gives 20 (rendered as "-20%").
+ *
+ * Rounds DOWN on purpose: an advertised percentage must never claim more than
+ * the customer actually saves. Returns null when there is no real discount, so
+ * callers can simply skip the badge.
+ */
+export function discountPercent(
+  price: number,
+  compareAtPrice?: number | null
+): number | null {
+  if (!compareAtPrice || compareAtPrice <= price) return null;
+  const pct = Math.floor(((compareAtPrice - price) / compareAtPrice) * 100);
+  return pct > 0 ? pct : null;
+}
+
 export function formatDate(date: Date | string, locale: string = 'pt'): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   return format(d, 'PPP', { locale: locale === 'pt' ? ptBR : undefined });

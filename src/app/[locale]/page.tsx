@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Hero from '@/components/home/Hero';
 import ServicesSection from '@/components/home/ServicesSection';
+import WhyChooseUs from '@/components/home/WhyChooseUs';
 import GallerySection from '@/components/home/GallerySection';
 import BookingCTA from '@/components/home/BookingCTA';
 import LocationSection from '@/components/home/LocationSection';
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>
+      <WhyChooseUs />
       <Suspense fallback={<SectionSkeleton dark />}>
         <GallerySection />
       </Suspense>

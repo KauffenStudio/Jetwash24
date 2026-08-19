@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SERVICES } from '@/content/services';
-import { formatEuro } from '@/lib/utils';
+import { discountPercent, formatEuro } from '@/lib/utils';
+import DiscountBadge from '@/components/ui/DiscountBadge';
 import { SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
 import TiltCard from '@/components/ui/TiltCard';
@@ -75,6 +76,7 @@ export default function ServicesHubPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {SERVICES.map((service, i) => {
               const copy = isPt ? service.pt : service.en;
+              const discount = discountPercent(service.fromPrice, service.compareAtPrice);
               return (
                 <Reveal key={service.slug} delay={i * 70}>
                   <TiltCard className="h-full rounded-2xl">
@@ -83,8 +85,11 @@ export default function ServicesHubPage({
                       className="group flex h-full flex-col rounded-2xl border border-surface-200 bg-white p-7 transition-colors duration-200 hover:border-black"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">
-                          {copy.eyebrow}
+                        <span className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">
+                            {copy.eyebrow}
+                          </span>
+                          {discount !== null && <DiscountBadge percent={discount} />}
                         </span>
                         <span className="text-sm text-surface-400">
                           {isPt ? service.durationLabelPt : service.durationLabelEn}

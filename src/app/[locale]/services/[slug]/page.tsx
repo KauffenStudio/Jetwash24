@@ -3,7 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getService, SERVICE_SLUGS } from '@/content/services';
-import { formatEuro } from '@/lib/utils';
+import { discountPercent, formatEuro } from '@/lib/utils';
+import DiscountBadge from '@/components/ui/DiscountBadge';
 import { SORTED_ARTICLES } from '@/content/blog';
 import { SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
@@ -57,6 +58,7 @@ export default function ServicePage({
 
   const isPt = locale === 'pt';
   const copy = isPt ? service.pt : service.en;
+  const heroDiscount = discountPercent(service.fromPrice, service.compareAtPrice);
   const related = SORTED_ARTICLES.filter((a) => a.relatedService === slug).slice(0, 2);
 
   return (
@@ -106,6 +108,7 @@ export default function ServicePage({
                   <span className="text-xl font-semibold text-white/35 line-through">{formatEuro(service.compareAtPrice)}€</span>
                 )}{' '}
                 <span className="text-3xl font-black text-white">{formatEuro(service.fromPrice)}€</span>{' '}
+                {heroDiscount !== null && <DiscountBadge percent={heroDiscount} variant="dark" className="align-middle" />}{' '}
                 <span className="text-sm text-white/40">· {isPt ? service.durationLabelPt : service.durationLabelEn}</span>
               </p>
             </div>

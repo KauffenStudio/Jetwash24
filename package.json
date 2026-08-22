@@ -11,7 +11,8 @@
     "db:migrate": "prisma migrate deploy",
     "db:seed": "ts-node prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "seo:indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.4.2",

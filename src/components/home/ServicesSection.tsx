@@ -18,6 +18,7 @@ export default async function ServicesSection() {
 
   const interior = services.filter((s) => s.category === 'INTERIOR');
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
+  const polishing = services.filter((s) => s.category === 'POLISHING');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
   const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
@@ -64,6 +65,22 @@ export default async function ServicesSection() {
             </div>
           </div>
         </div>
+
+        {/* ── Polimento — full-width row, two tiers side by side ─────────── */}
+        {polishing.length > 0 && (
+          <div className="mb-6">
+            <p className="text-sm font-black tracking-[0.2em] uppercase text-black mb-4 flex items-center gap-3">
+              <span className="flex-1 h-px bg-surface-200" />
+              {t('polishing')}
+              <span className="flex-1 h-px bg-surface-200" />
+            </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-4">
+              {polishing.map((service) => (
+                <ServiceCard key={service.id} service={service} locale={locale} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Vehicle size note */}
         <p className="text-center text-surface-400 text-xs mb-12">

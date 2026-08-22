@@ -4,6 +4,13 @@
  * Rendered on-page (FaqSection / service pages) AND emitted as FAQPage
  * structured data. Google requires the markup to match visible content,
  * so these two uses MUST share this single source.
+ *
+ * ANSWER LENGTH: aim for 40–60 words per answer. Generative engines quote
+ * passages they can lift whole; an answer under ~40 words usually lacks the
+ * context to stand alone in a citation, and one over ~60 gets truncated.
+ * Every answer should also carry at least one concrete fact — a price, a
+ * duration, an address, a measurement — because quantified passages are the
+ * ones that get cited. Never add a number here that isn't true.
  */
 
 export type FaqItem = {
@@ -21,53 +28,77 @@ export const HOME_FAQ: LocalizedFaq = {
   pt: [
     {
       q: 'Onde fica a JetWash24?',
-      a: 'Estamos na N125, em Guia, Albufeira — a 3 minutos a pé do Algarve Shopping. Tem estacionamento fácil e pode esperar pelo seu carro num espaço confortável.',
+      a: 'A JetWash24 fica na N125, em Guia, Albufeira (8800-076), a 3 minutos a pé do Algarve Shopping. Estamos abertos todos os dias das 09:00 às 17:00, incluindo fins de semana e feriados. O estacionamento é fácil e pode esperar pelo seu carro num espaço confortável ou combinar a recolha mais tarde.',
     },
     {
       q: 'Preciso de marcar com antecedência?',
-      a: 'Recomendamos reservar online para garantir horário, sobretudo no verão. Aceitamos também sem marcação consoante a disponibilidade do dia. A reserva online demora menos de 2 minutos.',
+      a: 'Recomendamos reservar online para garantir horário, sobretudo no verão, quando a procura é maior. A reserva demora menos de 2 minutos e fica confirmada com um sinal de 5€, que é descontado no valor final do serviço. Também aceitamos clientes sem marcação, consoante a disponibilidade do dia.',
     },
     {
       q: 'Quanto tempo demora uma lavagem completa?',
-      a: 'Uma lavagem exterior expresso demora cerca de 30 minutos; o Pacote Completo (interior + exterior detalhado) demora cerca de 3 horas. Cada serviço indica a duração estimada no momento da reserva.',
+      a: 'Depende do serviço. A Lavagem Exterior Express demora cerca de 30 minutos e a Limpeza Interior Expresso 40 minutos. Os serviços detalhados levam entre 1h30 e 2 horas, e o Pacote Completo, que junta interior e exterior, cerca de 3 horas. Cada serviço mostra a duração estimada no momento da reserva.',
+    },
+    {
+      q: 'Quanto custa polir um carro na JetWash24?',
+      a: 'O Polimento de Brilho começa em 149€ e demora cerca de 2h30: é uma fase de máquina que devolve brilho à pintura e atenua marcas de lavagem. A Correção de Pintura, em duas fases, começa em 249€ e demora cerca de 5 horas, removendo swirls e riscos ligeiros do verniz.',
+    },
+    {
+      q: 'Qual a diferença entre uma lavagem e um detailing?',
+      a: 'Uma lavagem remove a sujidade à superfície e demora 30 a 40 minutos. Um detailing trata cada material com o produto certo — extração de manchas nos tecidos, hidratação do couro, descontaminação e proteção da pintura — e demora de 1h30 a 3 horas. A lavagem mantém o carro; o detailing recupera-o.',
+    },
+    {
+      q: 'Removem areia da praia e pelos de animais?',
+      a: 'Sim. A areia é o problema mais comum no Algarve e sai com aspiração profunda, já incluída em qualquer serviço de interior a partir de 39,90€. Os pelos de animal exigem ferramentas próprias e trabalho manual que o aspirador não resolve sozinho, por isso são um extra de 12€.',
     },
     {
       q: 'Que formas de pagamento aceitam?',
-      a: 'Aceitamos dinheiro, cartão de crédito/débito e MB Way. O pagamento é feito no local, no fim do serviço.',
+      a: 'Aceitamos dinheiro, cartão de crédito e débito, e MB Way. Se reservar online, paga apenas um sinal de 5€ por cartão no momento da reserva; o restante é pago no local, no fim do serviço. Pode pedir fatura com NIF — basta indicá-lo na altura do pagamento.',
     },
     {
       q: 'O preço muda consoante o tamanho do carro?',
-      a: 'Sim. Os preços base são para citadinos. Acresce +10€ para carros médios, +20€ para SUV, +30€ para carros grandes/comerciais e +50€ para supercarros, devido ao tempo e produto adicionais.',
+      a: 'Sim. Os preços indicados são a base, para citadinos. Acresce 10€ para carros médios, 20€ para SUV, 30€ para carros grandes e comerciais, e 50€ para supercarros. O acréscimo reflete o tempo e a quantidade de produto que um carro maior exige. O valor final aparece antes de confirmar a reserva.',
     },
     {
       q: 'Os produtos são seguros para o meu carro?',
-      a: 'Usamos exclusivamente produtos profissionais com pH equilibrado, seguros para pintura, plásticos, couro e vidros. Nada de escovas agressivas que risquem a pintura — técnica de lavagem a duas baldes e microfibras.',
+      a: 'Sim. Usamos apenas produtos profissionais de pH equilibrado, seguros para pintura, plásticos, couro e vidros. Nunca usamos escovas de rolo, que são a principal causa de micro-riscos: lavamos à mão pelo método dos dois baldes, com luvas de microfibra, e secamos com toalhas próprias para não marcar o verniz.',
     },
   ],
   en: [
     {
       q: 'Where is JetWash24 located?',
-      a: 'We are on the N125 in Guia, Albufeira — a 3-minute walk from Algarve Shopping. Parking is easy and you can wait for your car in a comfortable space.',
+      a: 'JetWash24 is on the N125 in Guia, Albufeira (8800-076), a 3-minute walk from Algarve Shopping. We are open every day from 09:00 to 17:00, including weekends and public holidays. Parking is easy and you can wait for your car in a comfortable space or arrange a later pickup.',
     },
     {
       q: 'Do I need to book in advance?',
-      a: 'We recommend booking online to secure your slot, especially in summer. We also accept walk-ins subject to daily availability. Booking online takes under 2 minutes.',
+      a: 'We recommend booking online to secure your slot, especially in summer when demand is highest. Booking takes under 2 minutes and is confirmed with a 5€ deposit, which is deducted from the final price of the service. We also accept walk-ins, subject to availability on the day.',
     },
     {
       q: 'How long does a full detail take?',
-      a: 'An express exterior wash takes about 30 minutes; the Complete Package (detailed interior + exterior) takes around 3 hours. Each service shows its estimated duration when you book.',
+      a: 'It depends on the service. The Express Exterior Wash takes about 30 minutes and the Express Interior Refresh 40 minutes. The detailed services take between 1h30 and 2 hours, and the Complete Package, which combines interior and exterior, around 3 hours. Each service shows its estimated duration when you book.',
+    },
+    {
+      q: 'How much does it cost to polish a car at JetWash24?',
+      a: 'The Gloss Polish starts at €149 and takes about 2h30: a single machine stage that brings gloss back to the paint and softens wash marks. Paint Correction, in two stages, starts at €249 and takes around 5 hours, removing swirls and light scratches from the clear coat.',
+    },
+    {
+      q: 'What is the difference between a wash and a detail?',
+      a: 'A wash removes surface dirt and takes 30 to 40 minutes. A detail treats each material with the right product — stain extraction from fabric, leather conditioning, decontamination and paint protection — and takes from 1h30 to 3 hours. A wash maintains the car; a detail brings it back.',
+    },
+    {
+      q: 'Do you remove beach sand and pet hair?',
+      a: 'Yes. Sand is the most common problem in the Algarve and comes out with the deep vacuum already included in any interior service from €39.90. Pet hair needs dedicated tools and hand work that a vacuum alone will not solve, so it is a €12 add-on.',
     },
     {
       q: 'Which payment methods do you accept?',
-      a: 'We accept cash, credit/debit card and MB Way. Payment is made on-site once the service is finished.',
+      a: 'We accept cash, credit and debit card, and MB Way. If you book online you pay only a €5 deposit by card at the time of booking; the balance is paid on-site once the service is finished. You can request an invoice with your tax number when you pay.',
     },
     {
       q: 'Does the price depend on car size?',
-      a: 'Yes. Base prices are for city cars. Add +€10 for medium cars, +€20 for SUVs, +€30 for large/commercial vehicles and +€50 for supercars, reflecting the extra time and product.',
+      a: 'Yes. The listed prices are the base, for city cars. Add €10 for medium cars, €20 for SUVs, €30 for large and commercial vehicles, and €50 for supercars. The surcharge reflects the extra time and product a bigger car needs. The final price is shown before you confirm the booking.',
     },
     {
       q: 'Are the products safe for my car?',
-      a: 'We use only professional, pH-balanced products that are safe for paint, plastics, leather and glass. No aggressive brushes that scratch paint — we use the two-bucket method and microfibre towels.',
+      a: 'Yes. We use only professional, pH-balanced products that are safe on paint, plastics, leather and glass. We never use roller brushes, the main cause of micro-scratches: we wash by hand using the two-bucket method with microfibre mitts, and dry with dedicated towels so the clear coat is not marked.',
     },
   ],
 };

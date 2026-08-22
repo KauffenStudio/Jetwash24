@@ -30,6 +30,7 @@ export default function ServiceStep({
   const vehicleAdj = vehicleSize ? getVehicleAdjustment(vehicleSize) : 0;
   const interior = services.filter((s) => s.category === 'INTERIOR');
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
+  const polishing = services.filter((s) => s.category === 'POLISHING');
   const fullPackage = services.find((s) => s.category === 'FULL');
 
   const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
@@ -59,6 +60,19 @@ export default function ServiceStep({
         onSelect={onSelect}
         className="mt-8"
       />
+
+      {/* Polimento */}
+      {polishing.length > 0 && (
+        <ServiceGroup
+          label={tServices('polishing')}
+          services={polishing}
+          selectedServiceId={selectedServiceId}
+          vehicleAdj={vehicleAdj}
+          locale={locale}
+          onSelect={onSelect}
+          className="mt-8"
+        />
+      )}
 
       {/* ── Pacote Completo ────────────────────────────────────────────── */}
       {fullPackage && (

@@ -67,6 +67,7 @@ export default function LocalBusinessSchema({ locale }: { locale: string }) {
         '@type': 'Offer',
         priceCurrency: 'EUR',
         price: service.price,
+        availability: 'https://schema.org/InStock',
         priceSpecification: {
           '@type': 'PriceSpecification',
           minPrice: service.price,
@@ -75,6 +76,9 @@ export default function LocalBusinessSchema({ locale }: { locale: string }) {
         itemOffered: {
           '@type': 'Service',
           name: isPt ? service.namePt : service.nameEn,
+          // Ties each catalogue entry to the page that describes it, so the
+          // offer and the Service node on that page resolve to one entity.
+          url: `${SITE_URL}/${locale}/services/${service.slug}`,
         },
       })),
     },

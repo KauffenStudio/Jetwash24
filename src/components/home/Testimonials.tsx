@@ -1,7 +1,6 @@
 import { getLocale } from 'next-intl/server';
 import { REVIEWS, HAS_REVIEWS } from '@/content/reviews';
 import { BUSINESS } from '@/lib/seo/business';
-import ReviewSchema from '@/components/seo/ReviewSchema';
 import Reveal from '@/components/ui/Reveal';
 
 function Stars({ rating }: { rating: number }) {
@@ -31,7 +30,6 @@ export default async function Testimonials() {
 
   return (
     <section className="bg-surface-50 py-24">
-      <ReviewSchema locale={locale} />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal className="text-center mb-14">
           <p className="text-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">

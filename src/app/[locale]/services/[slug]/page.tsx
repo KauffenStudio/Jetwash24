@@ -10,6 +10,7 @@ import { SITE_URL } from '@/lib/seo/business';
 import Reveal from '@/components/ui/Reveal';
 import Spotlight from '@/components/ui/Spotlight';
 import FaqAccordion from '@/components/ui/FaqAccordion';
+import ServiceQuickFacts from '@/components/ui/ServiceQuickFacts';
 import ServiceSchema from '@/components/seo/ServiceSchema';
 import FaqSchema from '@/components/seo/FaqSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -115,6 +116,9 @@ export default function ServicePage({
           </Reveal>
         </div>
       </Spotlight>
+
+      {/* Extractable summary — first content block after the hero, on purpose */}
+      <ServiceQuickFacts service={service} locale={locale} />
 
       {/* Intro */}
       <section className="bg-white py-20 sm:py-24">

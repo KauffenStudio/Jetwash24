@@ -105,6 +105,16 @@ export function generateMetadata({
       index: true,
       follow: true,
     },
+    // Bing Webmaster Tools site ownership. Set BING_SITE_VERIFICATION in Vercel
+    // to the code Bing gives you (the value of the `content` attribute, not the
+    // whole tag) and redeploy; the tag is omitted entirely when unset so we
+    // never ship an empty meta. Not needed if you verify by importing from
+    // Google Search Console, which carries ownership across automatically.
+    ...(process.env.BING_SITE_VERIFICATION && {
+      verification: {
+        other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION },
+      },
+    }),
   };
 }
 

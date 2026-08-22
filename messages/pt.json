@@ -43,6 +43,7 @@
     "subtitle": "Escolha o serviço ideal para o seu veículo",
     "interior": "Interior",
     "exterior": "Exterior",
+    "polishing": "Polimento",
     "addons": "Extras",
     "duration": "Duração",
     "includes": "Inclui",
@@ -51,7 +52,9 @@
     "vehicleAdjustment": "Preço varia consoante o tamanho do veículo",
     "categories": {
       "INTERIOR": "Interior",
-      "EXTERIOR": "Exterior"
+      "EXTERIOR": "Exterior",
+      "POLISHING": "Polimento",
+      "FULL": "Pacote"
     }
   },
   "vehicleSizes": {

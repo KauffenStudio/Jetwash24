@@ -80,11 +80,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Conseguem tirar manchas antigas dos bancos?',
-          a: 'Na maioria dos casos, sim. Usamos extração por injeção que remove manchas de café, lama e gordura entranhadas. Manchas muito antigas podem aliviar sem sair a 100% — avaliamos sempre antes.',
+          a: 'Na maioria dos casos, sim. Usamos extração por injeção, que empurra solução de limpeza para dentro do tecido e volta a aspirá-la, removendo café, lama e gordura entranhados. Manchas com anos, tinta ou lixívia podem aliviar sem sair a 100% — avaliamos o estado dos bancos antes de começar e dizemos-lhe o que é realista esperar.',
         },
         {
           q: 'Quanto tempo demora a secar?',
-          a: 'Com a extração, os tecidos ficam ligeiramente húmidos durante 2 a 4 horas. No verão seca mais rápido. Entregamos o carro pronto a usar.',
+          a: 'Depois da extração, os tecidos ficam ligeiramente húmidos durante 2 a 4 horas. No verão algarvio, com as janelas abertas, seca mais perto das 2 horas; no inverno pode chegar às 4. Entregamos sempre o carro pronto a usar — não precisa de esperar que seque para conduzir.',
         },
       ],
     },
@@ -117,11 +117,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Can you remove old stains from the seats?',
-          a: 'In most cases, yes. We use injection extraction that lifts ground-in coffee, mud and grease stains. Very old stains may fade rather than disappear fully — we always assess first.',
+          a: 'In most cases, yes. We use injection extraction, which pushes cleaning solution into the fabric and vacuums it back out, lifting ground-in coffee, mud and grease. Stains that are years old, or ink and bleach marks, may fade rather than disappear — we assess the seats before starting and tell you what is realistic.',
         },
         {
           q: 'How long does it take to dry?',
-          a: 'After extraction, fabrics stay slightly damp for 2 to 4 hours. It dries faster in summer. We hand the car back ready to use.',
+          a: 'After extraction, fabrics stay slightly damp for 2 to 4 hours. In the Algarve summer, with the windows down, it dries closer to 2 hours; in winter it can take the full 4. We always hand the car back ready to use — you do not need to wait for it to dry before driving.',
         },
       ],
     },
@@ -161,11 +161,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'A lavagem risca a pintura?',
-          a: 'Não. Evitamos escovas de rolo e usamos o método dos dois baldes com luvas de microfibra limpas, a técnica mais segura para a pintura.',
+          a: 'Não. Os riscos circulares que se vêem ao sol vêm quase sempre de escovas de rolo e de panos sujos. Evitamos ambos: pré-lavagem com espuma ativa para soltar a sujidade antes de qualquer contacto, método dos dois baldes com luva de microfibra, e secagem com toalhas limpas e dedicadas.',
         },
         {
           q: 'Quanto tempo dura a proteção?',
-          a: 'O selante que aplicamos na lavagem detalhada protege e dá brilho durante várias semanas, dependendo da exposição e da frequência de lavagem.',
+          a: 'O selante aplicado na lavagem detalhada protege e dá brilho durante várias semanas. A duração real depende da exposição: um carro estacionado ao sol e perto do mar perde proteção mais depressa do que um que fica na garagem. Lavagens em túneis de rolos encurtam bastante esse prazo.',
         },
       ],
     },
@@ -198,11 +198,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Will the wash scratch my paint?',
-          a: 'No. We avoid roller brushes and use the two-bucket method with clean microfibre mitts — the safest technique for paintwork.',
+          a: 'No. The circular swirls you see in sunlight almost always come from roller brushes and dirty cloths. We avoid both: an active foam pre-wash lifts dirt before anything touches the paint, then the two-bucket method with a microfibre mitt, and drying with clean, dedicated towels.',
         },
         {
           q: 'How long does the protection last?',
-          a: 'The sealant applied in the detailed wash protects and adds shine for several weeks, depending on exposure and wash frequency.',
+          a: 'The sealant applied in the detailed wash protects and adds shine for several weeks. How long it really lasts depends on exposure: a car parked in the sun near the coast loses protection faster than one kept in a garage. Roller-tunnel car washes cut that time down sharply.',
         },
       ],
     },
@@ -241,11 +241,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'O amarelo volta a aparecer?',
-          a: 'Com o selante UV que aplicamos, a oxidação demora muito mais a regressar. A durabilidade depende da exposição ao sol; um farol ao sol direto todos os dias dura menos que um à sombra.',
+          a: 'Com o selante UV que aplicamos, a oxidação demora muito mais tempo a regressar, mas não é permanente — o policarbonato do farol continua a envelhecer ao sol. A durabilidade depende da exposição: um carro que fica ao sol todos os dias no Algarve precisa de retoque mais cedo do que um que dorme à sombra.',
         },
         {
           q: 'Vale a pena restaurar ou trocar o farol?',
-          a: 'O restauro custa uma fração de um farol novo e resolve a grande maioria dos casos de amarelecimento. Só faróis fissurados por dentro ou com humidade interna justificam substituição.',
+          a: 'Restaurar custa uma fração de um farol novo e resolve a grande maioria dos casos de amarelecimento, que é oxidação da camada exterior do policarbonato. Só justifica substituição quando o farol tem fissuras internas, humidade acumulada lá dentro ou o refletor danificado — nesses casos o polimento não recupera a luz.',
         },
       ],
     },
@@ -277,21 +277,110 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Will the yellowing come back?',
-          a: 'With the UV sealant we apply, oxidation takes much longer to return. Durability depends on sun exposure; a headlight in direct sun every day lasts less than one in the shade.',
+          a: 'With the UV sealant we apply, oxidation takes far longer to return, but it is not permanent — the headlight polycarbonate keeps ageing in the sun. Durability depends on exposure: a car left in the Algarve sun every day needs a touch-up sooner than one that sits in the shade.',
         },
         {
           q: 'Restore or replace the headlight?',
-          a: 'Restoration costs a fraction of a new unit and solves the vast majority of yellowing cases. Only headlights cracked inside or with internal moisture justify replacement.',
+          a: 'Restoring costs a fraction of a new unit and solves the vast majority of yellowing cases, which are oxidation of the outer polycarbonate layer. Replacement is only justified when the headlight is cracked internally, has trapped moisture inside, or the reflector is damaged — polishing will not restore light output there.',
+        },
+      ],
+    },
+  },
+  {
+    slug: 'gloss-polish',
+    fromPrice: 149,
+    compareAtPrice: 190,
+    durationLabelPt: '2 h 30 – 3 h',
+    durationLabelEn: '2 h 30 – 3 h',
+    pt: {
+      name: 'Polimento de Brilho',
+      eyebrow: 'Polimento',
+      metaTitle: 'Polimento de Carro em Guia, Albufeira',
+      metaDescription:
+        'Polimento a máquina numa fase em Guia, Albufeira. Devolve brilho e profundidade à pintura e atenua marcas de lavagem. Desde 149€. Reserve online.',
+      tagline: 'O polimento que devolve o brilho de stand à sua pintura, numa só fase.',
+      intro: [
+        'Ao fim de alguns anos ao sol e ao sal do Algarve, a pintura perde brilho e ganha um aspeto baço mesmo depois de lavada. O polimento de brilho corrige exatamente isso: uma fase de máquina que refina o verniz, reaviva a cor e faz a luz voltar a refletir como deve ser.',
+        'É o passo intermédio entre uma lavagem detalhada e a correção de pintura completa. Não remove riscos profundos — para isso existe a Correção de Pintura — mas atenua marcas de lavagem ligeiras e devolve profundidade à cor por uma fração do preço.',
+      ],
+      includes: [
+        'Lavagem segura e descontaminação',
+        'Tratamento com clay bar',
+        'Polimento a máquina numa fase',
+        'Atenua marcas de lavagem ligeiras',
+        'Selante de proteção',
+        'Brilho nos pneus',
+      ],
+      process: [
+        { title: 'Lavagem segura', body: 'Pré-lavagem com espuma e método dos dois baldes, para não introduzir riscos novos.' },
+        { title: 'Descontaminação', body: 'Clay bar remove partículas agarradas ao verniz que a lavagem não tira.' },
+        { title: 'Polimento numa fase', body: 'Polish de refinamento com máquina orbital, painel a painel, para brilho uniforme.' },
+        { title: 'Proteção', body: 'Selante que fixa o resultado, repele a água e facilita as próximas lavagens.' },
+      ],
+      idealFor: ['Pintura baça', 'Manutenção anual', 'Antes de vender', 'Carros bem tratados', 'Primeiro polimento'],
+      faq: [
+        {
+          q: 'Qual a diferença entre o Polimento de Brilho e a Correção de Pintura?',
+          a: 'O Polimento de Brilho é uma fase: refina o verniz, dá brilho e atenua marcas ligeiras. A Correção de Pintura são duas fases (corte + refinamento) e remove mesmo swirls e riscos ligeiros. Se a pintura está sã mas sem brilho, o polimento chega; se vê riscos circulares ao sol, precisa da correção.',
+        },
+        {
+          q: 'O polimento estraga o verniz?',
+          a: 'Não, quando é feito com critério. Um polimento numa fase remove uma camada mínima de verniz, muito menos do que uma correção agressiva. Avaliamos sempre a pintura antes de começar e trabalhamos dentro de margens seguras — um carro pode ser polido várias vezes ao longo da vida sem problema.',
+        },
+        {
+          q: 'Quanto tempo dura o resultado?',
+          a: 'O brilho é permanente até a pintura voltar a marcar-se, porque a superfície foi mesmo refinada e não apenas preenchida com cera. O selante que aplicamos por cima protege durante vários meses. O que encurta o resultado são lavagens com escovas de rolo, que reintroduzem micro-riscos em poucas passagens.',
+        },
+      ],
+    },
+    en: {
+      name: 'Gloss Polish',
+      eyebrow: 'Polishing',
+      metaTitle: 'Car Polishing in Guia, Albufeira',
+      metaDescription:
+        'Single-stage machine polish in Guia, Albufeira. Brings back gloss and depth and softens wash marks. From €149. Book online.',
+      tagline: 'The polish that brings showroom gloss back to your paint, in a single stage.',
+      intro: [
+        'After a few years under the Algarve sun and salt, paint loses its gloss and looks dull even right after a wash. A gloss polish fixes exactly that: one machine stage that refines the clear coat, revives the colour and gets light reflecting properly again.',
+        'It is the middle step between a detailed wash and full paint correction. It will not remove deep scratches — that is what Paint Correction is for — but it softens light wash marks and brings depth back to the colour for a fraction of the price.',
+      ],
+      includes: [
+        'Safe wash and decontamination',
+        'Clay bar treatment',
+        'Single-stage machine polish',
+        'Softens light wash marks',
+        'Protective sealant',
+        'Tyre shine',
+      ],
+      process: [
+        { title: 'Safe wash', body: 'Foam pre-wash and the two-bucket method, so we never add fresh scratches.' },
+        { title: 'Decontamination', body: 'A clay bar lifts bonded particles the wash leaves behind.' },
+        { title: 'Single-stage polish', body: 'Refining polish on an orbital machine, panel by panel, for even gloss.' },
+        { title: 'Protection', body: 'A sealant locks in the result, beads water and makes future washes easier.' },
+      ],
+      idealFor: ['Dull paint', 'Yearly maintenance', 'Before selling', 'Well-kept cars', 'A first polish'],
+      faq: [
+        {
+          q: 'What is the difference between a Gloss Polish and Paint Correction?',
+          a: 'A Gloss Polish is one stage: it refines the clear coat, adds gloss and softens light marks. Paint Correction is two stages (cut + refine) and actually removes swirls and light scratches. If the paint is sound but dull, the polish is enough; if you can see circular swirls in sunlight, you need the correction.',
+        },
+        {
+          q: 'Does polishing damage the clear coat?',
+          a: 'Not when it is done sensibly. A single-stage polish removes a minimal amount of clear coat, far less than an aggressive correction. We always assess the paint before starting and stay within safe margins — a car can be polished several times over its life without trouble.',
+        },
+        {
+          q: 'How long does the result last?',
+          a: 'The gloss lasts until the paint marks up again, because the surface was genuinely refined rather than filled with wax. The sealant we apply on top protects for several months. What cuts the result short is roller-brush car washes, which reintroduce micro-scratches within a few passes.',
         },
       ],
     },
   },
   {
     slug: 'paint-correction',
-    fromPrice: 104.9,
-    compareAtPrice: 115,
-    durationLabelPt: '3 h+',
-    durationLabelEn: '3 h+',
+    fromPrice: 249,
+    compareAtPrice: 320,
+    durationLabelPt: '4 h – 6 h',
+    durationLabelEn: '4 h – 6 h',
     pt: {
       name: 'Correção de Pintura',
       eyebrow: 'Premium',
@@ -306,7 +395,7 @@ export const SERVICES: ServiceContent[] = [
       includes: [
         'Lavagem e descontaminação prévia',
         'Avaliação da espessura do verniz',
-        'Correção em uma ou várias fases',
+        'Correção em duas fases (corte + refinamento)',
         'Remoção de swirls e riscos ligeiros',
         'Brilho profundo e uniforme',
         'Proteção final (opcional)',
@@ -321,11 +410,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Qual a diferença entre polimento e correção de pintura?',
-          a: 'Um polimento simples dá brilho mas pode mascarar riscos temporariamente. A correção remove de facto as imperfeições do verniz, com diagnóstico e fases de corte — o resultado é permanente (até novos riscos).',
+          a: 'O nosso Polimento de Brilho (desde 149€) é uma fase: dá brilho e atenua marcas de lavagem ligeiras. A Correção de Pintura são duas fases, com diagnóstico e corte, e remove de facto swirls e riscos ligeiros do verniz — o resultado é permanente (até novos riscos). Se vê riscos circulares ao sol, é correção que precisa.',
         },
         {
           q: 'É preciso aplicar proteção depois?',
-          a: 'Recomendamos. Depois de corrigir, o verniz fica no seu melhor; um selante ou revestimento cerâmico protege esse trabalho e facilita futuras lavagens.',
+          a: 'Recomendamos vivamente. Depois da correção o verniz está no seu melhor estado, mas também desprotegido: sem selante ou revestimento cerâmico volta a marcar-se mais depressa. A proteção mantém o resultado durante meses, faz a água escorrer e torna as lavagens seguintes muito mais rápidas e seguras para a pintura.',
         },
       ],
     },
@@ -343,7 +432,7 @@ export const SERVICES: ServiceContent[] = [
       includes: [
         'Prior wash and decontamination',
         'Clear-coat thickness assessment',
-        'Single- or multi-stage correction',
+        'Two-stage correction (cut + refine)',
         'Removal of swirls and light scratches',
         'Deep, uniform shine',
         'Final protection (optional)',
@@ -358,11 +447,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'What is the difference between a polish and paint correction?',
-          a: 'A simple polish adds shine but can mask scratches temporarily. Correction actually removes defects from the clear coat, with diagnosis and cutting stages — the result is permanent (until new scratches appear).',
+          a: 'Our Gloss Polish (from €149) is a single stage: it adds shine and softens light wash marks. Paint Correction is two stages, with assessment and a cutting step, and actually removes swirls and light scratches from the clear coat, permanently. If you can see circular swirls in sunlight, correction is what you need.',
         },
         {
           q: 'Do I need protection afterwards?',
-          a: 'We recommend it. After correction the clear coat is at its best; a sealant or ceramic coating protects that work and makes future washes easier.',
+          a: 'We strongly recommend it. After correction the clear coat is at its best, but it is also unprotected: without a sealant or ceramic coating it marks up again faster. Protection holds the result for months, makes water bead off, and makes every later wash quicker and safer for the paint.',
         },
       ],
     },
@@ -402,11 +491,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Vale mais a pena que reservar separado?',
-          a: 'Sim. O Pacote Completo custa menos do que o Interior Detalhado e o Exterior Detalhado reservados em separado, e fica tudo feito numa única visita.',
+          a: 'Sim. A Limpeza Interior Detalhada custa 79,90€ e a Limpeza Exterior Detalhada 69,90€ — 149,80€ se as reservar em separado. O Pacote Completo faz as duas por 139,90€, numa única visita de cerca de 3 horas. Além da poupança, evita ter de trazer o carro duas vezes em dias diferentes.',
         },
         {
           q: 'Quanto tempo fica o carro connosco?',
-          a: 'Cerca de 3 horas, dependendo do estado e do tamanho do carro. Pode esperar no espaço junto ao Algarve Shopping ou combinar a recolha mais tarde.',
+          a: 'Cerca de 3 horas, dependendo do tamanho e do estado do carro — um SUV muito sujo leva mais tempo do que um citadino bem mantido. Como estamos a 3 minutos a pé do Algarve Shopping, a maioria dos clientes aproveita para almoçar ou fazer compras enquanto tratamos do carro.',
         },
       ],
     },
@@ -439,11 +528,11 @@ export const SERVICES: ServiceContent[] = [
       faq: [
         {
           q: 'Is it better value than booking separately?',
-          a: 'Yes. The Complete Package costs less than the Detailed Interior and Detailed Exterior booked separately, and it’s all done in a single visit.',
+          a: 'Yes. The Detailed Interior Clean is €79.90 and the Detailed Exterior Clean is €69.90 — €149.80 booked separately. The Complete Package does both for €139.90 in a single visit of about 3 hours. Beyond the saving, it spares you bringing the car in twice on different days.',
         },
         {
           q: 'How long do you keep the car?',
-          a: 'About 3 hours, depending on the car’s condition and size. You can wait at the spot next to Algarve Shopping or arrange a later pickup.',
+          a: 'About 3 hours, depending on the size and condition of the car — a heavily soiled SUV takes longer than a well-kept city car. Since we are a 3-minute walk from Algarve Shopping, most customers use the time for lunch or shopping while we work on the car.',
         },
       ],
     },

@@ -81,15 +81,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Servem a zona de Albufeira?',
-          a: 'Sim. Estamos em Guia, a cerca de 8 minutos do centro de Albufeira pela N125, e recebemos clientes de toda a zona — Olhos de Água, Areias de São João, Ferreiras e Sesmarias incluídas.',
+          a: 'Sim. Estamos em Guia, na N125, a cerca de 8 minutos de carro do centro de Albufeira, e recebemos clientes de toda a zona — Olhos de Água, Areias de São João, Ferreiras e Sesmarias incluídas. Abrimos todos os dias das 09:00 às 17:00, o que dá jeito a quem trabalha por turnos na hotelaria.',
         },
         {
           q: 'Conseguem tirar a areia da praia toda do interior?',
-          a: 'Sim. Usamos aspiração profunda e extração que remove a areia entranhada nos tapetes, debaixo dos bancos e nas calhas — onde a aspiração de rotina não chega.',
+          a: 'Sim. A areia agarra-se aos tapetes, entra debaixo dos bancos e acumula nas calhas, onde uma aspiração de rotina não chega. Usamos aspiração profunda com bicos finos e extração por injeção, incluídas em qualquer serviço de interior a partir de 39,90€. Num carro muito usado na praia, conte com 40 minutos a 2 horas.',
         },
         {
           q: 'Preciso de marcar com antecedência?',
-          a: 'No verão a agenda enche rápido, por isso recomendamos reservar online com pelo menos um ou dois dias de antecedência. Reserva em menos de 2 minutos.',
+          a: 'No verão a agenda enche depressa, sobretudo aos fins de semana, por isso recomendamos reservar online com um ou dois dias de antecedência. A reserva demora menos de 2 minutos e fica confirmada com um sinal de 5€, descontado no valor final. Fora da época alta, costumamos ter vaga no próprio dia.',
         },
       ],
     },
@@ -125,15 +125,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Do you cover the Albufeira area?',
-          a: 'Yes. We’re in Guia, about 8 minutes from Albufeira centre on the N125, and welcome customers from across the area — including Olhos de Água, Areias de São João, Ferreiras and Sesmarias.',
+          a: 'Yes. We are in Guia on the N125, about 8 minutes by car from Albufeira centre, and welcome customers from across the area — including Olhos de Água, Areias de São João, Ferreiras and Sesmarias. We open every day from 09:00 to 17:00, which helps if you work shifts in hospitality.',
         },
         {
           q: 'Can you get all the beach sand out of the interior?',
-          a: 'Yes. We use deep vacuuming and extraction that lifts sand ground into the mats, under the seats and in the rails — where a routine vacuum can’t reach.',
+          a: 'Yes. Sand clings to the mats, works its way under the seats and collects in the seat rails, where a routine vacuum never reaches. We use deep vacuuming with narrow tools and injection extraction, both included in any interior service from €39.90. For a heavily used beach car, expect 40 minutes to 2 hours.',
         },
         {
           q: 'Do I need to book in advance?',
-          a: 'In summer the diary fills up fast, so we recommend booking online at least a day or two ahead. Booking takes under 2 minutes.',
+          a: 'In summer the diary fills up fast, especially at weekends, so we recommend booking online a day or two ahead. Booking takes under 2 minutes and is confirmed with a €5 deposit that comes off the final price. Outside peak season we usually have same-day availability.',
         },
       ],
     },
@@ -172,15 +172,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Onde fica exatamente a JetWash24?',
-          a: 'Na N125 610, 8800-076 Guia, a cerca de 3 minutos do AlgarveShopping. Tem o mapa e o trajeto na nossa página principal.',
+          a: 'Na N125 610, 8800-076 Guia, Albufeira — a 3 minutos a pé do AlgarveShopping, junto à estrada nacional. Estamos abertos todos os dias das 09:00 às 17:00 e o estacionamento é fácil. Tem o mapa e o trajeto na página principal do site, com ligação direta ao Google Maps.',
         },
         {
           q: 'Posso deixar o carro enquanto vou ao AlgarveShopping?',
-          a: 'Sim, é o que muitos clientes fazem. Deixa o carro à hora marcada, vai às compras e levanta-o já tratado. Combine a duração do serviço connosco.',
+          a: 'Sim, é o que a maioria dos clientes faz. Deixa o carro à hora marcada, faz os 3 minutos a pé até ao AlgarveShopping e volta com o serviço pronto. Como os serviços vão de 30 minutos a 3 horas, escolha na reserva o que encaixa no tempo que tem disponível.',
         },
         {
           q: 'Quanto tempo demora um serviço?',
-          a: 'Depende do serviço: desde 30–40 minutos numa lavagem expresso até cerca de 3 horas no pacote completo. Indicamos sempre a duração ao reservar.',
+          a: 'Depende do que escolher: a Lavagem Exterior Express demora 30 minutos e a Limpeza Interior Expresso 40. Os serviços detalhados levam de 1h30 a 2 horas, o Pacote Completo cerca de 3 horas e a Correção de Pintura até 5. A duração aparece sempre antes de confirmar a reserva.',
         },
       ],
     },
@@ -215,15 +215,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Where exactly is JetWash24?',
-          a: 'At N125 610, 8800-076 Guia, about 3 minutes from AlgarveShopping. You’ll find the map and directions on our home page.',
+          a: 'At N125 610, 8800-076 Guia, Albufeira — a 3-minute walk from AlgarveShopping, right on the national road. We are open every day from 09:00 to 17:00 and parking is easy. You will find the map and directions on the home page, with a direct link to Google Maps.',
         },
         {
           q: 'Can I leave the car while I go to AlgarveShopping?',
-          a: 'Yes, many customers do exactly that. Drop the car at your booked time, go shopping and pick it up detailed. Just check the service duration with us.',
+          a: 'Yes, that is what most customers do. Drop the car at your booked time, walk the 3 minutes to AlgarveShopping and come back to a finished job. Services run from 30 minutes to 3 hours, so pick the one that fits the time you have when you book.',
         },
         {
           q: 'How long does a service take?',
-          a: 'It depends on the service: from 30–40 minutes for an express wash up to around 3 hours for the complete package. We always show the duration when you book.',
+          a: 'It depends what you choose: the Express Exterior Wash takes 30 minutes and the Express Interior Refresh 40. Detailed services run 1h30 to 2 hours, the Complete Package around 3 hours, and Paint Correction up to 5. The duration is always shown before you confirm the booking.',
         },
       ],
     },
@@ -262,15 +262,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Fazem correção de pintura para carros premium?',
-          a: 'Sim. Removemos riscos finos, marcas de lavagem e perda de brilho com polimento por etapas, e podemos aplicar proteção para manter o resultado. Avaliamos sempre a pintura antes.',
+          a: 'Sim. A Correção de Pintura em duas fases começa em 249€ e demora cerca de 5 horas: medimos a espessura do verniz, cortamos e refinamos painel a painel para remover swirls e riscos ligeiros. Para carros bem mantidos que só perderam brilho, o Polimento de Brilho a partir de 149€ costuma chegar.',
         },
         {
           q: 'Servem a zona de Vilamoura?',
-          a: 'Sim. Estamos em Guia, a cerca de 12 minutos de Vilamoura pela N125 / A22, e recebemos clientes de Vilamoura, Quarteira e Falésia.',
+          a: 'Sim. Estamos em Guia, na N125, a cerca de 12 minutos de Vilamoura pela N125 ou pela A22, e recebemos clientes de Vilamoura, Quarteira e Falésia. Abrimos todos os dias das 09:00 às 17:00, incluindo fins de semana, e pode reservar online em menos de 2 minutos.',
         },
         {
           q: 'Tratam interiores em couro?',
-          a: 'Sim. Limpamos, higienizamos e hidratamos o couro para evitar que seque e estale com o calor do Algarve, devolvendo-lhe o toque e a cor.',
+          a: 'Sim. Limpamos, higienizamos e hidratamos o couro para evitar que seque e estale com o calor do Algarve — um problema comum em carros que ficam estacionados ao sol. A hidratação está incluída na Limpeza Interior Detalhada, de 79,90€, e existe como extra de 15€ nos restantes serviços.',
         },
       ],
     },
@@ -305,15 +305,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Do you do paint correction for premium cars?',
-          a: 'Yes. We remove light scratches, wash marks and dullness with multi-stage polishing, and can apply protection to lock in the result. We always assess the paint first.',
+          a: 'Yes. Two-stage Paint Correction starts at €249 and takes around 5 hours: we measure clear-coat thickness, then cut and refine panel by panel to remove swirls and light scratches. For well-kept cars that have only lost gloss, the Gloss Polish from €149 is usually enough.',
         },
         {
           q: 'Do you cover the Vilamoura area?',
-          a: 'Yes. We’re in Guia, about 12 minutes from Vilamoura via the N125 / A22, and welcome customers from Vilamoura, Quarteira and Falésia.',
+          a: 'Yes. We are in Guia on the N125, about 12 minutes from Vilamoura via the N125 or the A22, and welcome customers from Vilamoura, Quarteira and Falésia. We open every day from 09:00 to 17:00, weekends included, and you can book online in under 2 minutes.',
         },
         {
           q: 'Do you treat leather interiors?',
-          a: 'Yes. We clean, sanitise and condition leather to stop it drying and cracking in the Algarve heat, restoring its feel and colour.',
+          a: 'Yes. We clean, sanitise and condition leather to stop it drying out and cracking in the Algarve heat — a common problem in cars left parked in the sun. Conditioning is included in the Detailed Interior Clean at €79.90, and is a €15 add-on to the other services.',
         },
       ],
     },
@@ -353,15 +353,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Servem a zona de Faro?',
-          a: 'Sim. Estamos em Guia, a cerca de 30 minutos de Faro pela A22, e recebemos clientes da zona de Faro, Loulé e Almancil que procuram um detailing profissional.',
+          a: 'Sim. Estamos em Guia, a cerca de 30 minutos de Faro pela A22, e recebemos regularmente clientes de Faro, Loulé e Almancil. Como abrimos todos os dias das 09:00 às 17:00, dá para combinar o serviço com uma ida ao AlgarveShopping, que fica a 3 minutos a pé de nós.',
         },
         {
           q: 'Vale a pena detalhar o carro antes de o devolver no aeroporto?',
-          a: 'Sim. Muitas empresas de aluguer cobram taxas de limpeza se o carro for entregue sujo. Um detailing fica quase sempre mais barato e evita surpresas na fatura.',
+          a: 'Muitas vezes sim. As empresas de aluguer cobram taxas de limpeza quando o carro é entregue sujo, e essas taxas podem ultrapassar facilmente o preço de uma lavagem. A nossa Lavagem Exterior Express custa 29,90€ e demora 30 minutos; o interior expresso fica em 39,90€. Estamos a cerca de 30 minutos do aeroporto.',
         },
         {
           q: 'Conseguem recuperar faróis muito amarelados?',
-          a: 'Na maioria dos casos, sim. Lixamos por etapas e polimos a lente, deixando-a outra vez transparente. Faróis muito degradados podem precisar de proteção extra para durar.',
+          a: 'Na maioria dos casos, sim. Lixamos a camada oxidada por etapas, com lixas de grão progressivo, polimos a lente e selamos com proteção UV — o farol fica outra vez transparente e recupera intensidade de luz. Faróis com fissuras internas ou humidade acumulada lá dentro já não recuperam com polimento.',
         },
       ],
     },
@@ -397,15 +397,15 @@ export const LOCATIONS: LocationContent[] = [
       faq: [
         {
           q: 'Do you cover the Faro area?',
-          a: 'Yes. We’re in Guia, about 30 minutes from Faro on the A22, and welcome customers from the Faro, Loulé and Almancil areas looking for professional detailing.',
+          a: 'Yes. We are in Guia, about 30 minutes from Faro on the A22, and regularly serve customers from Faro, Loulé and Almancil. Since we open every day from 09:00 to 17:00, you can combine the service with a trip to AlgarveShopping, which is a 3-minute walk from us.',
         },
         {
           q: 'Is it worth detailing the car before returning it at the airport?',
-          a: 'Yes. Many rental companies charge cleaning fees if the car is handed back dirty. A detail is almost always cheaper and avoids nasty surprises on the bill.',
+          a: 'Often yes. Rental companies charge cleaning fees when a car is returned dirty, and those fees can easily exceed the price of a wash. Our Express Exterior Wash is €29.90 and takes 30 minutes; the express interior is €39.90. We are about 30 minutes from Faro airport.',
         },
         {
           q: 'Can you fix badly yellowed headlights?',
-          a: 'In most cases, yes. We sand the lens in stages and polish it back to clear. Heavily degraded headlights may need extra protection to last.',
+          a: 'In most cases, yes. We sand the oxidised layer in stages with progressively finer grits, polish the lens and seal it with UV protection — the headlight goes clear again and recovers light output. Headlights with internal cracks or trapped moisture will not come back with polishing.',
         },
       ],
     },

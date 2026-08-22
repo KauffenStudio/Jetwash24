@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
@@ -8,7 +9,7 @@ import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
-import { SITE_URL } from '@/lib/seo/business';
+import { SITE_URL, LOCALES } from '@/lib/seo/business';
 import '../globals.css';
 
 const inter = Inter({
@@ -120,10 +121,16 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  // The middleware matcher skips anything containing a dot, so requests like
+  // /ads.txt or /foo.php reach this segment with `locale` set to that string.
+  // Without this guard they rendered the home page at HTTP 200 — an unbounded
+  // set of soft-404 duplicates of "/" that search engines can index.
+  if (!LOCALES.includes(locale as (typeof LOCALES)[number])) notFound();
+
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={inter.variable}>
+    <html lang={locale === 'en' ? 'en-GB' : 'pt-PT'} className={inter.variable}>
       <body className={inter.className}>
         {/* Google tag (gtag.js) */}
         <Script

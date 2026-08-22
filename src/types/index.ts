@@ -1,7 +1,7 @@
 // ─── Domain Types ─────────────────────────────────────────────────────────────
 
 export type VehicleSize = 'SMALL' | 'MEDIUM' | 'SUV' | 'LARGE' | 'SUPERCAR';
-export type ServiceCategory = 'INTERIOR' | 'EXTERIOR' | 'FULL';
+export type ServiceCategory = 'INTERIOR' | 'EXTERIOR' | 'POLISHING' | 'FULL';
 export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
 export type UserRole = 'ADMIN' | 'WORKER';
 

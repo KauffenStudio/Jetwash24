@@ -51,6 +51,8 @@ export default function AdminServicesPage() {
   const CATEGORY_LABEL: Record<string, string> = {
     INTERIOR: 'Interior',
     EXTERIOR: 'Exterior',
+    POLISHING: 'Polimento',
+    FULL: 'Pacote',
   };
 
   return (

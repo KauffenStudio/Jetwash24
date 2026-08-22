@@ -20,8 +20,8 @@ export function generateMetadata({
       ? 'Serviços de Detailing em Guia, Albufeira'
       : 'Car Detailing Services in Guia, Albufeira',
     description: isPt
-      ? 'Detailing de interiores, lavagem exterior, restauro de faróis e correção de pintura em Guia, Albufeira. Veja todos os serviços e reserve online.'
-      : 'Interior detailing, exterior wash, headlight restoration and paint correction in Guia, Albufeira. See all services and book online.',
+      ? 'Detailing de interiores, lavagem exterior, polimento, restauro de faróis e correção de pintura em Guia, Albufeira. Veja todos os serviços e reserve online.'
+      : 'Interior detailing, exterior wash, car polishing, headlight restoration and paint correction in Guia, Albufeira. See all services and book online.',
     alternates: {
       canonical: `/${locale}/services`,
       languages: { 'pt-PT': '/pt/services', 'en-GB': '/en/services', 'x-default': '/pt/services' },

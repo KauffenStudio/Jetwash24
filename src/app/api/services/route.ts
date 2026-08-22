@@ -23,7 +23,7 @@ const serviceSchema = z.object({
   price: z.number().positive(),
   compareAtPrice: z.number().positive().optional(),
   duration: z.number().int().positive(),
-  category: z.enum(['INTERIOR', 'EXTERIOR']),
+  category: z.enum(['INTERIOR', 'EXTERIOR', 'POLISHING', 'FULL']),
   sortOrder: z.number().int().default(0),
 });
 

@@ -158,6 +158,7 @@ enum Role {
 enum ServiceCategory {
   INTERIOR
   EXTERIOR
+  POLISHING
   FULL
 }
 

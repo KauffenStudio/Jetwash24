@@ -1,3 +1,5 @@
+import { SERVICES } from '@/content/services';
+
 /**
  * Single source of truth for JetWash24's business identity (NAP),
  * reused by structured data (JSON-LD), sitemap, and metadata.
@@ -72,37 +74,16 @@ export const BUSINESS = {
 
 /**
  * Representative service catalog for `hasOfferCatalog`.
- * Prices are "from" (citadino) base prices — vehicle size adds a surcharge.
+ *
+ * Derived from the service content so the offer catalogue can never drift from
+ * the prices actually published on the service pages — the previous hardcoded
+ * copy had gone stale (it advertised a deactivated service and three outdated
+ * prices). Prices are "from" (citadino) base prices; vehicle size adds a
+ * surcharge, which `priceSpecification.minPrice` expresses.
  */
-export const SERVICE_OFFERS = [
-  {
-    namePt: 'Limpeza Interior Expresso',
-    nameEn: 'Express Interior Refresh',
-    price: 39.9,
-  },
-  {
-    namePt: 'Limpeza Interior Detalhada',
-    nameEn: 'Detailed Interior Clean',
-    price: 79.9,
-  },
-  {
-    namePt: 'Restauração Interior Premium',
-    nameEn: 'Premium Interior Restoration',
-    price: 90,
-  },
-  {
-    namePt: 'Lavagem Exterior Express',
-    nameEn: 'Express Exterior Wash',
-    price: 29.9,
-  },
-  {
-    namePt: 'Limpeza Exterior Detalhada',
-    nameEn: 'Detailed Exterior Clean',
-    price: 69.9,
-  },
-  {
-    namePt: 'Pacote Completo',
-    nameEn: 'Complete Package',
-    price: 139.9,
-  },
-] as const;
+export const SERVICE_OFFERS = SERVICES.map((service) => ({
+  slug: service.slug,
+  namePt: service.pt.name,
+  nameEn: service.en.name,
+  price: service.fromPrice,
+}));

@@ -151,6 +151,51 @@ async function main() {
     },
   });
 
+  // ─── Polishing Services ───────────────────────────────────────────────────────
+  // Prices are managed from the admin panel once live, so these upserts never
+  // overwrite an existing row — they only create it if missing.
+  await prisma.service.upsert({
+    where: { id: 'svc-gloss-polish' },
+    update: {},
+    create: {
+      id: 'svc-gloss-polish',
+      name: 'Gloss Polish',
+      namePt: 'Polimento de Brilho',
+      nameEn: 'Gloss Polish',
+      descriptionPt: 'Polimento a máquina numa fase que devolve brilho e profundidade à pintura e atenua marcas de lavagem.',
+      descriptionEn: 'Single-stage machine polish that brings back gloss and depth and softens light wash marks.',
+      includes: ['Safe wash and decontamination', 'Clay bar treatment', 'Single-stage machine polish', 'Softens light wash marks', 'Protective sealant', 'Tyre shine'],
+      includesPt: ['Lavagem segura e descontaminação', 'Tratamento com clay bar', 'Polimento a máquina numa fase', 'Atenua marcas de lavagem ligeiras', 'Selante de proteção', 'Brilho nos pneus'],
+      includesEn: ['Safe wash and decontamination', 'Clay bar treatment', 'Single-stage machine polish', 'Softens light wash marks', 'Protective sealant', 'Tyre shine'],
+      price: 149,
+      compareAtPrice: 190,
+      duration: 150,
+      category: ServiceCategory.POLISHING,
+      sortOrder: 6,
+    },
+  });
+
+  await prisma.service.upsert({
+    where: { id: 'svc-paint-correction' },
+    update: {},
+    create: {
+      id: 'svc-paint-correction',
+      name: 'Paint Correction',
+      namePt: 'Correção de Pintura',
+      nameEn: 'Paint Correction',
+      descriptionPt: 'Correção de pintura em duas fases que remove swirls e riscos ligeiros do verniz, com acabamento de brilho de espelho.',
+      descriptionEn: 'Two-stage paint correction that removes swirls and light scratches from the clear coat, finished to a mirror shine.',
+      includes: ['Safe wash and decontamination', 'Clay bar treatment', 'Clear-coat thickness assessment', 'Two-stage correction (cut + refine)', 'Removal of swirls and light scratches', 'Protective sealant'],
+      includesPt: ['Lavagem segura e descontaminação', 'Tratamento com clay bar', 'Avaliação da espessura do verniz', 'Correção em duas fases (corte + refinamento)', 'Remoção de swirls e riscos ligeiros', 'Selante de proteção'],
+      includesEn: ['Safe wash and decontamination', 'Clay bar treatment', 'Clear-coat thickness assessment', 'Two-stage correction (cut + refine)', 'Removal of swirls and light scratches', 'Protective sealant'],
+      price: 249,
+      compareAtPrice: 320,
+      duration: 300,
+      category: ServiceCategory.POLISHING,
+      sortOrder: 7,
+    },
+  });
+
   console.log('Services seeded.');
 
   // ─── Add-ons ──────────────────────────────────────────────────────────────────

@@ -267,11 +267,11 @@
   },
   "promo": {
     "eyebrow": "Promoção de Verão",
-    "title": "Carro impecável por dentro e por fora — 29,90€",
-    "subtitle": "Lavagem manual exterior + interior express, com lavagem do tablier incluída. Em separado, os dois custam 70€.",
+    "title": "Até 30 de setembro: por dentro e por fora, 29,90€",
+    "subtitle": "Depois volta aos 39,80€. Lavagem à mão por fora, aspiração e tablier por dentro — em 70 minutos.",
     "save": "Poupa {amount}€ nesta reserva.",
     "countdown": {
-      "label": "Termina a 30 de setembro",
+      "label": "Termina em",
       "days": "dias",
       "hours": "horas",
       "minutes": "min",
@@ -288,7 +288,7 @@
     "cta": "Reservar por 29,90€",
     "whatsapp": "Prefiro falar no WhatsApp",
     "whatsappMessage": "Olá! Quero a promoção de verão: lavagem manual exterior + interior express por 29,90€.",
-    "finePrint": "Preço para carro pequeno; +10€ médio, +20€ SUV, +30€ veículo grande. Válido em reservas até 30 de setembro de 2026, sujeito a disponibilidade. A partir de 1 de outubro volta aos 70€.",
+    "finePrint": "Preço para carro pequeno; +10€ médio, +20€ SUV, +30€ veículo grande. Válido em reservas até 30 de setembro de 2026, sujeito a disponibilidade. A partir de 1 de outubro volta aos 39,80€.",
     "dismiss": "Agora não, obrigado",
     "aria": {
       "close": "Fechar promoção"

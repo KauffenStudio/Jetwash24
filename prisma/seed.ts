@@ -94,7 +94,7 @@ async function main() {
     where: { id: 'svc-summer-promo' },
     update: {
       price: 29.9,
-      compareAtPrice: 70,
+      compareAtPrice: 39.8,
       isActive: true,
     },
     create: {
@@ -108,7 +108,7 @@ async function main() {
       includesPt: ['Lavagem manual exterior', 'Limpeza das jantes e brilho nos pneus', 'Secagem com microfibra', 'Aspiração interior express', 'Lavagem do tablier', 'Vidros interiores'],
       includesEn: ['Exterior hand wash', 'Wheel cleaning and tyre shine', 'Microfibre drying', 'Express interior vacuum', 'Dashboard clean', 'Interior windows'],
       price: 29.9,
-      compareAtPrice: 70,
+      compareAtPrice: 39.8,
       duration: 70,
       category: ServiceCategory.FULL,
       sortOrder: 0,

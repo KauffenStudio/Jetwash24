@@ -16,16 +16,33 @@
  * Pass --end to retire the campaign instead (sets isActive: false), which is
  * what you run on 1 October once the popup has disarmed itself:
  *         node --env-file=.env.production.local scripts/seed-summer-promo.mjs --end
+ *
+ * Pass --sync-express to also drop the two express services to 19,90€ each.
+ * That is opt-in and deliberately separate, because it rewrites the price of
+ * services this campaign does not own.
+ *
+ * Either way the script compares the promo's crossed-out price against the
+ * live sum of those two services and warns when they disagree — an inflated
+ * reference price is the one thing here with real legal exposure.
  */
 
 import { PrismaClient } from '@prisma/client';
 
 const PROMO_ID = 'svc-summer-promo';
 const PRICE = 29.9;
-const COMPARE_AT = 70;
+const COMPARE_AT = 39.8;
 
 const retiring = process.argv.includes('--end');
+const syncExpress = process.argv.includes('--sync-express');
+const EXPRESS = { 'svc-hand-wash': 19.9, 'svc-express-interior': 19.9 };
 const prisma = new PrismaClient();
+
+if (syncExpress) {
+  for (const [id, price] of Object.entries(EXPRESS)) {
+    const updated = await prisma.service.update({ where: { id }, data: { price } });
+    console.log(`Priced: ${updated.namePt} is now ${updated.price}€.`);
+  }
+}
 
 const service = await prisma.service.upsert({
   where: { id: PROMO_ID },
@@ -60,5 +77,22 @@ console.log(
     ? `Retired: ${service.namePt} is no longer bookable.`
     : `Live: ${service.namePt} — ${service.price}€ (was ${service.compareAtPrice}€), ${service.duration} min.`
 );
+
+// The crossed-out price must equal what the two services actually cost today.
+const parts = await prisma.service.findMany({
+  where: { id: { in: Object.keys(EXPRESS) } },
+  select: { namePt: true, price: true },
+});
+const sum = Number(parts.reduce((total, s) => total + s.price, 0).toFixed(2));
+if (sum !== COMPARE_AT) {
+  console.warn(
+    `\nWARNING: the popup crosses out ${COMPARE_AT}€, but those services now sum to ${sum}€ ` +
+      `(${parts.map((s) => `${s.namePt} ${s.price}€`).join(' + ')}).\n` +
+      `Update compareAtPrice in src/lib/promo.ts and this script, then redeploy — ` +
+      `advertising a saving larger than the real one is what DL 109-G/2021 prohibits.`
+  );
+} else {
+  console.log(`Reference price checks out: ${parts.map((s) => `${s.price}€`).join(' + ')} = ${sum}€.`);
+}
 
 await prisma.$disconnect();

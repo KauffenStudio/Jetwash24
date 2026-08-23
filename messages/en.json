@@ -267,11 +267,11 @@
   },
   "promo": {
     "eyebrow": "Summer Offer",
-    "title": "Spotless inside and out — €29.90",
-    "subtitle": "Exterior hand wash plus an express interior, dashboard clean included. Booked separately, the two cost €70.",
+    "title": "Until 30 September: inside and out, €29.90",
+    "subtitle": "After that it's back to €39.80. Hand wash outside, vacuum and dashboard inside — in 70 minutes.",
     "save": "You save €{amount} on this booking.",
     "countdown": {
-      "label": "Ends 30 September",
+      "label": "Ends in",
       "days": "days",
       "hours": "hrs",
       "minutes": "min",
@@ -288,7 +288,7 @@
     "cta": "Book for €29.90",
     "whatsapp": "I'd rather message on WhatsApp",
     "whatsappMessage": "Hi! I'd like the summer offer: exterior hand wash plus express interior for €29.90.",
-    "finePrint": "Price for a small car; +€10 medium, +€20 SUV, +€30 large vehicle. Valid on bookings made up to 30 September 2026, subject to availability. From 1 October it goes back to €70.",
+    "finePrint": "Price for a small car; +€10 medium, +€20 SUV, +€30 large vehicle. Valid on bookings made up to 30 September 2026, subject to availability. From 1 October it goes back to €39.80.",
     "dismiss": "Not now, thanks",
     "aria": {
       "close": "Close offer"

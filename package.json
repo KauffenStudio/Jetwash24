@@ -10,6 +10,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "ts-node prisma/seed.ts",
+    "db:seed:promo": "node scripts/seed-summer-promo.mjs",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "seo:indexnow": "node scripts/indexnow.mjs"

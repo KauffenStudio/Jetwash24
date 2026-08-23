@@ -84,6 +84,37 @@ async function main() {
     },
   });
 
+  // ─── Summer 2026 promotion ────────────────────────────────────────────────────
+  // Bundles the express hand wash (30€) and the express interior (40€) at 29,90€
+  // until 30 September 2026 — see src/lib/promo.ts, which drives the popup and
+  // must keep the same price and deadline. When the campaign ends, flip
+  // `isActive` to false here and re-run the seed, otherwise the service stays
+  // bookable in the wizard after the popup has disarmed itself.
+  await prisma.service.upsert({
+    where: { id: 'svc-summer-promo' },
+    update: {
+      price: 29.9,
+      compareAtPrice: 70,
+      isActive: true,
+    },
+    create: {
+      id: 'svc-summer-promo',
+      name: 'Summer Offer — Hand Wash + Express Interior',
+      namePt: 'Promoção de Verão — Exterior + Interior Express',
+      nameEn: 'Summer Offer — Hand Wash + Express Interior',
+      descriptionPt: 'Lavagem manual exterior e interior express, com lavagem do tablier incluída. Preço de promoção até 30 de setembro.',
+      descriptionEn: 'Exterior hand wash and express interior, dashboard clean included. Promotional price until 30 September.',
+      includes: ['Exterior hand wash', 'Wheel cleaning and tyre shine', 'Microfibre drying', 'Express interior vacuum', 'Dashboard clean', 'Interior windows'],
+      includesPt: ['Lavagem manual exterior', 'Limpeza das jantes e brilho nos pneus', 'Secagem com microfibra', 'Aspiração interior express', 'Lavagem do tablier', 'Vidros interiores'],
+      includesEn: ['Exterior hand wash', 'Wheel cleaning and tyre shine', 'Microfibre drying', 'Express interior vacuum', 'Dashboard clean', 'Interior windows'],
+      price: 29.9,
+      compareAtPrice: 70,
+      duration: 70,
+      category: ServiceCategory.FULL,
+      sortOrder: 0,
+    },
+  });
+
   // ─── Exterior Services ────────────────────────────────────────────────────────
   await prisma.service.upsert({
     where: { id: 'svc-hand-wash' },

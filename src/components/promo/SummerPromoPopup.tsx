@@ -77,8 +77,12 @@ export default function SummerPromoPopup() {
     if (!isPromoLive()) return;
     if (MUTED_PATHS.some((p) => pathname.startsWith(`/${locale}${p}`))) return;
 
+    // ?promo=1 reopens it after a dismissal — for checking the live page, and
+    // for ad or social links that should land on the offer directly.
+    const forced = new URLSearchParams(window.location.search).get('promo') === '1';
+
     try {
-      if (window.localStorage.getItem(PROMO.storageKey)) return;
+      if (!forced && window.localStorage.getItem(PROMO.storageKey)) return;
     } catch {
       // Storage unavailable: fall through and show it.
     }
@@ -107,7 +111,8 @@ export default function SummerPromoPopup() {
       if (!e.relatedTarget && e.clientY <= 0) fire();
     };
 
-    const timer = window.setTimeout(fire, OPEN_AFTER_MS);
+    // Asked for explicitly, so do not make them wait out the dwell timer.
+    const timer = window.setTimeout(fire, forced ? 0 : OPEN_AFTER_MS);
     const pointer = window.matchMedia('(pointer: fine)').matches;
 
     window.addEventListener('scroll', onScroll, { passive: true });

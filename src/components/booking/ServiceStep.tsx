@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Service, VehicleSize } from '@/types';
 import { discountPercent, formatDurationLabel, getVehicleAdjustment, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
+import { PROMO_SERVICE_ID } from '@/lib/promo';
 
 interface ServiceStepProps {
   services: Service[];
@@ -31,7 +32,15 @@ export default function ServiceStep({
   const interior = services.filter((s) => s.category === 'INTERIOR');
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const polishing = services.filter((s) => s.category === 'POLISHING');
-  const fullPackage = services.find((s) => s.category === 'FULL');
+  // See ServicesSection: the campaign bundle shares the FULL category but is
+  // not the Pacote Completo. Excluding it here also stopped the package from
+  // disappearing out of the wizard entirely, which made it unbookable.
+  const fullPackage = services.find(
+    (s) => s.category === 'FULL' && s.id !== PROMO_SERVICE_ID
+  );
+  // Rendered on its own so someone arriving from the popup can see what was
+  // pre-selected, and someone who dismissed the popup can still find it.
+  const promo = services.find((s) => s.id === PROMO_SERVICE_ID);
 
   const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
 
@@ -39,6 +48,19 @@ export default function ServiceStep({
     <div className="animate-slide-up">
       <h2 className="text-2xl sm:text-3xl font-black text-black mb-2">{t('title')}</h2>
       <p className="text-surface-500 mb-8">{t('subtitle')}</p>
+
+      {/* Promoção de Verão — first, because it is the cheapest way in */}
+      {promo && (
+        <ServiceGroup
+          label={locale === 'pt' ? 'Promoção' : 'Offer'}
+          services={[promo]}
+          selectedServiceId={selectedServiceId}
+          vehicleAdj={vehicleAdj}
+          locale={locale}
+          onSelect={onSelect}
+          className="mb-8"
+        />
+      )}
 
       {/* Interior */}
       <ServiceGroup

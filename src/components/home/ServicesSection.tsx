@@ -3,6 +3,7 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 import { discountPercent, formatDurationLabel, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
+import { PROMO_SERVICE_ID } from '@/lib/promo';
 
 async function getServices() {
   return prisma.service.findMany({
@@ -19,7 +20,13 @@ export default async function ServicesSection() {
   const interior = services.filter((s) => s.category === 'INTERIOR');
   const exterior = services.filter((s) => s.category === 'EXTERIOR');
   const polishing = services.filter((s) => s.category === 'POLISHING');
-  const fullPackage = services.find((s) => s.category === 'FULL');
+  // The summer campaign bundle is also category FULL and sorts first, so a
+  // plain find() on the category would put its 29,90€ in the Pacote Completo
+  // slot — and price it against the package's 149,80€ reference, advertising
+  // a discount that does not exist. This slot means one specific service.
+  const fullPackage = services.find(
+    (s) => s.category === 'FULL' && s.id !== PROMO_SERVICE_ID
+  );
 
   const originalPrice = 149.8; // Interior Detalhada 79,90€ + Exterior Detalhada 69,90€
   const saving = fullPackage ? originalPrice - fullPackage.price : 0;

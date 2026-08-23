@@ -27,7 +27,14 @@ export const PROMO = {
   endsAt: PROMO_ENDS_AT,
   /** Promotional price for a small car, before vehicle-size adjustments. */
   price: 29.9,
-  /** The two services bundled here cost 30€ + 40€ when booked separately. */
+  /**
+   * Reference price for the bundle, rounded to 70€ by the owner's decision.
+   *
+   * The exact sum in production is 69,80€ (29,90€ express exterior wash +
+   * 39,90€ express interior), so the advertised saving runs 0,20€ ahead of
+   * the real one. Setting those two services to 30€ and 40€ would make this
+   * figure literally true; until then, treat it as a deliberate rounding.
+   */
   compareAtPrice: 70,
   /** localStorage key — versioned so a future campaign is not pre-dismissed. */
   storageKey: 'jw24:promo:summer-2026:dismissed',

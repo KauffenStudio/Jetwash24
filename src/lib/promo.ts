@@ -28,14 +28,16 @@ export const PROMO = {
   /** Promotional price for a small car, before vehicle-size adjustments. */
   price: 29.9,
   /**
-   * Reference price for the bundle, rounded to 70€ by the owner's decision.
+   * What the bundle costs booked separately: the express exterior wash and
+   * the express interior are 19,90€ each as of 23 August 2026.
    *
-   * The exact sum in production is 69,80€ (29,90€ express exterior wash +
-   * 39,90€ express interior), so the advertised saving runs 0,20€ ahead of
-   * the real one. Setting those two services to 30€ and 40€ would make this
-   * figure literally true; until then, treat it as a deliberate rounding.
+   * This must stay equal to the sum of those two live prices. Announcing a
+   * reduction against a reference price that was never charged is what the
+   * price-indication rules (DL 109-G/2021) exist to stop, so if either
+   * service moves, this moves with it — scripts/seed-summer-promo.mjs checks
+   * the sum against the database and warns when they disagree.
    */
-  compareAtPrice: 70,
+  compareAtPrice: 39.8,
   /** localStorage key — versioned so a future campaign is not pre-dismissed. */
   storageKey: 'jw24:promo:summer-2026:dismissed',
 } as const;

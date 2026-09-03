@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
+import CartButton from '@/components/shop/CartButton';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -22,6 +23,7 @@ export default function Header() {
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   const navLinks = [
+    { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}/services`, label: t('services') },
     { href: `/${locale}#gallery`, label: t('gallery') },
     { href: `/${locale}/blog`, label: t('blog') },
@@ -59,7 +61,8 @@ export default function Header() {
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <CartButton />
             <LanguageSwitcher />
             <Link
               href={`/${locale}/booking`}
@@ -99,7 +102,7 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden transition-all duration-300 overflow-hidden ${
-          menuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
+          menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <nav className="bg-black/98 border-t border-white/10 px-4 py-4 flex flex-col gap-4">

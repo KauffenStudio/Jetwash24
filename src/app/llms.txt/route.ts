@@ -2,6 +2,8 @@ import { SITE_URL, BUSINESS } from '@/lib/seo/business';
 import { SERVICES } from '@/content/services';
 import { LOCATIONS } from '@/content/locations';
 import { SORTED_ARTICLES } from '@/content/blog';
+import { PRODUCT_CATEGORIES } from '@/lib/shop/catalog';
+import { SHIPPING_RATES } from '@/lib/shop/shipping';
 
 /** This file is written in English, so prices use the English convention (€39.90). */
 const euro = (amount: number) =>
@@ -32,7 +34,7 @@ function build(): string {
   lines.push('# JetWash24 Detailing');
   lines.push('');
   lines.push(
-    `> Professional car detailing in Guia, Albufeira, Algarve, Portugal. Interior and exterior detailing, machine polishing, paint correction and headlight restoration, bookable online. Located at ${BUSINESS.address.streetAddress}, ${BUSINESS.address.addressLocality} ${BUSINESS.address.postalCode}, a 3-minute walk from Algarve Shopping. Open every day ${BUSINESS.openingHours.opens}–${BUSINESS.openingHours.closes}. Site is bilingual: Portuguese under /pt and English under /en.`
+    `> Online shop for car cleaning products and detailing accessories, shipped across Portugal, run by a professional detailing centre in Guia, Albufeira, Algarve. Also offers in-person detailing: machine polishing, paint correction and headlight restoration, bookable online. Located at ${BUSINESS.address.streetAddress}, ${BUSINESS.address.addressLocality} ${BUSINESS.address.postalCode}, a 3-minute walk from Algarve Shopping. Open every day ${BUSINESS.openingHours.opens}–${BUSINESS.openingHours.closes}. Site is bilingual: Portuguese under /pt and English under /en.`
   );
   lines.push('');
   lines.push(
@@ -67,6 +69,18 @@ function build(): string {
   }
   lines.push('');
 
+  lines.push('## Shop');
+  lines.push('');
+  lines.push(
+    `- [Shop](${SITE_URL}/en/shop): Car cleaning products and detailing accessories, the same ones used in the JetWash24 centre. Card payment via Stripe, shipped anywhere in Portugal. Free shipping on mainland orders over ${euro(SHIPPING_RATES.CONTINENTAL.freeFrom)} (${euro(SHIPPING_RATES.CONTINENTAL.cost)} otherwise); Madeira and the Azores ${euro(SHIPPING_RATES.ISLANDS.cost)}, free over ${euro(SHIPPING_RATES.ISLANDS.freeFrom)}. Orders ship within 1-2 working days.`
+  );
+  for (const category of PRODUCT_CATEGORIES) {
+    lines.push(
+      `- [${category.en}](${SITE_URL}/en/shop?category=${category.slug}): ${category.en} products in the JetWash24 shop.`
+    );
+  }
+  lines.push('');
+
   lines.push('## Booking');
   lines.push('');
   lines.push(
@@ -77,6 +91,7 @@ function build(): string {
   lines.push('## Portuguese versions');
   lines.push('');
   lines.push(`- [Página inicial](${SITE_URL}/pt): Portuguese home page.`);
+  lines.push(`- [Loja](${SITE_URL}/pt/shop): The shop in Portuguese.`);
   lines.push(`- [Serviços](${SITE_URL}/pt/services): All services in Portuguese.`);
   lines.push(`- [Blog](${SITE_URL}/pt/blog): Guides in Portuguese.`);
   lines.push('');

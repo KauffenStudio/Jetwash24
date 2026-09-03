@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { prisma } from '@/lib/prisma';
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo/business';
 import { SERVICE_SLUGS } from '@/content/services';
 import { ARTICLE_SLUGS } from '@/content/blog';
@@ -29,12 +30,37 @@ const ROUTES = [
     changeFrequency: 'monthly' as const,
   })),
   { path: '/booking', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/shop', priority: 0.95, changeFrequency: 'weekly' as const },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+/**
+ * Product pages live in the database, so they're read at request time. A DB
+ * hiccup must never take the whole sitemap down — we fall back to the static
+ * routes instead.
+ */
+async function productRoutes() {
+  try {
+    const products = await prisma.product.findMany({
+      where: { isActive: true },
+      select: { slug: true },
+      orderBy: { sortOrder: 'asc' },
+    });
+    return products.map((product) => ({
+      path: `/shop/${product.slug}`,
+      priority: 0.7,
+      changeFrequency: 'weekly' as const,
+    }));
+  } catch (err) {
+    console.error('Sitemap: could not load products:', err);
+    return [];
+  }
+}
 
-  return ROUTES.flatMap((route) =>
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date();
+  const routes = [...ROUTES, ...(await productRoutes())];
+
+  return routes.flatMap((route) =>
     LOCALES.map((locale) => ({
       url: `${SITE_URL}/${locale}${route.path}`,
       lastModified,

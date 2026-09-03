@@ -1,5 +1,6 @@
 import { PrismaClient, ServiceCategory } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'node:crypto';
 
 const prisma = new PrismaClient();
 
@@ -250,8 +251,15 @@ async function main() {
   console.log('Add-ons seeded.');
 
   // ─── Users ────────────────────────────────────────────────────────────────────
-  const adminHash = await bcrypt.hash('Admin@JetWash24!', 12);
-  const workerHash = await bcrypt.hash('Worker@JetWash24!', 12);
+  // Passwords come from the environment so this file — which is in a public
+  // repository — never carries a working credential. With no value set we
+  // generate a random one and print it once; use scripts/set-password.mjs to
+  // change a password later.
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? randomPassword();
+  const workerPassword = process.env.SEED_WORKER_PASSWORD ?? randomPassword();
+
+  const adminHash = await bcrypt.hash(adminPassword, 12);
+  const workerHash = await bcrypt.hash(workerPassword, 12);
 
   await prisma.user.upsert({
     where: { email: 'admin@jetwash24.com' },
@@ -277,8 +285,16 @@ async function main() {
 
   console.log('Users seeded.');
   console.log('\nSeed complete!');
-  console.log('Admin:  admin@jetwash24.com  / Admin@JetWash24!');
-  console.log('Worker: worker@jetwash24.com / Worker@JetWash24!');
+  // Only shown for accounts this run actually created — an upsert leaves an
+  // existing password untouched, so printing it would be a lie.
+  console.log('Admin:  admin@jetwash24.com  / ' + adminPassword);
+  console.log('Worker: worker@jetwash24.com / ' + workerPassword);
+  console.log('(if the accounts already existed, their passwords are unchanged)');
+}
+
+/** Random 24-char password, used when no seed password is provided. */
+function randomPassword(): string {
+  return randomBytes(18).toString('base64url');
 }
 
 main()

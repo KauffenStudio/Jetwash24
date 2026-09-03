@@ -21,6 +21,7 @@
   },
   "nav": {
     "home": "Início",
+    "shop": "Loja",
     "services": "Serviços",
     "blog": "Blog",
     "gallery": "Galeria",
@@ -33,10 +34,10 @@
   },
   "hero": {
     "tagline": "Guia · Albufeira · Algarve",
-    "headline": "Detailing Profissional no Algarve",
-    "description": "Transformamos o interior e exterior do seu veículo com técnicas de detailing premium. Resultados que falam por si.",
-    "cta": "Reservar Agora",
-    "scrollDown": "Ver serviços"
+    "headline": "Produtos de Detailing Profissional",
+    "description": "Os produtos que usamos todos os dias no nosso centro em Guia — à venda, com envio para todo o Portugal. E, se preferir, tratamos nós do seu carro.",
+    "cta": "Ver a loja",
+    "ctaSecondary": "Reservar detailing"
   },
   "services": {
     "title": "Os Nossos Serviços",
@@ -293,5 +294,40 @@
     "aria": {
       "close": "Fechar promoção"
     }
+  },
+  "shop": {
+    "cart": "Carrinho",
+    "loading": "A carregar…",
+    "emptyCart": "O seu carrinho está vazio",
+    "emptyCartHint": "Descubra os produtos que usamos todos os dias no nosso centro.",
+    "continueShopping": "Continuar a comprar",
+    "paymentCanceled": "O pagamento foi cancelado. O carrinho ficou intacto — pode tentar de novo.",
+    "quantity": "Quantidade",
+    "decrease": "Diminuir quantidade",
+    "increase": "Aumentar quantidade",
+    "remove": "Remover",
+    "yourDetails": "Os seus dados",
+    "fullName": "Nome completo",
+    "phone": "Telemóvel",
+    "nif": "NIF (opcional, para fatura)",
+    "shippingAddress": "Morada de envio",
+    "addressLine1": "Morada",
+    "addressLine2": "Andar, porta (opcional)",
+    "postalCode": "Código postal",
+    "city": "Localidade",
+    "notes": "Notas para a entrega (opcional)",
+    "subtotal": "Subtotal",
+    "shipping": "Portes",
+    "shippingPending": "Indique o código postal",
+    "free": "Grátis",
+    "freeShippingMissing": "Faltam {amount}€ para portes grátis.",
+    "total": "Total",
+    "payNow": "Pagar com segurança",
+    "processing": "A abrir o pagamento…",
+    "securePayment": "Pagamento seguro com cartão via Stripe.",
+    "errorPostalCode": "Código postal inválido. Use o formato 8800-076.",
+    "errorBelowMinimum": "A encomenda mínima é de {amount}€.",
+    "errorOutOfStock": "Um dos produtos ficou sem stock. Ajuste o carrinho e tente de novo.",
+    "errorGeneric": "Não foi possível iniciar o pagamento. Tente novamente."
   }
 }

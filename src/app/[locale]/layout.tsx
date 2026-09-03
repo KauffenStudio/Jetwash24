@@ -10,6 +10,7 @@ import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
 import SummerPromoPopup from '@/components/promo/SummerPromoPopup';
+import { CartProvider } from '@/components/shop/CartProvider';
 import { SITE_URL, LOCALES } from '@/lib/seo/business';
 import '../globals.css';
 
@@ -25,37 +26,44 @@ const GA_MEASUREMENT_ID = 'G-5CEH9TTQ3B';
 /** Per-locale SEO copy so each language version is indexed on its own terms. */
 const SEO = {
   pt: {
-    title: 'JetWash24 | Detailing Profissional no Algarve',
+    title: 'JetWash24 | Produtos de Limpeza Auto e Detailing no Algarve',
     description:
-      'Detailing profissional de interiores e exteriores em Guia, Algarve. Reserva online. A 3 minutos do Algarve Shopping.',
-    ogTitle: 'JetWash24 | Detailing Profissional no Algarve',
-    ogDescription: 'Detailing profissional em Guia, Algarve. Reserve online.',
+      'Loja de produtos de limpeza automóvel e acessórios de detailing, com envio para todo o Portugal. Centro de detailing em Guia, Albufeira.',
+    ogTitle: 'JetWash24 | Produtos de Limpeza Auto e Detailing',
+    ogDescription:
+      'Produtos de limpeza auto e acessórios de detailing com envio para todo o Portugal. Detailing profissional em Guia, Algarve.',
     ogLocale: 'pt_PT',
     keywords: [
+      'produtos de limpeza auto',
+      'produtos detailing portugal',
+      'acessórios detailing',
+      'loja detailing online',
+      'shampoo auto',
+      'cera para carro',
       'car detailing algarve',
       'detailing guia',
       'lavagem automóvel guia',
-      'limpeza carro algarve',
-      'limpeza interior carro',
-      'polimento faróis algarve',
       'detailing albufeira',
       'jetwash24',
     ],
   },
   en: {
-    title: 'JetWash24 | Professional Car Detailing in the Algarve',
+    title: 'JetWash24 | Car Cleaning Products & Detailing in the Algarve',
     description:
-      'Professional interior & exterior car detailing in Guia, Algarve. Book online. A 3-minute walk from Algarve Shopping.',
-    ogTitle: 'JetWash24 | Professional Car Detailing in the Algarve',
-    ogDescription: 'Professional car detailing in Guia, Algarve. Book online.',
+      'Car cleaning products and detailing accessories shipped across Portugal. Professional detailing centre in Guia, Albufeira.',
+    ogTitle: 'JetWash24 | Car Cleaning Products & Detailing',
+    ogDescription:
+      'Car cleaning products and detailing accessories shipped across Portugal. Professional detailing in Guia, Algarve.',
     ogLocale: 'en_GB',
     keywords: [
+      'car cleaning products portugal',
+      'car detailing products',
+      'detailing accessories',
+      'car wax',
+      'car shampoo',
       'car detailing algarve',
       'car detailing guia',
-      'car wash guia',
       'car cleaning algarve',
-      'interior car cleaning',
-      'headlight restoration algarve',
       'car detailing albufeira',
       'jetwash24',
     ],
@@ -159,11 +167,13 @@ export default async function LocaleLayout({
         <LocalBusinessSchema locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <WhatsAppButton />
-            <SummerPromoPopup />
+            <CartProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <WhatsAppButton />
+              <SummerPromoPopup />
+            </CartProvider>
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

@@ -76,7 +76,7 @@ export default function Hero() {
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
           <Link
-            href={`/${locale}/booking`}
+            href={`/${locale}/shop`}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-black font-bold text-base tracking-wide rounded hover:bg-gold-light transition-all duration-200 hover:scale-105"
             style={{ boxShadow: '0 0 30px rgba(201,168,76,0.35)' }}
           >
@@ -85,20 +85,20 @@ export default function Hero() {
               <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
-          <a
-            href={`/${locale}#services`}
+          <Link
+            href={`/${locale}/booking`}
             className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-white/20 text-white font-medium text-base tracking-wide rounded hover:border-white/50 hover:bg-white/5 transition-all duration-200 backdrop-blur-sm"
           >
-            {t('scrollDown')}
-          </a>
+            {t('ctaSecondary')}
+          </Link>
         </div>
 
         {/* Stats strip */}
         <div className="mt-12 sm:mt-16 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 sm:gap-8">
           {[
-            { value: '100%', label: locale === 'pt' ? 'Satisfação garantida' : 'Satisfaction guaranteed' },
-            { value: '5★', label: locale === 'pt' ? 'Avaliação' : 'Rating' },
-            { value: locale === 'pt' ? 'Seg–Dom' : 'Mon–Sun', label: locale === 'pt' ? 'Aberto todos os dias' : 'Open every day' },
+            { value: '24–48h', label: locale === 'pt' ? 'Envio para todo o Portugal' : 'Shipping across Portugal' },
+            { value: '5★', label: locale === 'pt' ? 'Avaliação Google' : 'Google rating' },
+            { value: '50€+', label: locale === 'pt' ? 'Portes grátis (Continente)' : 'Free shipping (mainland)' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-xl sm:text-3xl font-black text-white" style={{ textShadow: '0 0 20px rgba(201,168,76,0.3)' }}>

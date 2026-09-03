@@ -10,6 +10,8 @@ const NAV_ITEMS = [
   { key: 'bookings', label: 'Reservas', icon: '📋', path: '/bookings' },
   { key: 'calendar', label: 'Calendário', icon: '📅', path: '/calendar' },
   { key: 'services', label: 'Serviços', icon: '🛠', path: '/services' },
+  { key: 'products', label: 'Produtos', icon: '🧴', path: '/products' },
+  { key: 'orders', label: 'Encomendas', icon: '📦', path: '/orders' },
   { key: 'gallery', label: 'Galeria', icon: '🖼', path: '/gallery' },
   { key: 'blocked-slots', label: 'Bloquear', icon: '🚫', path: '/blocked-slots' },
 ];

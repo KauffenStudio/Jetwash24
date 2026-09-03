@@ -10,6 +10,9 @@
  *   cost 5–20€   → ×2
  *   cost > 20€   → ×1.8
  *   then rounded UP to the next …,90
+ *   and finally stepped DOWN to the …9,90 below when it lands within 1,50€
+ *   over a round ten (30,90 → 29,90), because crossing a round number costs
+ *   far more in conversion than the euro it saves
  *
  * `cost` must be the FULL cost of getting the item to the customer — product
  * plus AliExpress shipping — because the shop ships free and that postage comes
@@ -27,9 +30,17 @@ const prisma = new PrismaClient();
 export function retailPrice(cost) {
   const multiplier = cost < 5 ? 3 : cost <= 20 ? 2 : 1.8;
   const raw = cost * multiplier;
+
   // Round up to the next …,90 — never down, so rounding can't eat the margin.
-  const rounded = Math.ceil((raw - 0.9) / 1) + 0.9;
-  return Math.max(rounded, 0.9);
+  let price = Math.max(Math.ceil(raw - 0.9) + 0.9, 0.9);
+
+  // A price that lands just over a round ten reads as "thirty-something" and
+  // the shopper starts comparing. Step it down to the …9,90 below: it costs
+  // about a euro and buys back the whole psychological bracket.
+  const ten = Math.floor(price / 10) * 10;
+  if (ten > 0 && price - ten <= 1.5) price = ten - 0.1;
+
+  return Math.round(price * 100) / 100;
 }
 
 function slugify(input) {

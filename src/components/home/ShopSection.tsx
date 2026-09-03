@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { PRODUCT_CATEGORIES } from '@/lib/shop/catalog';
-import { DELIVERY_DAYS, SHIPPING_RATES } from '@/lib/shop/shipping';
-import { formatEuro } from '@/lib/utils';
+import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import Reveal from '@/components/ui/Reveal';
 
@@ -32,8 +31,6 @@ export default async function ShopSection({ locale }: { locale: string }) {
 
   if (products.length === 0) return null;
 
-  const freeFrom = SHIPPING_RATES.PT_MAINLAND.freeFrom;
-
   return (
     <section id="shop" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -48,8 +45,8 @@ export default async function ShopSection({ locale }: { locale: string }) {
               </h2>
               <p className="mt-3 max-w-xl leading-relaxed text-surface-600">
                 {isPt
-                  ? `Os mesmos produtos que usamos nos carros dos nossos clientes. Envio para toda a União Europeia em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis, portes grátis acima de ${formatEuro(freeFrom)}€ em Portugal Continental.`
-                  : `The same products we use on our customers' cars. Shipped across the EU in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days, free over ${formatEuro(freeFrom)}€ in mainland Portugal.`}
+                  ? `Os mesmos produtos que usamos nos carros dos nossos clientes. Portes grátis para toda a União Europeia, entrega em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis.`
+                  : `The same products we use on our customers' cars. Free shipping across the European Union, delivered in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days.`}
               </p>
             </div>
             <Link

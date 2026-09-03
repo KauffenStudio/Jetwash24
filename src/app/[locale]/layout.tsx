@@ -28,10 +28,10 @@ const SEO = {
   pt: {
     title: 'JetWash24 | Produtos de Limpeza Auto e Detailing no Algarve',
     description:
-      'Loja de produtos de limpeza automóvel e acessórios de detailing, com envio para toda a União Europeia. Centro de detailing em Guia, Albufeira.',
+      'Loja de produtos de limpeza automóvel e acessórios de detailing, com portes grátis para toda a União Europeia. Centro de detailing em Guia, Albufeira.',
     ogTitle: 'JetWash24 | Produtos de Limpeza Auto e Detailing',
     ogDescription:
-      'Produtos de limpeza auto e acessórios de detailing com envio para toda a Europa. Detailing profissional em Guia, Algarve.',
+      'Produtos de limpeza auto e acessórios de detailing com portes grátis para toda a Europa. Detailing profissional em Guia, Algarve.',
     ogLocale: 'pt_PT',
     keywords: [
       'produtos de limpeza auto',
@@ -51,10 +51,10 @@ const SEO = {
   en: {
     title: 'JetWash24 | Car Cleaning Products & Detailing in the Algarve',
     description:
-      'Car cleaning products and detailing accessories shipped across the European Union. Professional detailing centre in Guia, Albufeira.',
+      'Car cleaning products and detailing accessories with free shipping across the European Union. Professional detailing centre in Guia, Albufeira.',
     ogTitle: 'JetWash24 | Car Cleaning Products & Detailing',
     ogDescription:
-      'Car cleaning products and detailing accessories shipped across Europe. Professional detailing in Guia, Algarve.',
+      'Car cleaning products and detailing accessories with free shipping across Europe. Professional detailing in Guia, Algarve.',
     ogLocale: 'en_GB',
     keywords: [
       'car cleaning products europe',

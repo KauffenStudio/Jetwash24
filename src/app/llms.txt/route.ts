@@ -3,7 +3,7 @@ import { SERVICES } from '@/content/services';
 import { LOCATIONS } from '@/content/locations';
 import { SORTED_ARTICLES } from '@/content/blog';
 import { PRODUCT_CATEGORIES } from '@/lib/shop/catalog';
-import { DELIVERY_DAYS, SHIPPING_RATES } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS, MIN_ORDER_TOTAL } from '@/lib/shop/shipping';
 
 /** This file is written in English, so prices use the English convention (€39.90). */
 const euro = (amount: number) =>
@@ -34,7 +34,7 @@ function build(): string {
   lines.push('# JetWash24 Detailing');
   lines.push('');
   lines.push(
-    `> Online shop for car cleaning products and detailing accessories, shipped to all 27 EU countries, run by a professional detailing centre in Guia, Albufeira, Algarve. Also offers in-person detailing: machine polishing, paint correction and headlight restoration, bookable online. Located at ${BUSINESS.address.streetAddress}, ${BUSINESS.address.addressLocality} ${BUSINESS.address.postalCode}, a 3-minute walk from Algarve Shopping. Open every day ${BUSINESS.openingHours.opens}–${BUSINESS.openingHours.closes}. Site is bilingual: Portuguese under /pt and English under /en.`
+    `> Online shop for car cleaning products and detailing accessories, shipped free to all 27 EU countries, run by a professional detailing centre in Guia, Albufeira, Algarve. Also offers in-person detailing: machine polishing, paint correction and headlight restoration, bookable online. Located at ${BUSINESS.address.streetAddress}, ${BUSINESS.address.addressLocality} ${BUSINESS.address.postalCode}, a 3-minute walk from Algarve Shopping. Open every day ${BUSINESS.openingHours.opens}–${BUSINESS.openingHours.closes}. Site is bilingual: Portuguese under /pt and English under /en.`
   );
   lines.push('');
   lines.push(
@@ -72,7 +72,7 @@ function build(): string {
   lines.push('## Shop');
   lines.push('');
   lines.push(
-    `- [Shop](${SITE_URL}/en/shop): Car cleaning products and detailing accessories, the same ones used in the JetWash24 centre. Card payment via Stripe, shipped to all 27 EU countries. Shipping from ${euro(SHIPPING_RATES.PT_MAINLAND.cost)} in mainland Portugal (free over ${euro(SHIPPING_RATES.PT_MAINLAND.freeFrom)}), ${euro(SHIPPING_RATES.ES.cost)} to Spain, ${euro(SHIPPING_RATES.EU_WEST.cost)} to western Europe and ${euro(SHIPPING_RATES.EU_EAST.cost)} to the rest of the EU. Delivered in ${DELIVERY_DAYS.min}-${DELIVERY_DAYS.max} working days, with a 14-day right of return.`
+    `- [Shop](${SITE_URL}/en/shop): Car cleaning products and detailing accessories, the same ones used in the JetWash24 centre. Card and local payment methods via Stripe. Free shipping to all 27 EU countries, with no minimum beyond a ${euro(MIN_ORDER_TOTAL)} order value. Delivered in ${DELIVERY_DAYS.min}-${DELIVERY_DAYS.max} working days, with a 14-day right of return.`
   );
   for (const category of PRODUCT_CATEGORIES) {
     lines.push(

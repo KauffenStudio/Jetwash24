@@ -8,6 +8,7 @@ import { formatEuro } from '@/lib/utils';
 import {
   COUNTRIES,
   DELIVERY_DAYS,
+  FREE_SHIPPING,
   MIN_ORDER_TOTAL,
   ZONE_LABEL,
   amountToFreeShipping,
@@ -297,19 +298,21 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
           <Row
             label={t('shipping')}
             value={
-              zone === null
-                ? t('shippingPending')
-                : shippingCost === 0
-                  ? t('free')
+              // With free shipping there is nothing to wait for: the answer is
+              // the same before and after the address is filled in.
+              FREE_SHIPPING || shippingCost === 0
+                ? t('free')
+                : zone === null
+                  ? t('shippingPending')
                   : `${formatEuro(shippingCost)}€`
             }
           />
-          {zone && (
+          {zone && !FREE_SHIPPING && (
             <p className="text-xs text-surface-400">
               {isPt ? ZONE_LABEL[zone].pt : ZONE_LABEL[zone].en}
             </p>
           )}
-          {missingForFree !== null && (
+          {missingForFree !== null && !FREE_SHIPPING && (
             <p className="text-xs text-gold-dark">
               {t('freeShippingMissing', { amount: formatEuro(missingForFree) })}
             </p>

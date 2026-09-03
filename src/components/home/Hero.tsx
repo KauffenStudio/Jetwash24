@@ -96,7 +96,7 @@ export default function Hero() {
         {/* Stats strip */}
         <div className="mt-12 sm:mt-16 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 sm:gap-8">
           {[
-            { value: '24–48h', label: locale === 'pt' ? 'Envio para todo o Portugal' : 'Shipping across Portugal' },
+            { value: 'UE', label: locale === 'pt' ? 'Envio para toda a Europa' : 'Shipped across Europe' },
             { value: '5★', label: locale === 'pt' ? 'Avaliação Google' : 'Google rating' },
             { value: '50€+', label: locale === 'pt' ? 'Portes grátis (Continente)' : 'Free shipping (mainland)' },
           ].map((stat) => (

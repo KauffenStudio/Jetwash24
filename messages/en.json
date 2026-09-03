@@ -35,7 +35,7 @@
   "hero": {
     "tagline": "Guia · Albufeira · Algarve",
     "headline": "Professional Car Detailing Products",
-    "description": "The products we use every day in our own centre in Guia — on sale, shipped across Portugal. Or let us do the work on your car.",
+    "description": "The products we use every day in our own centre in Guia — on sale, shipped across the European Union. Or let us do the work on your car.",
     "cta": "Shop now",
     "ctaSecondary": "Book a detailing"
   },
@@ -315,19 +315,21 @@
     "addressLine2": "Floor, door (optional)",
     "postalCode": "Postcode",
     "city": "Town",
+    "country": "Country",
     "notes": "Delivery notes (optional)",
     "subtotal": "Subtotal",
     "shipping": "Shipping",
-    "shippingPending": "Enter your postcode",
+    "shippingPending": "Enter your country and postcode",
     "free": "Free",
     "freeShippingMissing": "{amount}€ away from free shipping.",
     "total": "Total",
     "payNow": "Pay securely",
     "processing": "Opening payment…",
     "securePayment": "Secure card payment via Stripe.",
-    "errorPostalCode": "Invalid postcode. Use the 8800-076 format.",
+    "errorPostalCode": "That postcode does not look valid for the country you picked.",
     "errorBelowMinimum": "The minimum order is {amount}€.",
     "errorOutOfStock": "One of the products just sold out. Adjust your cart and try again.",
-    "errorGeneric": "We couldn't start the payment. Please try again."
+    "errorGeneric": "We couldn't start the payment. Please try again.",
+    "deliveryWindow": "Delivered {min} to {max} working days after payment. You have 14 days to return it, no reason needed."
   }
 }

@@ -19,7 +19,6 @@ export default function ProductSchema({
     brand: string | null;
     sku: string | null;
     price: number;
-    stock: number;
     images: string[];
   };
   locale: string;
@@ -45,10 +44,9 @@ export default function ProductSchema({
           url,
           priceCurrency: 'EUR',
           price: product.price.toFixed(2),
-          availability:
-            product.stock > 0
-              ? 'https://schema.org/InStock'
-              : 'https://schema.org/OutOfStock',
+          // Made to order: orderable at any time, delivered within the window
+          // advertised on the page.
+          availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
           seller: { '@type': 'Organization', name: BUSINESS.name, url: SITE_URL },
         },

@@ -1,5 +1,10 @@
 import { resend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend';
-import { ZONE_LABEL, type ShippingZone } from '@/lib/shop/shipping';
+import {
+  DELIVERY_DAYS,
+  ZONE_LABEL,
+  countryLabel,
+  type ShippingZone,
+} from '@/lib/shop/shipping';
 
 export type OrderWithItems = {
   id: string;
@@ -12,6 +17,7 @@ export type OrderWithItems = {
   addressLine2: string | null;
   postalCode: string;
   city: string;
+  country: string;
   shippingZone: string;
   notes: string | null;
   locale: string;
@@ -169,7 +175,7 @@ function addressBlock(order: OrderWithItems, pt: boolean): string {
       ${order.name}<br>
       ${order.addressLine1}${order.addressLine2 ? `<br>${order.addressLine2}` : ''}<br>
       ${order.postalCode} ${order.city}<br>
-      ${pt ? zone.pt : zone.en}<br>
+      ${countryLabel(order.country, pt ? 'pt' : 'en')} (${pt ? zone.pt : zone.en})<br>
       ${order.phone}
     </p>
   </div>`;
@@ -183,12 +189,17 @@ function buildCustomerOrderHtml(order: OrderWithItems): string {
     `
     <p style="color:#525252;margin:0 0 8px;">${
       pt
-        ? `Olá ${order.name}, recebemos o seu pagamento. Preparamos a encomenda e enviamos em 1–2 dias úteis.`
-        : `Hi ${order.name}, we received your payment. We'll pack your order and ship it within 1–2 working days.`
+        ? `Olá ${order.name}, recebemos o seu pagamento. A encomenda chega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis.`
+        : `Hi ${order.name}, we received your payment. Your order arrives in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days.`
     }</p>
     <p style="color:#737373;margin:0 0 24px;font-size:14px;">${pt ? 'Referência' : 'Reference'}: <strong>${order.orderNumber}</strong></p>
     ${itemsTable(order, pt)}
     ${addressBlock(order, pt)}
+    <p style="color:#737373;font-size:13px;margin:0 0 8px;">${
+      pt
+        ? 'Tem 14 dias após a receção para devolver a encomenda, sem ter de justificar.'
+        : 'You have 14 days from delivery to return your order, no reason needed.'
+    }</p>
     <p style="color:#737373;font-size:13px;margin:0;">${
       pt
         ? 'Dúvidas? Responda a este email ou escreva-nos por WhatsApp para +351 928 380 478.'

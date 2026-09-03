@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { formatEuro } from '@/lib/utils';
-import { ZONE_LABEL, type ShippingZone } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS, countryLabel } from '@/lib/shop/shipping';
 import ClearCartOnMount from '@/components/shop/ClearCartOnMount';
 
 export function generateMetadata({
@@ -70,8 +70,8 @@ export default async function ShopSuccessPage({
               ? 'Estamos a confirmar o pagamento. Recebe o email de confirmação dentro de momentos.'
               : 'We are confirming your payment. Your confirmation email will arrive shortly.'
             : isPt
-              ? 'Enviámos um email com os detalhes. Expedimos a encomenda em 1–2 dias úteis.'
-              : 'We sent you an email with the details. Your order ships within 1–2 working days.'}
+              ? `Enviámos um email com os detalhes. A encomenda chega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis.`
+              : `We sent you an email with the details. Your order arrives in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days.`}
         </p>
 
         {order && (
@@ -122,9 +122,7 @@ export default async function ShopSuccessPage({
               <br />
               {order.postalCode} {order.city}
               <br />
-              {isPt
-                ? ZONE_LABEL[order.shippingZone as ShippingZone].pt
-                : ZONE_LABEL[order.shippingZone as ShippingZone].en}
+              {countryLabel(order.country, locale)}
             </p>
           </div>
         )}

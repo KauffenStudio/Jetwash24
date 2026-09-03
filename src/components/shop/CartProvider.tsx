@@ -11,6 +11,9 @@ import {
 
 const STORAGE_KEY = 'jetwash24.cart.v1';
 
+/** Hard cap per line, matching the limit the orders API enforces. */
+export const MAX_PER_LINE = 20;
+
 export type CartItem = {
   productId: string;
   slug: string;
@@ -18,8 +21,6 @@ export type CartItem = {
   nameEn: string;
   price: number;
   image: string | null;
-  /** Stock known at add-to-cart time — the API revalidates it at checkout. */
-  stock: number;
   quantity: number;
 };
 
@@ -75,15 +76,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items, ready]);
 
+  // A single line never exceeds MAX_PER_LINE — a typo in the stepper should not
+  // turn into a 200-unit order we then have to source by hand.
   const add = useCallback((item: Omit<CartItem, 'quantity'>, quantity = 1) => {
     setItems((current) => {
       const existing = current.find((i) => i.productId === item.productId);
       if (!existing) {
-        return [...current, { ...item, quantity: Math.min(quantity, item.stock) }];
+        return [...current, { ...item, quantity: Math.min(quantity, MAX_PER_LINE) }];
       }
       return current.map((i) =>
         i.productId === item.productId
-          ? { ...i, ...item, quantity: Math.min(i.quantity + quantity, item.stock) }
+          ? { ...i, ...item, quantity: Math.min(i.quantity + quantity, MAX_PER_LINE) }
           : i,
       );
     });
@@ -95,7 +98,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ? current.filter((i) => i.productId !== productId)
         : current.map((i) =>
             i.productId === productId
-              ? { ...i, quantity: Math.min(quantity, i.stock) }
+              ? { ...i, quantity: Math.min(quantity, MAX_PER_LINE) }
               : i,
           ),
     );

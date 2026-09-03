@@ -11,9 +11,9 @@ const updateSchema = z.object({
   notes: z.string().max(500).nullable().optional(),
 });
 
-// Statuses that mean the goods are no longer going out, so reserved units go
-// back on the shelf. Only applied on the transition into one of them.
-const RESTOCKING_STATUSES = ['CANCELLED', 'REFUNDED'] as const;
+// Statuses that mean the goods are no longer going out. Only the timestamp is
+// recorded — products are made to order, so there is no stock to give back.
+const CLOSING_STATUSES = ['CANCELLED', 'REFUNDED'] as const;
 
 // PATCH /api/orders/[id] — Admin only: fulfilment status and tracking code.
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
@@ -40,30 +40,19 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const becomesShipped = status === 'SHIPPED' && existing.status !== 'SHIPPED';
   const becomesCancelled =
     status !== undefined &&
-    (RESTOCKING_STATUSES as readonly string[]).includes(status) &&
-    !(RESTOCKING_STATUSES as readonly string[]).includes(existing.status);
+    (CLOSING_STATUSES as readonly string[]).includes(status) &&
+    !(CLOSING_STATUSES as readonly string[]).includes(existing.status);
 
-  const order = await prisma.$transaction(async (tx) => {
-    if (becomesCancelled) {
-      for (const item of existing.items) {
-        await tx.product.update({
-          where: { id: item.productId },
-          data: { stock: { increment: item.quantity } },
-        });
-      }
-    }
-
-    return tx.order.update({
-      where: { id: params.id },
-      data: {
-        ...(status ? { status } : {}),
-        ...(trackingCode !== undefined ? { trackingCode } : {}),
-        ...(notes !== undefined ? { notes } : {}),
-        ...(becomesShipped ? { shippedAt: new Date() } : {}),
-        ...(becomesCancelled ? { cancelledAt: new Date() } : {}),
-      },
-      include: { items: true },
-    });
+  const order = await prisma.order.update({
+    where: { id: params.id },
+    data: {
+      ...(status ? { status } : {}),
+      ...(trackingCode !== undefined ? { trackingCode } : {}),
+      ...(notes !== undefined ? { notes } : {}),
+      ...(becomesShipped ? { shippedAt: new Date() } : {}),
+      ...(becomesCancelled ? { cancelledAt: new Date() } : {}),
+    },
+    include: { items: true },
   });
 
   if (becomesShipped) {

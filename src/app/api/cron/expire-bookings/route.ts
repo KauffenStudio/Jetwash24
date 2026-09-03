@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     data: { status: 'EXPIRED' },
   });
 
-  // Shop orders that were never paid: free the stock they were holding.
+  // Shop orders that were never paid: close them so the list stays clean.
   const ordersExpired = await releaseExpiredOrders();
 
   return NextResponse.json({ expired: result.count, ordersExpired });

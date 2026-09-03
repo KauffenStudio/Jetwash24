@@ -1,41 +1,127 @@
 /**
- * Shipping rules for the shop. Portugal only for now.
+ * Shipping rules for the shop: the 27 EU countries.
  *
- * Everything the business can change lives in this file: rates, free-shipping
- * thresholds and the postal-code ranges that separate mainland from islands.
- * Prices are gross (IVA included), like every other price on the site.
+ * Everything the business can change lives in this file — the country list,
+ * which zone each country belongs to, the rates and the free-shipping
+ * thresholds. Prices are gross (IVA included), like every other price on the
+ * site.
+ *
+ * Only EU countries are offered on purpose: no customs declarations, no import
+ * charges landing on the customer at the door. Adding the UK, Switzerland or
+ * Norway is not just a line in COUNTRIES — those need customs paperwork per
+ * parcel.
  */
 
-export type ShippingZone = 'CONTINENTAL' | 'ISLANDS';
+export type ShippingZone =
+  | 'PT_MAINLAND'
+  | 'PT_ISLANDS'
+  | 'ES'
+  | 'EU_WEST'
+  | 'EU_EAST';
 
 export const SHIPPING_RATES: Record<
   ShippingZone,
   { cost: number; freeFrom: number }
 > = {
-  CONTINENTAL: { cost: 4.9, freeFrom: 50 },
-  ISLANDS: { cost: 11.9, freeFrom: 120 },
+  PT_MAINLAND: { cost: 4.9, freeFrom: 50 },
+  PT_ISLANDS: { cost: 11.9, freeFrom: 120 },
+  ES: { cost: 6.9, freeFrom: 75 },
+  EU_WEST: { cost: 12.9, freeFrom: 150 },
+  EU_EAST: { cost: 19.9, freeFrom: 200 },
 };
 
-/** Below this order value we don't ship at all (keeps postage from eating the sale). */
+/** Below this order value we don't ship at all (postage would eat the sale). */
 export const MIN_ORDER_TOTAL = 10;
 
-/** Accepts "8800-076" and "8800076"; returns the normalised "NNNN-NNN" form or null. */
-export function normalisePostalCode(input: string): string | null {
-  const digits = input.replace(/\D/g, '');
-  if (digits.length !== 7) return null;
-  return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+/** Working days from payment to delivery, as advertised on the site and in emails. */
+export const DELIVERY_DAYS = { min: 7, max: 15 } as const;
+
+type Country = {
+  code: string;
+  pt: string;
+  en: string;
+  zone: Exclude<ShippingZone, 'PT_MAINLAND' | 'PT_ISLANDS'> | 'PT';
+};
+
+/**
+ * The 27 EU member states, Portugal first and then alphabetical in Portuguese.
+ * Portugal carries the placeholder zone 'PT' because its real zone (mainland
+ * or islands) depends on the postal code.
+ */
+export const COUNTRIES: Country[] = [
+  { code: 'PT', pt: 'Portugal', en: 'Portugal', zone: 'PT' },
+  { code: 'DE', pt: 'Alemanha', en: 'Germany', zone: 'EU_WEST' },
+  { code: 'AT', pt: 'Áustria', en: 'Austria', zone: 'EU_WEST' },
+  { code: 'BE', pt: 'Bélgica', en: 'Belgium', zone: 'EU_WEST' },
+  { code: 'BG', pt: 'Bulgária', en: 'Bulgaria', zone: 'EU_EAST' },
+  { code: 'CY', pt: 'Chipre', en: 'Cyprus', zone: 'EU_EAST' },
+  { code: 'HR', pt: 'Croácia', en: 'Croatia', zone: 'EU_EAST' },
+  { code: 'DK', pt: 'Dinamarca', en: 'Denmark', zone: 'EU_WEST' },
+  { code: 'SK', pt: 'Eslováquia', en: 'Slovakia', zone: 'EU_EAST' },
+  { code: 'SI', pt: 'Eslovénia', en: 'Slovenia', zone: 'EU_EAST' },
+  { code: 'ES', pt: 'Espanha', en: 'Spain', zone: 'ES' },
+  { code: 'EE', pt: 'Estónia', en: 'Estonia', zone: 'EU_EAST' },
+  { code: 'FI', pt: 'Finlândia', en: 'Finland', zone: 'EU_WEST' },
+  { code: 'FR', pt: 'França', en: 'France', zone: 'EU_WEST' },
+  { code: 'GR', pt: 'Grécia', en: 'Greece', zone: 'EU_EAST' },
+  { code: 'HU', pt: 'Hungria', en: 'Hungary', zone: 'EU_EAST' },
+  { code: 'IE', pt: 'Irlanda', en: 'Ireland', zone: 'EU_WEST' },
+  { code: 'IT', pt: 'Itália', en: 'Italy', zone: 'EU_WEST' },
+  { code: 'LV', pt: 'Letónia', en: 'Latvia', zone: 'EU_EAST' },
+  { code: 'LT', pt: 'Lituânia', en: 'Lithuania', zone: 'EU_EAST' },
+  { code: 'LU', pt: 'Luxemburgo', en: 'Luxembourg', zone: 'EU_WEST' },
+  { code: 'MT', pt: 'Malta', en: 'Malta', zone: 'EU_EAST' },
+  { code: 'NL', pt: 'Países Baixos', en: 'Netherlands', zone: 'EU_WEST' },
+  { code: 'PL', pt: 'Polónia', en: 'Poland', zone: 'EU_EAST' },
+  { code: 'CZ', pt: 'República Checa', en: 'Czechia', zone: 'EU_EAST' },
+  { code: 'RO', pt: 'Roménia', en: 'Romania', zone: 'EU_EAST' },
+  { code: 'SE', pt: 'Suécia', en: 'Sweden', zone: 'EU_WEST' },
+];
+
+export const COUNTRY_CODES = COUNTRIES.map((c) => c.code);
+
+export function countryByCode(code: string): Country | undefined {
+  return COUNTRIES.find((c) => c.code === code.toUpperCase());
+}
+
+export function countryLabel(code: string, locale: string): string {
+  const country = countryByCode(code);
+  if (!country) return code;
+  return locale === 'pt' ? country.pt : country.en;
 }
 
 /**
- * Madeira and the Azores share the 9xxx block; everything else is mainland.
- * An unparseable code falls back to mainland — the checkout validates the
- * format before this runs, so the fallback only guards against bad data.
+ * Postal codes only need to be plausible outside Portugal — carriers correct
+ * the rest, and rejecting a valid foreign format is worse than accepting a
+ * sloppy one. Portuguese codes are normalised to NNNN-NNN because the
+ * mainland/islands split depends on reading them.
  */
-export function zoneForPostalCode(postalCode: string): ShippingZone {
-  const normalised = normalisePostalCode(postalCode);
-  if (!normalised) return 'CONTINENTAL';
+export function normalisePostalCode(input: string, country = 'PT'): string | null {
+  const trimmed = input.trim();
+
+  if (country.toUpperCase() === 'PT') {
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length !== 7) return null;
+    return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+  }
+
+  return /^[A-Za-z0-9][A-Za-z0-9 -]{2,9}$/.test(trimmed) ? trimmed.toUpperCase() : null;
+}
+
+/**
+ * Madeira and the Azores share the 9xxx block, so a Portuguese order is only
+ * placed in a zone after its postal code is read. Everything else follows its
+ * country.
+ */
+export function zoneFor(country: string, postalCode: string): ShippingZone {
+  const entry = countryByCode(country);
+  if (!entry) return 'EU_EAST'; // Unknown country: charge the highest rate, never the lowest.
+  if (entry.zone !== 'PT') return entry.zone;
+
+  const normalised = normalisePostalCode(postalCode, 'PT');
+  if (!normalised) return 'PT_MAINLAND';
   const prefix = Number(normalised.slice(0, 4));
-  return prefix >= 9000 && prefix <= 9999 ? 'ISLANDS' : 'CONTINENTAL';
+  return prefix >= 9000 && prefix <= 9999 ? 'PT_ISLANDS' : 'PT_MAINLAND';
 }
 
 /** Shipping charged for a given subtotal in a given zone (0 once free shipping kicks in). */
@@ -47,13 +133,16 @@ export function shippingCostFor(subtotal: number, zone: ShippingZone): number {
 /** How much more the customer needs to spend for free shipping (null once reached). */
 export function amountToFreeShipping(
   subtotal: number,
-  zone: ShippingZone = 'CONTINENTAL',
+  zone: ShippingZone = 'PT_MAINLAND',
 ): number | null {
   const missing = SHIPPING_RATES[zone].freeFrom - subtotal;
   return missing > 0 ? Math.round(missing * 100) / 100 : null;
 }
 
 export const ZONE_LABEL: Record<ShippingZone, { pt: string; en: string }> = {
-  CONTINENTAL: { pt: 'Portugal Continental', en: 'Mainland Portugal' },
-  ISLANDS: { pt: 'Madeira e Açores', en: 'Madeira & Azores' },
+  PT_MAINLAND: { pt: 'Portugal Continental', en: 'Mainland Portugal' },
+  PT_ISLANDS: { pt: 'Madeira e Açores', en: 'Madeira & Azores' },
+  ES: { pt: 'Espanha', en: 'Spain' },
+  EU_WEST: { pt: 'Europa Ocidental', en: 'Western Europe' },
+  EU_EAST: { pt: 'Resto da União Europeia', en: 'Rest of the EU' },
 };

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { formatDateShort, formatEuro } from '@/lib/utils';
-import { ZONE_LABEL, type ShippingZone } from '@/lib/shop/shipping';
+import { ZONE_LABEL, countryLabel, type ShippingZone } from '@/lib/shop/shipping';
 
 type OrderItem = {
   id: string;
@@ -23,6 +23,7 @@ type Order = {
   addressLine2: string | null;
   postalCode: string;
   city: string;
+  country: string;
   shippingZone: string;
   notes: string | null;
   subtotal: number;
@@ -63,6 +64,35 @@ export default function OrdersTable() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [tracking, setTracking] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  /**
+   * Puts the delivery details on the clipboard in the order a supplier
+   * checkout asks for them, so fulfilling an order is a paste rather than
+   * seven copy trips back and forth.
+   */
+  const copyShipping = async (order: Order) => {
+    const block = [
+      order.name,
+      order.addressLine1,
+      order.addressLine2,
+      `${order.postalCode} ${order.city}`,
+      countryLabel(order.country, 'pt'),
+      order.phone,
+      order.email,
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    try {
+      await navigator.clipboard.writeText(block);
+      setCopiedId(order.id);
+      window.setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      // Clipboard blocked (insecure context or denied permission) — the same
+      // details are on screen right above the button.
+    }
+  };
 
   const fetchOrders = async () => {
     const res = await fetch('/api/orders');
@@ -177,6 +207,8 @@ export default function OrdersTable() {
                       <br />
                       {order.postalCode} {order.city}
                       <br />
+                      {countryLabel(order.country, 'pt')}
+                      <br />
                       {order.phone} · {order.email}
                       {order.nif ? (
                         <>
@@ -185,6 +217,13 @@ export default function OrdersTable() {
                         </>
                       ) : null}
                     </p>
+                    <button
+                      onClick={() => copyShipping(order)}
+                      className="mt-3 rounded border border-surface-300 px-3 py-1.5 text-xs font-semibold hover:border-black"
+                    >
+                      {copiedId === order.id ? 'Copiado ✓' : 'Copiar dados de envio'}
+                    </button>
+
                     {order.notes && (
                       <p className="mt-3 rounded border-l-2 border-gold bg-gold/10 px-3 py-2 text-sm text-surface-600">
                         {order.notes}
@@ -236,7 +275,7 @@ export default function OrdersTable() {
                   </label>
 
                   <p className="text-xs text-surface-400">
-                    Cancelar ou reembolsar devolve o stock ao inventário.
+                    Marcar como enviado envia um email ao cliente com o código de seguimento.
                   </p>
                 </div>
               </div>

@@ -1,36 +1,21 @@
 import { prisma } from '@/lib/prisma';
 
 /**
- * Releasing an unpaid order: mark it EXPIRED and put its reserved units back on
- * the shelf. Guarded by a conditional update so two callers racing (the cron,
- * the Stripe `checkout.session.expired` event, the opportunistic sweep on the
- * next checkout) can never restock the same order twice.
+ * Closing an unpaid order. Products are made to order, so nothing has to go
+ * back on a shelf — this only stops abandoned checkouts from sitting in the
+ * order list forever. The conditional update makes it safe for the three
+ * callers that race here: the cron, the Stripe `checkout.session.expired`
+ * event, and the sweep before the next checkout.
  */
 export async function releaseOrder(orderId: string): Promise<boolean> {
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { items: true },
+  const claimed = await prisma.order.updateMany({
+    where: { id: orderId, status: 'PENDING' },
+    data: { status: 'EXPIRED', paymentExpiresAt: null },
   });
-  if (!order || order.status !== 'PENDING') return false;
-
-  return prisma.$transaction(async (tx) => {
-    const claimed = await tx.order.updateMany({
-      where: { id: orderId, status: 'PENDING' },
-      data: { status: 'EXPIRED', paymentExpiresAt: null },
-    });
-    if (claimed.count !== 1) return false;
-
-    for (const item of order.items) {
-      await tx.product.update({
-        where: { id: item.productId },
-        data: { stock: { increment: item.quantity } },
-      });
-    }
-    return true;
-  });
+  return claimed.count === 1;
 }
 
-/** Releases every unpaid order whose hold has run out. Returns how many were freed. */
+/** Expires every unpaid order whose hold has run out. Returns how many were closed. */
 export async function releaseExpiredOrders(): Promise<number> {
   const stale = await prisma.order.findMany({
     where: { status: 'PENDING', paymentExpiresAt: { lt: new Date() } },

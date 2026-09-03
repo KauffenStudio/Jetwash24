@@ -6,14 +6,15 @@ import { prisma } from '@/lib/prisma';
 import { getStripe, isStripeConfigured } from '@/lib/stripe';
 import { releaseExpiredOrders } from '@/lib/shop/expire-orders';
 import {
+  COUNTRY_CODES,
   MIN_ORDER_TOTAL,
   normalisePostalCode,
   shippingCostFor,
-  zoneForPostalCode,
+  zoneFor,
 } from '@/lib/shop/shipping';
 
-// How long an unpaid order holds its reserved stock. Kept just above Stripe
-// Checkout's 30-minute minimum session lifetime, like the booking hold.
+// How long an unpaid order stays open before it is marked expired. Kept just
+// above Stripe Checkout's 30-minute minimum session lifetime, like bookings.
 const HOLD_MINUTES = 31;
 
 const BASE_URL = process.env.NEXT_PUBLIC_URL ?? 'https://www.jetwash24.com';
@@ -36,8 +37,9 @@ const createOrderSchema = z.object({
   address: z.object({
     line1: z.string().min(1),
     line2: z.string().optional(),
-    postalCode: z.string().min(4),
+    postalCode: z.string().min(3),
     city: z.string().min(1),
+    country: z.enum(COUNTRY_CODES as [string, ...string[]]),
   }),
   notes: z.string().max(500).optional(),
   locale: z.enum(['pt', 'en']).optional().default('pt'),
@@ -78,8 +80,8 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(orders);
 }
 
-// POST /api/orders — Public. Prices, stock and shipping are all recomputed
-// server-side; the cart in the browser is only a suggestion.
+// POST /api/orders — Public. Prices and shipping are recomputed server-side;
+// the cart in the browser is only a suggestion.
 export async function POST(req: NextRequest) {
   if (!isStripeConfigured()) {
     return NextResponse.json(
@@ -96,19 +98,18 @@ export async function POST(req: NextRequest) {
 
   const { items, customer, address, notes, locale } = parsed.data;
 
-  const postalCode = normalisePostalCode(address.postalCode);
+  const postalCode = normalisePostalCode(address.postalCode, address.country);
   if (!postalCode) {
     return NextResponse.json({ error: 'INVALID_POSTAL_CODE' }, { status: 400 });
   }
 
-  // Collapse duplicate lines so a repeated productId can't slip past the stock check.
+  // Collapse duplicate lines so the same product can't appear twice on the order.
   const quantities = new Map<string, number>();
   for (const item of items) {
     quantities.set(item.productId, (quantities.get(item.productId) ?? 0) + item.quantity);
   }
 
-  // Free any stock still held by checkouts that were never paid, so an
-  // abandoned cart from 20 minutes ago can't block this sale.
+  // Tidy away checkouts that were never paid, so the order list stays honest.
   await releaseExpiredOrders();
 
   const products = await prisma.product.findMany({
@@ -117,17 +118,6 @@ export async function POST(req: NextRequest) {
 
   if (products.length !== quantities.size) {
     return NextResponse.json({ error: 'PRODUCT_UNAVAILABLE' }, { status: 409 });
-  }
-
-  const outOfStock = products.filter((p) => p.stock < (quantities.get(p.id) ?? 0));
-  if (outOfStock.length > 0) {
-    return NextResponse.json(
-      {
-        error: 'OUT_OF_STOCK',
-        products: outOfStock.map((p) => ({ id: p.id, namePt: p.namePt, nameEn: p.nameEn, stock: p.stock })),
-      },
-      { status: 409 },
-    );
   }
 
   const subtotal =
@@ -142,27 +132,18 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const zone = zoneForPostalCode(postalCode);
+  const zone = zoneFor(address.country, postalCode);
   const shippingCost = shippingCostFor(subtotal, zone);
   const total = Math.round((subtotal + shippingCost) * 100) / 100;
 
-  // Reserve stock and write the order in one transaction: either the whole
-  // order holds its units, or nothing changes.
+  // Products are made to order — nothing is reserved, so this is a plain write.
   let order;
   try {
-    order = await prisma.$transaction(async (tx) => {
-      for (const [productId, quantity] of quantities) {
-        const reserved = await tx.product.updateMany({
-          where: { id: productId, stock: { gte: quantity } },
-          data: { stock: { decrement: quantity } },
-        });
-        if (reserved.count !== 1) throw new Error('OUT_OF_STOCK');
-      }
-
+    order = await (async () => {
       // Retry the order number on the (rare) unique collision.
       for (let attempt = 0; attempt < 5; attempt++) {
         try {
-          return await tx.order.create({
+          return await prisma.order.create({
             data: {
               orderNumber: generateOrderNumber(),
               name: customer.name,
@@ -173,6 +154,7 @@ export async function POST(req: NextRequest) {
               addressLine2: address.line2 ?? null,
               postalCode,
               city: address.city,
+              country: address.country,
               shippingZone: zone,
               notes: notes ?? null,
               locale,
@@ -198,11 +180,8 @@ export async function POST(req: NextRequest) {
         }
       }
       throw new Error('ORDER_NUMBER_COLLISION');
-    });
+    })();
   } catch (err) {
-    if ((err as Error).message === 'OUT_OF_STOCK') {
-      return NextResponse.json({ error: 'OUT_OF_STOCK' }, { status: 409 });
-    }
     console.error('Order creation failed:', err);
     return NextResponse.json({ error: 'ORDER_FAILED' }, { status: 500 });
   }
@@ -212,7 +191,10 @@ export async function POST(req: NextRequest) {
   try {
     const checkout = await getStripe().checkout.sessions.create({
       mode: 'payment',
-      payment_method_types: ['card'],
+      // No payment_method_types on purpose: Stripe then offers whatever is
+      // enabled in the Dashboard and valid for the buyer's country — iDEAL in
+      // the Netherlands, Bancontact in Belgium, cards everywhere. Selling
+      // across the EU on cards alone leaves conversions on the table.
       customer_email: customer.email,
       line_items: [
         ...products.map((p) => ({
@@ -256,17 +238,9 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     console.error('Stripe checkout creation failed:', err);
-    // Release the reserved stock and drop the dead order.
-    await prisma
-      .$transaction(async (tx) => {
-        for (const [productId, quantity] of quantities) {
-          await tx.product.update({
-            where: { id: productId },
-            data: { stock: { increment: quantity } },
-          });
-        }
-        await tx.order.delete({ where: { id: order.id } });
-      })
+    // Drop the dead order so it never shows up in the fulfilment list.
+    await prisma.order
+      .delete({ where: { id: order.id } })
       .catch((rollbackErr) => console.error('Order rollback failed:', rollbackErr));
 
     return NextResponse.json(

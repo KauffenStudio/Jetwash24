@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
 import { categoryLabel } from '@/lib/shop/catalog';
-import { DELIVERY_DAYS, SHIPPING_RATES } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -56,8 +56,6 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   const name = isPt ? product.namePt : product.nameEn;
   const description = isPt ? product.descriptionPt : product.descriptionEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
-  const freeFrom = SHIPPING_RATES.PT_MAINLAND.freeFrom;
-
   const related = await prisma.product.findMany({
     where: { isActive: true, category: product.category, id: { not: product.id } },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
@@ -129,10 +127,10 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
               </div>
 
               <ul className="mt-8 space-y-2 border-t border-surface-200 pt-6 text-sm text-surface-500">
-                <li>
+                <li className="font-semibold text-black">
                   {isPt
-                    ? `Envio para toda a União Europeia · portes grátis acima de ${formatEuro(freeFrom)}€ em Portugal Continental`
-                    : `Shipped across the European Union · free over ${formatEuro(freeFrom)}€ in mainland Portugal`}
+                    ? 'Portes grátis para toda a União Europeia'
+                    : 'Free shipping across the European Union'}
                 </li>
                 <li>
                   {isPt

@@ -19,18 +19,37 @@ export type ShippingZone =
   | 'EU_WEST'
   | 'EU_EAST';
 
+/**
+ * Shipping is free everywhere, on purpose — it is a marketing position, not a
+ * cost that happens to be zero. The postage is absorbed by the product margin,
+ * so price accordingly.
+ *
+ * The zone machinery stays in place so charging can be switched back on
+ * without touching the checkout. The rates that were costed before free
+ * shipping, if you ever need them again:
+ *   PT_MAINLAND 4,90€ (free from 50€) · PT_ISLANDS 11,90€ (120€)
+ *   ES 6,90€ (75€) · EU_WEST 12,90€ (150€) · EU_EAST 19,90€ (200€)
+ */
 export const SHIPPING_RATES: Record<
   ShippingZone,
   { cost: number; freeFrom: number }
 > = {
-  PT_MAINLAND: { cost: 4.9, freeFrom: 50 },
-  PT_ISLANDS: { cost: 11.9, freeFrom: 120 },
-  ES: { cost: 6.9, freeFrom: 75 },
-  EU_WEST: { cost: 12.9, freeFrom: 150 },
-  EU_EAST: { cost: 19.9, freeFrom: 200 },
+  PT_MAINLAND: { cost: 0, freeFrom: 0 },
+  PT_ISLANDS: { cost: 0, freeFrom: 0 },
+  ES: { cost: 0, freeFrom: 0 },
+  EU_WEST: { cost: 0, freeFrom: 0 },
+  EU_EAST: { cost: 0, freeFrom: 0 },
 };
 
-/** Below this order value we don't ship at all (postage would eat the sale). */
+/** True while every zone ships free — drives the copy shown across the shop. */
+export const FREE_SHIPPING = Object.values(SHIPPING_RATES).every(
+  (rate) => rate.cost === 0,
+);
+
+/**
+ * Below this order value we don't ship at all. With free shipping the postage
+ * comes out of the margin, so a 4€ order would be sold at a loss.
+ */
 export const MIN_ORDER_TOTAL = 10;
 
 /** Working days from payment to delivery, as advertised on the site and in emails. */

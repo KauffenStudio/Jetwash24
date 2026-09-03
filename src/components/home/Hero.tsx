@@ -98,7 +98,7 @@ export default function Hero() {
           {[
             { value: 'UE', label: locale === 'pt' ? 'Envio para toda a Europa' : 'Shipped across Europe' },
             { value: '5★', label: locale === 'pt' ? 'Avaliação Google' : 'Google rating' },
-            { value: '50€+', label: locale === 'pt' ? 'Portes grátis (Continente)' : 'Free shipping (mainland)' },
+            { value: locale === 'pt' ? 'Grátis' : 'Free', label: locale === 'pt' ? 'Portes em toda a UE' : 'Shipping across the EU' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-xl sm:text-3xl font-black text-white" style={{ textShadow: '0 0 20px rgba(201,168,76,0.3)' }}>

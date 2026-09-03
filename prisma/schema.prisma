@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Addon {
-  id             String         @id @default(cuid())
-  name           String
-  namePt         String
-  nameEn         String
-  price          Float
-  duration       Int
-  isActive       Boolean        @default(true)
-  sortOrder      Int            @default(0)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  bookingAddons  BookingAddon[]
+  id            String         @id @default(cuid())
+  name          String
+  namePt        String
+  nameEn        String
+  price         Float
+  duration      Int
+  isActive      Boolean        @default(true)
+  sortOrder     Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  bookingAddons BookingAddon[]
 
   @@map("addons")
 }
@@ -106,25 +106,25 @@ model GalleryImage {
 }
 
 model Service {
-  id            String          @id @default(cuid())
-  name          String
-  namePt        String
-  nameEn        String
-  description   String?
-  descriptionPt String?
-  descriptionEn String?
-  includes      String[]
-  includesPt    String[]
-  includesEn    String[]
+  id             String          @id @default(cuid())
+  name           String
+  namePt         String
+  nameEn         String
+  description    String?
+  descriptionPt  String?
+  descriptionEn  String?
+  includes       String[]
+  includesPt     String[]
+  includesEn     String[]
   price          Float
   compareAtPrice Float?
-  duration      Int
-  category      ServiceCategory
-  isActive      Boolean         @default(true)
-  sortOrder     Int             @default(0)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  bookings      Booking[]
+  duration       Int
+  category       ServiceCategory
+  isActive       Boolean         @default(true)
+  sortOrder      Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  bookings       Booking[]
 
   @@map("services")
 }
@@ -168,4 +168,99 @@ enum VehicleSize {
   SUV
   LARGE
   SUPERCAR
+}
+
+// ─── Shop ─────────────────────────────────────────────────────────────────────
+
+model Product {
+  id             String          @id @default(cuid())
+  slug           String          @unique
+  namePt         String
+  nameEn         String
+  descriptionPt  String?
+  descriptionEn  String?
+  brand          String?
+  sku            String?
+  price          Float
+  compareAtPrice Float?
+  stock          Int             @default(0)
+  images         String[]
+  category       ProductCategory
+  isActive       Boolean         @default(true)
+  isFeatured     Boolean         @default(false)
+  sortOrder      Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  orderItems     OrderItem[]
+
+  @@index([category, isActive])
+  @@map("products")
+}
+
+model Order {
+  id               String      @id @default(cuid())
+  orderNumber      String      @unique
+  name             String
+  email            String
+  phone            String
+  nif              String?
+  addressLine1     String
+  addressLine2     String?
+  postalCode       String
+  city             String
+  country          String      @default("PT")
+  shippingZone     String
+  notes            String?
+  locale           String      @default("pt")
+  subtotal         Float
+  shippingCost     Float
+  total            Float
+  status           OrderStatus @default(PENDING)
+  stripeSessionId  String?     @unique
+  stripePaymentId  String?
+  trackingCode     String?
+  paymentExpiresAt DateTime?
+  paidAt           DateTime?
+  shippedAt        DateTime?
+  cancelledAt      DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  items            OrderItem[]
+
+  @@index([status, createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  namePt    String
+  nameEn    String
+  unitPrice Float
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+enum ProductCategory {
+  WASH
+  INTERIOR
+  POLISH
+  PROTECTION
+  WHEELS
+  ACCESSORIES
+  KITS
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  EXPIRED
+  REFUNDED
 }

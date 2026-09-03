@@ -31,6 +31,9 @@ export default function Footer() {
               <Link href={`/${locale}/services`} className="block text-white/70 hover:text-white text-sm transition-colors">
                 {locale === 'pt' ? 'Serviços' : 'Services'}
               </Link>
+              <Link href={`/${locale}/shop`} className="block text-white/70 hover:text-white text-sm transition-colors">
+                {locale === 'pt' ? 'Loja' : 'Shop'}
+              </Link>
               <Link href={`/${locale}/blog`} className="block text-white/70 hover:text-white text-sm transition-colors">
                 Blog
               </Link>

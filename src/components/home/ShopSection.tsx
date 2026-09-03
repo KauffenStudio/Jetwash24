@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { PRODUCT_CATEGORIES } from '@/lib/shop/catalog';
+import { PRODUCT_CATEGORIES, PUBLIC_PRODUCT_SELECT } from '@/lib/shop/catalog';
 import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import Reveal from '@/components/ui/Reveal';
@@ -15,6 +15,7 @@ export default async function ShopSection({ locale }: { locale: string }) {
   const isPt = locale === 'pt';
 
   const featured = await prisma.product.findMany({
+    select: PUBLIC_PRODUCT_SELECT,
     where: { isActive: true, isFeatured: true },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     take: 4,
@@ -24,6 +25,7 @@ export default async function ShopSection({ locale }: { locale: string }) {
     featured.length > 0
       ? featured
       : await prisma.product.findMany({
+          select: PUBLIC_PRODUCT_SELECT,
           where: { isActive: true },
           orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
           take: 4,

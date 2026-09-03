@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
-import { categoryLabel } from '@/lib/shop/catalog';
+import { PUBLIC_PRODUCT_SELECT, categoryLabel } from '@/lib/shop/catalog';
 import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
@@ -16,7 +16,10 @@ import ProductPurchase from '@/components/shop/ProductPurchase';
 type Props = { params: { locale: string; slug: string } };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = await prisma.product.findUnique({ where: { slug: params.slug } });
+  const product = await prisma.product.findUnique({
+    select: PUBLIC_PRODUCT_SELECT,
+    where: { slug: params.slug },
+  });
   if (!product) return {};
 
   const isPt = params.locale === 'pt';
@@ -49,7 +52,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params: { locale, slug } }: Props) {
-  const product = await prisma.product.findUnique({ where: { slug } });
+  const product = await prisma.product.findUnique({
+    select: PUBLIC_PRODUCT_SELECT,
+    where: { slug },
+  });
   if (!product || !product.isActive) notFound();
 
   const isPt = locale === 'pt';
@@ -57,6 +63,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   const description = isPt ? product.descriptionPt : product.descriptionEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
   const related = await prisma.product.findMany({
+    select: PUBLIC_PRODUCT_SELECT,
     where: { isActive: true, category: product.category, id: { not: product.id } },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     take: 4,

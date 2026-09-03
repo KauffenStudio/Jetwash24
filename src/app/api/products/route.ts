@@ -4,7 +4,7 @@ import type { ProductCategory } from '@prisma/client';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { productSchema, readProductBody } from '@/lib/shop/product-form';
-import { PRODUCT_CATEGORIES, slugify } from '@/lib/shop/catalog';
+import { PRODUCT_CATEGORIES, PUBLIC_PRODUCT_SELECT, slugify } from '@/lib/shop/catalog';
 
 // GET /api/products — Public catalogue.
 // ?category=WASH  ?featured=1  ?limit=8  ?all=1 (admin only: includes inactive)
@@ -15,11 +15,13 @@ export async function GET(req: NextRequest) {
   const limit = searchParams.get('limit');
   const wantsAll = searchParams.get('all') === '1';
 
-  let includeInactive = false;
+  // Only an admin asking for the full list gets the sourcing fields with it.
+  let isAdmin = false;
   if (wantsAll) {
     const session = await getServerSession(authOptions);
-    includeInactive = (session?.user as { role?: string } | undefined)?.role === 'ADMIN';
+    isAdmin = (session?.user as { role?: string } | undefined)?.role === 'ADMIN';
   }
+  const includeInactive = isAdmin;
 
   // Ignore an unknown ?category= rather than 500-ing on a bad enum value.
   const validCategory = PRODUCT_CATEGORIES.find((c) => c.value === category)?.value as
@@ -27,6 +29,7 @@ export async function GET(req: NextRequest) {
     | undefined;
 
   const products = await prisma.product.findMany({
+    ...(isAdmin ? {} : { select: PUBLIC_PRODUCT_SELECT }),
     where: {
       ...(includeInactive ? {} : { isActive: true }),
       ...(validCategory ? { category: validCategory } : {}),

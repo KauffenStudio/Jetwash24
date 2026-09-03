@@ -95,9 +95,12 @@ try {
       },
     });
 
-    const margin = price - (entry.cost ?? 0);
+    // An entry without a cost is a draft priced from research, not from a real
+    // quote — say so rather than printing a margin against a cost of zero.
     console.log(
-      `${product.slug.padEnd(38)} custo ${(entry.cost ?? 0).toFixed(2)}€ → ${price.toFixed(2)}€ (margem ${margin.toFixed(2)}€)`,
+      entry.cost
+        ? `${product.slug.padEnd(38)} custo ${entry.cost.toFixed(2)}€ → ${price.toFixed(2)}€ (margem ${(price - entry.cost).toFixed(2)}€)`
+        : `${product.slug.padEnd(38)} custo por confirmar → ${price.toFixed(2)}€ (preço provisório)`,
     );
   }
 

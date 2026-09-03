@@ -16,6 +16,8 @@ type Product = {
   sku: string | null;
   price: number;
   compareAtPrice: number | null;
+  supplierUrl: string | null;
+  supplierCost: number | null;
   images: string[];
   category: string;
   isActive: boolean;
@@ -32,6 +34,8 @@ const EMPTY = {
   sku: '',
   price: '',
   compareAtPrice: '',
+  supplierUrl: '',
+  supplierCost: '',
   category: 'WASH',
   sortOrder: '0',
   isFeatured: false,
@@ -80,6 +84,8 @@ export default function ProductManager() {
       sku: product.sku ?? '',
       price: String(product.price),
       compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : '',
+      supplierUrl: product.supplierUrl ?? '',
+      supplierCost: product.supplierCost ? String(product.supplierCost) : '',
       category: product.category,
       sortOrder: String(product.sortOrder),
       isFeatured: product.isFeatured,
@@ -113,6 +119,8 @@ export default function ProductManager() {
     if (form.sku) data.set('sku', form.sku);
     data.set('price', form.price);
     if (form.compareAtPrice) data.set('compareAtPrice', form.compareAtPrice);
+    if (form.supplierUrl) data.set('supplierUrl', form.supplierUrl);
+    if (form.supplierCost) data.set('supplierCost', form.supplierCost);
     data.set('category', form.category);
     data.set('sortOrder', form.sortOrder || '0');
     data.set('isFeatured', String(form.isFeatured));
@@ -191,6 +199,7 @@ export default function ProductManager() {
                 ))}
               </select>
             </label>
+            <Input label="Custo de compra (€)" type="number" step="0.01" value={form.supplierCost} onChange={set('supplierCost')} />
             <Input label="Ordem" type="number" value={form.sortOrder} onChange={set('sortOrder')} />
             <label className="flex items-end gap-2 pb-2 text-sm text-surface-600">
               <input
@@ -200,6 +209,16 @@ export default function ProductManager() {
               />
               Destacar na loja
             </label>
+          </div>
+
+          <div className="mt-4">
+            <Input
+              label="Link do fornecedor (só visível aqui)"
+              type="url"
+              value={form.supplierUrl}
+              onChange={set('supplierUrl')}
+              placeholder="https://pt.aliexpress.com/item/…"
+            />
           </div>
 
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -302,10 +321,23 @@ export default function ProductManager() {
 
               <div className="text-right">
                 <p className="font-black text-black">{formatEuro(product.price)}€</p>
-                {product.compareAtPrice && product.compareAtPrice > product.price && (
-                  <p className="text-sm text-surface-400 line-through">
-                    {formatEuro(product.compareAtPrice)}€
+                {product.supplierCost !== null && (
+                  <p className="text-xs text-surface-500">
+                    custo {formatEuro(product.supplierCost)}€ · margem{' '}
+                    <span className="font-semibold text-green-700">
+                      {formatEuro(Math.round((product.price - product.supplierCost) * 100) / 100)}€
+                    </span>
                   </p>
+                )}
+                {product.supplierUrl && (
+                  <a
+                    href={product.supplierUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-surface-400 underline-offset-2 hover:text-black hover:underline"
+                  >
+                    abrir no fornecedor ↗
+                  </a>
                 )}
               </div>
 

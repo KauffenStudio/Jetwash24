@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
-import { PRODUCT_CATEGORIES, categoryBySlug } from '@/lib/shop/catalog';
+import { PRODUCT_CATEGORIES, PUBLIC_PRODUCT_SELECT, categoryBySlug } from '@/lib/shop/catalog';
 import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -44,6 +44,7 @@ export default async function ShopPage({
   const activeCategory = categoryBySlug(searchParams.category);
 
   const products = await prisma.product.findMany({
+    select: PUBLIC_PRODUCT_SELECT,
     where: {
       isActive: true,
       ...(activeCategory ? { category: activeCategory.value } : {}),

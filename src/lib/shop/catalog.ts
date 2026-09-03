@@ -19,6 +19,30 @@ export const PRODUCT_CATEGORIES: {
   { value: 'KITS', slug: 'kits', pt: 'Kits', en: 'Kits' },
 ];
 
+/**
+ * Fields the public shop is allowed to read. Products also carry sourcing data
+ * (supplier link and cost) that must never reach a browser — and a page that
+ * hands a whole product row to a client component serialises every column into
+ * the HTML. Selecting explicitly is what keeps that from happening by accident.
+ */
+export const PUBLIC_PRODUCT_SELECT = {
+  id: true,
+  slug: true,
+  namePt: true,
+  nameEn: true,
+  descriptionPt: true,
+  descriptionEn: true,
+  brand: true,
+  sku: true,
+  price: true,
+  compareAtPrice: true,
+  images: true,
+  category: true,
+  isActive: true,
+  isFeatured: true,
+  sortOrder: true,
+} as const;
+
 export function categoryBySlug(slug?: string | null) {
   if (!slug) return undefined;
   return PRODUCT_CATEGORIES.find((c) => c.slug === slug);

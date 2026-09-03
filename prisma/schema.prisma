@@ -183,6 +183,9 @@ model Product {
   sku            String?
   price          Float
   compareAtPrice Float?
+  // Sourcing data, admin-only: never selected by the public catalogue queries.
+  supplierUrl    String?
+  supplierCost   Float?
   images         String[]
   category       ProductCategory
   isActive       Boolean         @default(true)

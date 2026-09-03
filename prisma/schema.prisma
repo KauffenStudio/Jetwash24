@@ -186,6 +186,11 @@ model Product {
   // Sourcing data, admin-only: never selected by the public catalogue queries.
   supplierUrl    String?
   supplierCost   Float?
+  // Per-product delivery window in working days. Null falls back to the shop
+  // default — set these when a product ships from an EU warehouse and arrives
+  // far sooner than the catalogue's worst case.
+  deliveryMinDays Int?
+  deliveryMaxDays Int?
   images         String[]
   category       ProductCategory
   isActive       Boolean         @default(true)

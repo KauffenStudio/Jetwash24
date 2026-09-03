@@ -20,6 +20,8 @@ export const productSchema = z.object({
   compareAtPrice: z.number().positive().nullable().optional(),
   supplierUrl: z.string().url().nullable().optional(),
   supplierCost: z.number().positive().nullable().optional(),
+  deliveryMinDays: z.number().int().min(1).max(90).nullable().optional(),
+  deliveryMaxDays: z.number().int().min(1).max(90).nullable().optional(),
   category: z.enum([
     'WASH',
     'INTERIOR',
@@ -104,6 +106,8 @@ export async function readProductBody(req: Request): Promise<Record<string, unkn
     compareAtPrice: num(formData.get('compareAtPrice')) ?? null,
     supplierUrl: str(formData.get('supplierUrl')) ?? null,
     supplierCost: num(formData.get('supplierCost')) ?? null,
+    deliveryMinDays: num(formData.get('deliveryMinDays')) ?? null,
+    deliveryMaxDays: num(formData.get('deliveryMaxDays')) ?? null,
     category: str(formData.get('category')),
     images: [...keptImages, ...uploaded],
     sortOrder: num(formData.get('sortOrder')) ?? 0,

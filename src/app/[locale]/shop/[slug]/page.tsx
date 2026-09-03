@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
 import { PUBLIC_PRODUCT_SELECT, categoryLabel } from '@/lib/shop/catalog';
-import { DELIVERY_DAYS } from '@/lib/shop/shipping';
+import { deliveryWindowFor } from '@/lib/shop/shipping';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -62,6 +62,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   const name = isPt ? product.namePt : product.nameEn;
   const description = isPt ? product.descriptionPt : product.descriptionEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
+  const delivery = deliveryWindowFor(product);
   const related = await prisma.product.findMany({
     select: PUBLIC_PRODUCT_SELECT,
     where: { isActive: true, category: product.category, id: { not: product.id } },
@@ -119,8 +120,8 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
 
               <p className="mt-3 text-sm font-semibold text-green-600">
                 {isPt
-                  ? `Disponível · entrega em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis`
-                  : `Available · delivered in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days`}
+                  ? `Disponível · entrega em ${delivery.min}–${delivery.max} dias úteis`
+                  : `Available · delivered in ${delivery.min}–${delivery.max} working days`}
               </p>
 
               {description && (
@@ -141,8 +142,8 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
                 </li>
                 <li>
                   {isPt
-                    ? `Entrega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis`
-                    : `Delivered in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days`}
+                    ? `Entrega em ${delivery.min} a ${delivery.max} dias úteis`
+                    : `Delivered in ${delivery.min} to ${delivery.max} working days`}
                 </li>
                 <li>
                   {isPt

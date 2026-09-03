@@ -7,11 +7,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { formatEuro } from '@/lib/utils';
 import {
   COUNTRIES,
-  DELIVERY_DAYS,
   FREE_SHIPPING,
   MIN_ORDER_TOTAL,
   ZONE_LABEL,
   amountToFreeShipping,
+  deliveryWindowForBasket,
   normalisePostalCode,
   shippingCostFor,
   zoneFor,
@@ -72,6 +72,7 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
   const total = Math.round((subtotal + shippingCost) * 100) / 100;
   const missingForFree = amountToFreeShipping(subtotal, zone ?? 'PT_MAINLAND');
   const belowMinimum = subtotal > 0 && subtotal < MIN_ORDER_TOTAL;
+  const delivery = deliveryWindowForBasket(items);
 
   const update = (field: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -331,7 +332,7 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
         {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
         <p className="mt-4 text-xs text-surface-500">
-          {t('deliveryWindow', { min: DELIVERY_DAYS.min, max: DELIVERY_DAYS.max })}
+          {t('deliveryWindow', { min: delivery.min, max: delivery.max })}
         </p>
 
         <button

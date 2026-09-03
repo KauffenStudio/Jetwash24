@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { formatEuro } from '@/lib/utils';
-import { DELIVERY_DAYS, countryLabel } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS, countryLabel, deliveryWindowForBasket } from '@/lib/shop/shipping';
 import ClearCartOnMount from '@/components/shop/ClearCartOnMount';
 
 export function generateMetadata({
@@ -41,6 +41,15 @@ export default async function ShopSuccessPage({
   // flips the order to PAID can land a second or two later.
   const awaitingWebhook = order?.status === 'PENDING';
 
+  const delivery = order
+    ? deliveryWindowForBasket(
+        await prisma.product.findMany({
+          where: { id: { in: order.items.map((item) => item.productId) } },
+          select: { deliveryMinDays: true, deliveryMaxDays: true },
+        }),
+      )
+    : DELIVERY_DAYS;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4 pt-20">
       <ClearCartOnMount />
@@ -70,8 +79,8 @@ export default async function ShopSuccessPage({
               ? 'Estamos a confirmar o pagamento. Recebe o email de confirmação dentro de momentos.'
               : 'We are confirming your payment. Your confirmation email will arrive shortly.'
             : isPt
-              ? `Enviámos um email com os detalhes. A encomenda chega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis.`
-              : `We sent you an email with the details. Your order arrives in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days.`}
+              ? `Enviámos um email com os detalhes. A encomenda chega em ${delivery.min} a ${delivery.max} dias úteis.`
+              : `We sent you an email with the details. Your order arrives in ${delivery.min} to ${delivery.max} working days.`}
         </p>
 
         {order && (

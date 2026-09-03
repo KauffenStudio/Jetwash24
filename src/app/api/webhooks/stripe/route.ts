@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { sendBookingEmails } from '@/lib/booking-emails';
 import { sendOrderEmails } from '@/lib/order-emails';
 import { releaseOrder } from '@/lib/shop/expire-orders';
+import { deliveryWindowForBasket } from '@/lib/shop/shipping';
 
 export const runtime = 'nodejs';
 
@@ -58,7 +59,13 @@ export async function POST(req: NextRequest) {
           include: { items: true },
         });
 
-        await sendOrderEmails(paid);
+        // Quote the window the basket can actually keep: the slowest item wins.
+        const products = await prisma.product.findMany({
+          where: { id: { in: paid.items.map((item) => item.productId) } },
+          select: { deliveryMinDays: true, deliveryMaxDays: true },
+        });
+
+        await sendOrderEmails(paid, deliveryWindowForBasket(products));
       }
     }
 

@@ -18,6 +18,8 @@ type Product = {
   compareAtPrice: number | null;
   supplierUrl: string | null;
   supplierCost: number | null;
+  deliveryMinDays: number | null;
+  deliveryMaxDays: number | null;
   images: string[];
   category: string;
   isActive: boolean;
@@ -36,6 +38,8 @@ const EMPTY = {
   compareAtPrice: '',
   supplierUrl: '',
   supplierCost: '',
+  deliveryMinDays: '',
+  deliveryMaxDays: '',
   category: 'WASH',
   sortOrder: '0',
   isFeatured: false,
@@ -86,6 +90,8 @@ export default function ProductManager() {
       compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : '',
       supplierUrl: product.supplierUrl ?? '',
       supplierCost: product.supplierCost ? String(product.supplierCost) : '',
+      deliveryMinDays: product.deliveryMinDays ? String(product.deliveryMinDays) : '',
+      deliveryMaxDays: product.deliveryMaxDays ? String(product.deliveryMaxDays) : '',
       category: product.category,
       sortOrder: String(product.sortOrder),
       isFeatured: product.isFeatured,
@@ -121,6 +127,8 @@ export default function ProductManager() {
     if (form.compareAtPrice) data.set('compareAtPrice', form.compareAtPrice);
     if (form.supplierUrl) data.set('supplierUrl', form.supplierUrl);
     if (form.supplierCost) data.set('supplierCost', form.supplierCost);
+    if (form.deliveryMinDays) data.set('deliveryMinDays', form.deliveryMinDays);
+    if (form.deliveryMaxDays) data.set('deliveryMaxDays', form.deliveryMaxDays);
     data.set('category', form.category);
     data.set('sortOrder', form.sortOrder || '0');
     data.set('isFeatured', String(form.isFeatured));
@@ -200,6 +208,8 @@ export default function ProductManager() {
               </select>
             </label>
             <Input label="Custo de compra (€)" type="number" step="0.01" value={form.supplierCost} onChange={set('supplierCost')} />
+            <Input label="Entrega — mín. dias" type="number" value={form.deliveryMinDays} onChange={set('deliveryMinDays')} placeholder="7" />
+            <Input label="Entrega — máx. dias" type="number" value={form.deliveryMaxDays} onChange={set('deliveryMaxDays')} placeholder="15" />
             <Input label="Ordem" type="number" value={form.sortOrder} onChange={set('sortOrder')} />
             <label className="flex items-end gap-2 pb-2 text-sm text-surface-600">
               <input

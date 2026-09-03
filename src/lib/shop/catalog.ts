@@ -37,6 +37,8 @@ export const PUBLIC_PRODUCT_SELECT = {
   price: true,
   compareAtPrice: true,
   images: true,
+  deliveryMinDays: true,
+  deliveryMaxDays: true,
   category: true,
   isActive: true,
   isFeatured: true,

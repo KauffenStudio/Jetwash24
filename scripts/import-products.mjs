@@ -85,6 +85,8 @@ try {
         compareAtPrice: entry.compareAtPrice ?? null,
         supplierUrl: entry.supplierUrl ?? null,
         supplierCost: entry.cost ?? null,
+        deliveryMinDays: entry.deliveryMinDays ?? null,
+        deliveryMaxDays: entry.deliveryMaxDays ?? null,
         images: [],
         category: entry.category,
         isActive: false,

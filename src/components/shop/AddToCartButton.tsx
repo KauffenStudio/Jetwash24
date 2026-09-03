@@ -10,6 +10,8 @@ export type CartProductInput = {
   nameEn: string;
   price: number;
   images: string[];
+  deliveryMinDays: number | null;
+  deliveryMaxDays: number | null;
 };
 
 /**
@@ -46,6 +48,8 @@ export default function AddToCartButton({
         nameEn: product.nameEn,
         price: product.price,
         image: product.images[0] ?? null,
+        deliveryMinDays: product.deliveryMinDays,
+        deliveryMaxDays: product.deliveryMaxDays,
       },
       quantity,
     );

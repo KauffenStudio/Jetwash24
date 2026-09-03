@@ -6,6 +6,8 @@ import {
   type ShippingZone,
 } from '@/lib/shop/shipping';
 
+type DeliveryWindow = { min: number; max: number };
+
 export type OrderWithItems = {
   id: string;
   orderNumber: string;
@@ -46,7 +48,10 @@ function itemName(
  * Called from the Stripe webhook once payment lands. Failures are logged,
  * never thrown — a broken mailbox must not break the payment flow.
  */
-export async function sendOrderEmails(order: OrderWithItems): Promise<void> {
+export async function sendOrderEmails(
+  order: OrderWithItems,
+  delivery: DeliveryWindow = DELIVERY_DAYS,
+): Promise<void> {
   const pt = isPt(order);
 
   try {
@@ -56,7 +61,7 @@ export async function sendOrderEmails(order: OrderWithItems): Promise<void> {
       subject: pt
         ? `Encomenda confirmada — JetWash24 | ${order.orderNumber}`
         : `Order confirmed — JetWash24 | ${order.orderNumber}`,
-      html: buildCustomerOrderHtml(order),
+      html: buildCustomerOrderHtml(order, delivery),
     });
   } catch (err) {
     console.error('Order customer email failed:', err);
@@ -181,7 +186,7 @@ function addressBlock(order: OrderWithItems, pt: boolean): string {
   </div>`;
 }
 
-function buildCustomerOrderHtml(order: OrderWithItems): string {
+function buildCustomerOrderHtml(order: OrderWithItems, delivery: DeliveryWindow): string {
   const pt = isPt(order);
 
   return shell(
@@ -189,8 +194,8 @@ function buildCustomerOrderHtml(order: OrderWithItems): string {
     `
     <p style="color:#525252;margin:0 0 8px;">${
       pt
-        ? `Olá ${order.name}, recebemos o seu pagamento. A encomenda chega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis.`
-        : `Hi ${order.name}, we received your payment. Your order arrives in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days.`
+        ? `Olá ${order.name}, recebemos o seu pagamento. A encomenda chega em ${delivery.min} a ${delivery.max} dias úteis.`
+        : `Hi ${order.name}, we received your payment. Your order arrives in ${delivery.min} to ${delivery.max} working days.`
     }</p>
     <p style="color:#737373;margin:0 0 24px;font-size:14px;">${pt ? 'Referência' : 'Reference'}: <strong>${order.orderNumber}</strong></p>
     ${itemsTable(order, pt)}

@@ -21,6 +21,9 @@ export type CartItem = {
   nameEn: string;
   price: number;
   image: string | null;
+  /** Copied at add-to-cart time so the checkout can quote the slowest item. */
+  deliveryMinDays: number | null;
+  deliveryMaxDays: number | null;
   quantity: number;
 };
 

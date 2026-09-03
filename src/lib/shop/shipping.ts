@@ -52,8 +52,39 @@ export const FREE_SHIPPING = Object.values(SHIPPING_RATES).every(
  */
 export const MIN_ORDER_TOTAL = 10;
 
-/** Working days from payment to delivery, as advertised on the site and in emails. */
+/**
+ * Default delivery window in working days, used by any product that does not
+ * declare its own. Products stocked in an EU warehouse override it and arrive
+ * much sooner.
+ */
 export const DELIVERY_DAYS = { min: 7, max: 15 } as const;
+
+/** The window to advertise for one product, falling back to the shop default. */
+export function deliveryWindowFor(product: {
+  deliveryMinDays?: number | null;
+  deliveryMaxDays?: number | null;
+}): { min: number; max: number } {
+  return {
+    min: product.deliveryMinDays ?? DELIVERY_DAYS.min,
+    max: product.deliveryMaxDays ?? DELIVERY_DAYS.max,
+  };
+}
+
+/**
+ * The window to advertise for a basket. A mixed order is only complete when
+ * its slowest item lands, so the upper bound is the slowest of them all —
+ * quoting anything shorter is a promise the order cannot keep.
+ */
+export function deliveryWindowForBasket(
+  items: { deliveryMinDays?: number | null; deliveryMaxDays?: number | null }[],
+): { min: number; max: number } {
+  if (items.length === 0) return { ...DELIVERY_DAYS };
+  const windows = items.map(deliveryWindowFor);
+  return {
+    min: Math.min(...windows.map((w) => w.min)),
+    max: Math.max(...windows.map((w) => w.max)),
+  };
+}
 
 type Country = {
   code: string;

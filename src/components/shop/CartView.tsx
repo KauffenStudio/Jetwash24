@@ -6,14 +6,16 @@ import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatEuro } from '@/lib/utils';
 import {
+  COUNTRIES,
+  DELIVERY_DAYS,
   MIN_ORDER_TOTAL,
   ZONE_LABEL,
   amountToFreeShipping,
   normalisePostalCode,
   shippingCostFor,
-  zoneForPostalCode,
+  zoneFor,
 } from '@/lib/shop/shipping';
-import { useCart } from './CartProvider';
+import { MAX_PER_LINE, useCart } from './CartProvider';
 
 type FormState = {
   name: string;
@@ -24,6 +26,7 @@ type FormState = {
   line2: string;
   postalCode: string;
   city: string;
+  country: string;
   notes: string;
 };
 
@@ -36,6 +39,7 @@ const EMPTY_FORM: FormState = {
   line2: '',
   postalCode: '',
   city: '',
+  country: 'PT',
   notes: '',
 };
 
@@ -54,24 +58,29 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // The zone only settles once the postal code is readable — until then the
+  // summary says so instead of quoting a rate that may change.
   const zone = useMemo(
-    () => (normalisePostalCode(form.postalCode) ? zoneForPostalCode(form.postalCode) : null),
-    [form.postalCode],
+    () =>
+      normalisePostalCode(form.postalCode, form.country)
+        ? zoneFor(form.country, form.postalCode)
+        : null,
+    [form.postalCode, form.country],
   );
-  const shippingCost = shippingCostFor(subtotal, zone ?? 'CONTINENTAL');
+  const shippingCost = shippingCostFor(subtotal, zone ?? 'PT_MAINLAND');
   const total = Math.round((subtotal + shippingCost) * 100) / 100;
-  const missingForFree = amountToFreeShipping(subtotal, zone ?? 'CONTINENTAL');
+  const missingForFree = amountToFreeShipping(subtotal, zone ?? 'PT_MAINLAND');
   const belowMinimum = subtotal > 0 && subtotal < MIN_ORDER_TOTAL;
 
   const update = (field: keyof FormState) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting || items.length === 0) return;
 
-    if (!normalisePostalCode(form.postalCode)) {
+    if (!normalisePostalCode(form.postalCode, form.country)) {
       setError(t('errorPostalCode'));
       return;
     }
@@ -100,6 +109,7 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
             ...(form.line2 ? { line2: form.line2 } : {}),
             postalCode: form.postalCode,
             city: form.city,
+            country: form.country,
           },
           ...(form.notes ? { notes: form.notes } : {}),
           locale: isPt ? 'pt' : 'en',
@@ -194,7 +204,7 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
                     <button
                       type="button"
                       onClick={() => setQuantity(item.productId, item.quantity + 1)}
-                      disabled={item.quantity >= item.stock}
+                      disabled={item.quantity >= MAX_PER_LINE}
                       aria-label={t('increase')}
                       className="px-3 py-1.5 text-lg leading-none text-surface-600 hover:text-black disabled:cursor-not-allowed disabled:text-surface-300"
                     >
@@ -242,13 +252,28 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
           </h3>
           <Field label={t('addressLine1')} value={form.line1} onChange={update('line1')} required autoComplete="address-line1" />
           <Field label={t('addressLine2')} value={form.line2} onChange={update('line2')} autoComplete="address-line2" />
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-surface-600">{t('country')}</span>
+            <select
+              value={form.country}
+              onChange={update('country')}
+              autoComplete="country"
+              className="w-full rounded-lg border border-surface-300 bg-white px-3 py-2.5 text-sm focus:border-black focus:outline-none"
+            >
+              {COUNTRIES.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {isPt ? country.pt : country.en}
+                </option>
+              ))}
+            </select>
+          </label>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field
               label={t('postalCode')}
               value={form.postalCode}
               onChange={update('postalCode')}
               required
-              placeholder="8800-076"
+              placeholder={form.country === 'PT' ? '8800-076' : ''}
               autoComplete="postal-code"
             />
             <Field label={t('city')} value={form.city} onChange={update('city')} required autoComplete="address-level2" />
@@ -301,6 +326,10 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
           </p>
         )}
         {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+
+        <p className="mt-4 text-xs text-surface-500">
+          {t('deliveryWindow', { min: DELIVERY_DAYS.min, max: DELIVERY_DAYS.max })}
+        </p>
 
         <button
           type="submit"

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCart } from './CartProvider';
+import { MAX_PER_LINE, useCart } from './CartProvider';
 
 export type CartProductInput = {
   id: string;
@@ -10,7 +10,6 @@ export type CartProductInput = {
   nameEn: string;
   price: number;
   images: string[];
-  stock: number;
 };
 
 /**
@@ -35,11 +34,10 @@ export default function AddToCartButton({
   const isPt = locale === 'pt';
 
   const inCart = items.find((i) => i.productId === product.id)?.quantity ?? 0;
-  const soldOut = product.stock <= 0;
-  const maxedOut = !soldOut && inCart >= product.stock;
+  const maxedOut = inCart >= MAX_PER_LINE;
 
   const handleAdd = () => {
-    if (soldOut || maxedOut) return;
+    if (maxedOut) return;
     add(
       {
         productId: product.id,
@@ -48,7 +46,6 @@ export default function AddToCartButton({
         nameEn: product.nameEn,
         price: product.price,
         image: product.images[0] ?? null,
-        stock: product.stock,
       },
       quantity,
     );
@@ -56,22 +53,20 @@ export default function AddToCartButton({
     window.setTimeout(() => setJustAdded(false), 1800);
   };
 
-  const label = soldOut
-    ? isPt ? 'Esgotado' : 'Sold out'
-    : maxedOut
-      ? isPt ? 'Stock no carrinho' : 'All stock in cart'
-      : justAdded
-        ? isPt ? 'Adicionado ✓' : 'Added ✓'
-        : compact
-          ? isPt ? 'Adicionar' : 'Add'
-          : isPt ? 'Adicionar ao carrinho' : 'Add to cart';
+  const label = maxedOut
+    ? isPt ? 'Máximo por artigo' : 'Max per item'
+    : justAdded
+      ? isPt ? 'Adicionado ✓' : 'Added ✓'
+      : compact
+        ? isPt ? 'Adicionar' : 'Add'
+        : isPt ? 'Adicionar ao carrinho' : 'Add to cart';
 
   const base = compact
     ? 'w-full px-4 py-2.5 text-sm rounded-lg font-semibold transition-colors duration-200'
     : 'w-full px-6 py-4 rounded-lg font-bold tracking-wide transition-colors duration-200';
 
   const palette =
-    soldOut || maxedOut
+    maxedOut
       ? 'bg-surface-100 text-surface-400 cursor-not-allowed'
       : justAdded
         ? 'bg-green-600 text-white'
@@ -81,7 +76,7 @@ export default function AddToCartButton({
     <button
       type="button"
       onClick={handleAdd}
-      disabled={soldOut || maxedOut}
+      disabled={maxedOut}
       aria-live="polite"
       className={`${base} ${palette} ${className}`}
     >

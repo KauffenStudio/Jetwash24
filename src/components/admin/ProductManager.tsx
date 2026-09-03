@@ -16,7 +16,6 @@ type Product = {
   sku: string | null;
   price: number;
   compareAtPrice: number | null;
-  stock: number;
   images: string[];
   category: string;
   isActive: boolean;
@@ -33,7 +32,6 @@ const EMPTY = {
   sku: '',
   price: '',
   compareAtPrice: '',
-  stock: '0',
   category: 'WASH',
   sortOrder: '0',
   isFeatured: false,
@@ -82,7 +80,6 @@ export default function ProductManager() {
       sku: product.sku ?? '',
       price: String(product.price),
       compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : '',
-      stock: String(product.stock),
       category: product.category,
       sortOrder: String(product.sortOrder),
       isFeatured: product.isFeatured,
@@ -116,7 +113,6 @@ export default function ProductManager() {
     if (form.sku) data.set('sku', form.sku);
     data.set('price', form.price);
     if (form.compareAtPrice) data.set('compareAtPrice', form.compareAtPrice);
-    data.set('stock', form.stock || '0');
     data.set('category', form.category);
     data.set('sortOrder', form.sortOrder || '0');
     data.set('isFeatured', String(form.isFeatured));
@@ -148,21 +144,14 @@ export default function ProductManager() {
     fetchProducts();
   };
 
-  const quickStock = async (product: Product, stock: number) => {
-    await fetch(`/api/products/${product.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stock: Math.max(0, stock) }),
-    });
-    fetchProducts();
-  };
-
   return (
     <div>
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
           <h1 className="mb-2 text-2xl font-black text-black">Produtos</h1>
-          <p className="text-surface-500">Catálogo da loja online</p>
+          <p className="text-surface-500">
+            Catálogo da loja online · produtos sob encomenda, sem contagem de stock
+          </p>
         </div>
         <button
           onClick={openNew}
@@ -188,7 +177,6 @@ export default function ProductManager() {
             <Input label="Referência / SKU" value={form.sku} onChange={set('sku')} />
             <Input label="Preço (€)" type="number" step="0.01" value={form.price} onChange={set('price')} required />
             <Input label="Preço antes (€)" type="number" step="0.01" value={form.compareAtPrice} onChange={set('compareAtPrice')} />
-            <Input label="Stock" type="number" value={form.stock} onChange={set('stock')} />
             <label className="block">
               <span className="mb-1 block text-xs font-medium text-surface-500">Categoria</span>
               <select
@@ -307,11 +295,6 @@ export default function ProductManager() {
                       Inativo
                     </span>
                   )}
-                  {product.stock === 0 && (
-                    <span className="rounded bg-surface-800 px-2 py-0.5 text-xs font-semibold text-white">
-                      Sem stock
-                    </span>
-                  )}
                 </div>
                 <p className="truncate font-bold text-black">{product.namePt}</p>
                 <p className="text-sm text-surface-400">/{product.slug}</p>
@@ -319,23 +302,11 @@ export default function ProductManager() {
 
               <div className="text-right">
                 <p className="font-black text-black">{formatEuro(product.price)}€</p>
-                <div className="mt-1 flex items-center justify-end gap-1.5 text-sm">
-                  <button
-                    onClick={() => quickStock(product, product.stock - 1)}
-                    className="px-1.5 text-surface-400 hover:text-black"
-                    aria-label="Menos stock"
-                  >
-                    −
-                  </button>
-                  <span className="w-10 text-center text-surface-600">{product.stock} un.</span>
-                  <button
-                    onClick={() => quickStock(product, product.stock + 1)}
-                    className="px-1.5 text-surface-400 hover:text-black"
-                    aria-label="Mais stock"
-                  >
-                    +
-                  </button>
-                </div>
+                {product.compareAtPrice && product.compareAtPrice > product.price && (
+                  <p className="text-sm text-surface-400 line-through">
+                    {formatEuro(product.compareAtPrice)}€
+                  </p>
+                )}
               </div>
 
               <div className="flex shrink-0 flex-col gap-1.5">

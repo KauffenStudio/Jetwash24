@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
 import { categoryLabel } from '@/lib/shop/catalog';
-import { SHIPPING_RATES } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS, SHIPPING_RATES } from '@/lib/shop/shipping';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description =
     (isPt ? product.descriptionPt : product.descriptionEn) ??
     (isPt
-      ? `${name} disponível na loja JetWash24. Envio para todo o Portugal.`
-      : `${name} available at the JetWash24 shop. Shipping across Portugal.`);
+      ? `${name} disponível na loja JetWash24. Envio para toda a União Europeia.`
+      : `${name} available at the JetWash24 shop. Shipped across the European Union.`);
 
   return {
     title: name,
@@ -56,7 +56,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   const name = isPt ? product.namePt : product.nameEn;
   const description = isPt ? product.descriptionPt : product.descriptionEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
-  const freeFrom = SHIPPING_RATES.CONTINENTAL.freeFrom;
+  const freeFrom = SHIPPING_RATES.PT_MAINLAND.freeFrom;
 
   const related = await prisma.product.findMany({
     where: { isActive: true, category: product.category, id: { not: product.id } },
@@ -112,22 +112,10 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
                 {discount !== null && <DiscountBadge percent={discount} />}
               </div>
 
-              <p className="mt-3 text-sm">
-                {product.stock > 5 ? (
-                  <span className="font-semibold text-green-600">
-                    {isPt ? 'Em stock' : 'In stock'}
-                  </span>
-                ) : product.stock > 0 ? (
-                  <span className="font-semibold text-gold-dark">
-                    {isPt
-                      ? `Últimas ${product.stock} unidades`
-                      : `Only ${product.stock} left`}
-                  </span>
-                ) : (
-                  <span className="font-semibold text-surface-400">
-                    {isPt ? 'Esgotado' : 'Sold out'}
-                  </span>
-                )}
+              <p className="mt-3 text-sm font-semibold text-green-600">
+                {isPt
+                  ? `Disponível · entrega em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis`
+                  : `Available · delivered in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days`}
               </p>
 
               {description && (
@@ -143,10 +131,19 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
               <ul className="mt-8 space-y-2 border-t border-surface-200 pt-6 text-sm text-surface-500">
                 <li>
                   {isPt
-                    ? `Portes grátis em encomendas acima de ${formatEuro(freeFrom)}€ (Continente)`
-                    : `Free shipping on orders over ${formatEuro(freeFrom)}€ (mainland)`}
+                    ? `Envio para toda a União Europeia · portes grátis acima de ${formatEuro(freeFrom)}€ em Portugal Continental`
+                    : `Shipped across the European Union · free over ${formatEuro(freeFrom)}€ in mainland Portugal`}
                 </li>
-                <li>{isPt ? 'Expedição em 1–2 dias úteis' : 'Dispatched within 1–2 working days'}</li>
+                <li>
+                  {isPt
+                    ? `Entrega em ${DELIVERY_DAYS.min} a ${DELIVERY_DAYS.max} dias úteis`
+                    : `Delivered in ${DELIVERY_DAYS.min} to ${DELIVERY_DAYS.max} working days`}
+                </li>
+                <li>
+                  {isPt
+                    ? '14 dias para devolver, sem ter de justificar'
+                    : '14-day right of return, no reason needed'}
+                </li>
                 <li>
                   {isPt
                     ? 'Pagamento seguro com cartão via Stripe'

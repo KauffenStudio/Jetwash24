@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import AddToCartButton, { type CartProductInput } from './AddToCartButton';
+import { MAX_PER_LINE } from './CartProvider';
 
 /** Quantity stepper + add-to-cart, used on the product page. */
 export default function ProductPurchase({
@@ -14,12 +15,11 @@ export default function ProductPurchase({
 }) {
   const t = useTranslations('shop');
   const [quantity, setQuantity] = useState(1);
-  const max = Math.max(product.stock, 1);
+  const max = MAX_PER_LINE;
 
   return (
     <div>
-      {product.stock > 0 && (
-        <div className="mb-4 flex items-center gap-4">
+      <div className="mb-4 flex items-center gap-4">
           <span className="text-sm font-medium text-surface-600">{t('quantity')}</span>
           <div className="flex items-center rounded-lg border border-surface-300">
             <button
@@ -40,9 +40,8 @@ export default function ProductPurchase({
             >
               +
             </button>
-          </div>
         </div>
-      )}
+      </div>
 
       <AddToCartButton product={product} locale={locale} quantity={quantity} />
     </div>

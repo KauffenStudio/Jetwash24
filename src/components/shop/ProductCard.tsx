@@ -22,7 +22,6 @@ export default function ProductCard({
   const isPt = locale === 'pt';
   const name = isPt ? product.namePt : product.nameEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
-  const soldOut = product.stock <= 0;
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-surface-200 bg-white transition-colors duration-200 hover:border-black">
@@ -44,14 +43,11 @@ export default function ProductCard({
           </span>
         )}
 
-        <span className="absolute left-3 top-3 flex gap-2">
-          {discount !== null && <DiscountBadge percent={discount} />}
-          {soldOut && (
-            <span className="rounded-full bg-surface-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-              {isPt ? 'Esgotado' : 'Sold out'}
-            </span>
-          )}
-        </span>
+        {discount !== null && (
+          <span className="absolute left-3 top-3">
+            <DiscountBadge percent={discount} />
+          </span>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col p-5">

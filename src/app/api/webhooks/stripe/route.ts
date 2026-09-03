@@ -83,8 +83,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Abandoned shop checkout: free the stock the order was holding right away
-  // instead of waiting for the nightly sweep.
+  // Abandoned shop checkout: close the order right away instead of leaving it
+  // pending until the nightly sweep.
   if (event.type === 'checkout.session.expired') {
     const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session.metadata?.orderId;

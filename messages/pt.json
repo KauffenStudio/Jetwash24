@@ -35,7 +35,7 @@
   "hero": {
     "tagline": "Guia · Albufeira · Algarve",
     "headline": "Produtos de Detailing Profissional",
-    "description": "Os produtos que usamos todos os dias no nosso centro em Guia — à venda, com envio para todo o Portugal. E, se preferir, tratamos nós do seu carro.",
+    "description": "Os produtos que usamos todos os dias no nosso centro em Guia — à venda, com envio para toda a União Europeia. E, se preferir, tratamos nós do seu carro.",
     "cta": "Ver a loja",
     "ctaSecondary": "Reservar detailing"
   },
@@ -315,19 +315,21 @@
     "addressLine2": "Andar, porta (opcional)",
     "postalCode": "Código postal",
     "city": "Localidade",
+    "country": "País",
     "notes": "Notas para a entrega (opcional)",
     "subtotal": "Subtotal",
     "shipping": "Portes",
-    "shippingPending": "Indique o código postal",
+    "shippingPending": "Indique o país e o código postal",
     "free": "Grátis",
     "freeShippingMissing": "Faltam {amount}€ para portes grátis.",
     "total": "Total",
     "payNow": "Pagar com segurança",
     "processing": "A abrir o pagamento…",
     "securePayment": "Pagamento seguro com cartão via Stripe.",
-    "errorPostalCode": "Código postal inválido. Use o formato 8800-076.",
+    "errorPostalCode": "Código postal inválido para o país escolhido.",
     "errorBelowMinimum": "A encomenda mínima é de {amount}€.",
     "errorOutOfStock": "Um dos produtos ficou sem stock. Ajuste o carrinho e tente de novo.",
-    "errorGeneric": "Não foi possível iniciar o pagamento. Tente novamente."
+    "errorGeneric": "Não foi possível iniciar o pagamento. Tente novamente.",
+    "deliveryWindow": "Entrega em {min} a {max} dias úteis após o pagamento. Tem 14 dias para devolver, sem justificação."
   }
 }

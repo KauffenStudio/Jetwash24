@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
 import { PRODUCT_CATEGORIES, categoryBySlug } from '@/lib/shop/catalog';
-import { SHIPPING_RATES } from '@/lib/shop/shipping';
+import { DELIVERY_DAYS, SHIPPING_RATES } from '@/lib/shop/shipping';
 import { formatEuro } from '@/lib/utils';
 import ProductCard from '@/components/shop/ProductCard';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -21,8 +21,8 @@ export function generateMetadata({
       ? 'Loja — Produtos de Limpeza Auto e Acessórios'
       : 'Shop — Car Cleaning Products & Accessories',
     description: isPt
-      ? 'Produtos de limpeza automóvel e acessórios de detailing usados no nosso centro em Guia, Albufeira. Envio para todo o Portugal.'
-      : 'Car cleaning products and detailing accessories we use in our own centre in Guia, Albufeira. Shipping across Portugal.',
+      ? 'Produtos de limpeza automóvel e acessórios de detailing usados no nosso centro em Guia, Albufeira. Envio para toda a União Europeia.'
+      : 'Car cleaning products and detailing accessories we use in our own centre in Guia, Albufeira. Shipped across the European Union.',
     alternates: {
       canonical: `/${locale}/shop`,
       languages: { 'pt-PT': '/pt/shop', 'en-GB': '/en/shop', 'x-default': '/pt/shop' },
@@ -52,7 +52,7 @@ export default async function ShopPage({
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
   });
 
-  const freeFrom = SHIPPING_RATES.CONTINENTAL.freeFrom;
+  const freeFrom = SHIPPING_RATES.PT_MAINLAND.freeFrom;
 
   return (
     <>
@@ -78,13 +78,13 @@ export default async function ShopPage({
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/55">
               {isPt
-                ? 'Produtos de limpeza e acessórios de detailing testados no dia a dia do nosso centro em Guia. Envio para todo o Portugal.'
-                : 'Cleaning products and detailing accessories tested daily in our centre in Guia. Shipped anywhere in Portugal.'}
+                ? 'Produtos de limpeza e acessórios de detailing testados no dia a dia do nosso centro em Guia. Envio para toda a União Europeia.'
+                : 'Cleaning products and detailing accessories tested daily in our centre in Guia. Shipped across the European Union.'}
             </p>
             <p className="mt-4 text-sm text-white/40">
               {isPt
-                ? `Portes grátis a partir de ${formatEuro(freeFrom)}€ (Continente)`
-                : `Free shipping from ${formatEuro(freeFrom)}€ (mainland)`}
+                ? `Entrega em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis · portes grátis a partir de ${formatEuro(freeFrom)}€ em Portugal Continental`
+                : `Delivered in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days · free shipping from ${formatEuro(freeFrom)}€ in mainland Portugal`}
             </p>
           </Reveal>
         </div>

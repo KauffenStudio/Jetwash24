@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { PRODUCT_CATEGORIES, PUBLIC_PRODUCT_SELECT } from '@/lib/shop/catalog';
-import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import Reveal from '@/components/ui/Reveal';
 
@@ -47,8 +46,8 @@ export default async function ShopSection({ locale }: { locale: string }) {
               </h2>
               <p className="mt-3 max-w-xl leading-relaxed text-surface-600">
                 {isPt
-                  ? `Os mesmos produtos que usamos nos carros dos nossos clientes. Portes grátis para toda a União Europeia, entrega em ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} dias úteis.`
-                  : `The same products we use on our customers' cars. Free shipping across the European Union, delivered in ${DELIVERY_DAYS.min}–${DELIVERY_DAYS.max} working days.`}
+                  ? 'Os mesmos produtos que usamos nos carros dos nossos clientes. Portes grátis para toda a União Europeia.'
+                  : "The same products we use on our customers' cars. Free shipping across the European Union."}
               </p>
             </div>
             <Link

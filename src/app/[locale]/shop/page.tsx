@@ -6,6 +6,7 @@ import { PRODUCT_CATEGORIES, PUBLIC_PRODUCT_SELECT, categoryBySlug } from '@/lib
 import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import ProductListSchema from '@/components/seo/ProductListSchema';
 import Reveal from '@/components/ui/Reveal';
 import Spotlight from '@/components/ui/Spotlight';
 
@@ -54,6 +55,17 @@ export default async function ShopPage({
 
   return (
     <>
+      <ProductListSchema
+        products={products}
+        locale={locale}
+        name={
+          activeCategory
+            ? `${isPt ? activeCategory.pt : activeCategory.en} — JetWash24`
+            : isPt
+              ? 'Loja JetWash24'
+              : 'JetWash24 Shop'
+        }
+      />
       <BreadcrumbSchema
         items={[
           { name: isPt ? 'Início' : 'Home', path: `/${locale}` },

@@ -34,6 +34,18 @@ const ROUTES = [
 ];
 
 /**
+ * Rendered per request, not at build time.
+ *
+ * This used to be statically prerendered, and productRoutes() below swallows a
+ * database failure so the sitemap still builds. Together those shipped a
+ * sitemap with zero products and froze it there until the next deploy — every
+ * product page was missing from the live sitemap despite the code below being
+ * correct. Generating on request means a failed read is retried on the next
+ * crawl instead of being baked in for weeks.
+ */
+export const dynamic = 'force-dynamic';
+
+/**
  * Product pages live in the database, so they're read at request time. A DB
  * hiccup must never take the whole sitemap down — we fall back to the static
  * routes instead.

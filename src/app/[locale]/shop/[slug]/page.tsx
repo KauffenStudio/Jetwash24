@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { SITE_URL } from '@/lib/seo/business';
 import { PUBLIC_PRODUCT_SELECT, categoryLabel } from '@/lib/shop/catalog';
 import { deliveryWindowFor } from '@/lib/shop/shipping';
+import { purchaseProofFor } from '@/lib/shop/social-proof';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -12,6 +13,7 @@ import ProductSchema from '@/components/seo/ProductSchema';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductGallery from '@/components/shop/ProductGallery';
 import ProductPurchase from '@/components/shop/ProductPurchase';
+import PurchaseProof from '@/components/shop/PurchaseProof';
 
 type Props = { params: { locale: string; slug: string } };
 
@@ -63,6 +65,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   const description = isPt ? product.descriptionPt : product.descriptionEn;
   const discount = discountPercent(product.price, product.compareAtPrice);
   const delivery = deliveryWindowFor(product);
+  const proof = await purchaseProofFor(product.id);
   const related = await prisma.product.findMany({
     select: PUBLIC_PRODUCT_SELECT,
     where: { isActive: true, category: product.category, id: { not: product.id } },
@@ -123,6 +126,8 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
                   ? `Disponível · entrega em ${delivery.min}–${delivery.max} dias úteis`
                   : `Available · delivered in ${delivery.min}–${delivery.max} working days`}
               </p>
+
+              <PurchaseProof proof={proof} locale={locale} />
 
               {description && (
                 <p className="mt-6 whitespace-pre-line leading-relaxed text-surface-600">

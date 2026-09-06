@@ -6,6 +6,7 @@ import { SITE_URL } from '@/lib/seo/business';
 import { PUBLIC_PRODUCT_SELECT, categoryLabel } from '@/lib/shop/catalog';
 import { deliveryWindowFor } from '@/lib/shop/shipping';
 import { purchaseProofFor } from '@/lib/shop/social-proof';
+import { toItem } from '@/lib/analytics';
 import { discountPercent, formatEuro } from '@/lib/utils';
 import DiscountBadge from '@/components/ui/DiscountBadge';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -14,6 +15,7 @@ import ProductCard from '@/components/shop/ProductCard';
 import ProductGallery from '@/components/shop/ProductGallery';
 import ProductPurchase from '@/components/shop/ProductPurchase';
 import PurchaseProof from '@/components/shop/PurchaseProof';
+import TrackViewItem from '@/components/shop/TrackViewItem';
 
 type Props = { params: { locale: string; slug: string } };
 
@@ -76,6 +78,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   return (
     <>
       <ProductSchema product={product} locale={locale} />
+      <TrackViewItem item={toItem(product, locale)} />
       <BreadcrumbSchema
         items={[
           { name: isPt ? 'Início' : 'Home', path: `/${locale}` },

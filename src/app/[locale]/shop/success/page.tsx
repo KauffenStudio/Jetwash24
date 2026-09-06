@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { formatEuro } from '@/lib/utils';
 import { DELIVERY_DAYS, countryLabel, deliveryWindowForBasket } from '@/lib/shop/shipping';
 import ClearCartOnMount from '@/components/shop/ClearCartOnMount';
+import TrackPurchase from '@/components/shop/TrackPurchase';
 
 export function generateMetadata({
   params: { locale },
@@ -53,6 +54,19 @@ export default async function ShopSuccessPage({
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4 pt-20">
       <ClearCartOnMount />
+      {order && (
+        <TrackPurchase
+          transactionId={order.orderNumber}
+          value={order.total}
+          shipping={order.shippingCost}
+          items={order.items.map((item) => ({
+            item_id: item.productId,
+            item_name: isPt ? item.namePt : item.nameEn,
+            price: item.unitPrice,
+            quantity: item.quantity,
+          }))}
+        />
+      )}
 
       <div className="w-full max-w-lg text-center">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">

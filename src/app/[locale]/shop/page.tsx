@@ -7,6 +7,9 @@ import { DELIVERY_DAYS } from '@/lib/shop/shipping';
 import ProductCard from '@/components/shop/ProductCard';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ProductListSchema from '@/components/seo/ProductListSchema';
+import FaqSchema from '@/components/seo/FaqSchema';
+import FaqAccordion from '@/components/ui/FaqAccordion';
+import { SHOP_FAQ } from '@/content/faq';
 import Reveal from '@/components/ui/Reveal';
 import Spotlight from '@/components/ui/Spotlight';
 
@@ -43,6 +46,7 @@ export default async function ShopPage({
 }) {
   const isPt = locale === 'pt';
   const activeCategory = categoryBySlug(searchParams.category);
+  const faq = isPt ? SHOP_FAQ.pt : SHOP_FAQ.en;
 
   const products = await prisma.product.findMany({
     select: PUBLIC_PRODUCT_SELECT,
@@ -55,6 +59,7 @@ export default async function ShopPage({
 
   return (
     <>
+      <FaqSchema items={faq} />
       <ProductListSchema
         products={products}
         locale={locale}
@@ -146,6 +151,20 @@ export default async function ShopPage({
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="bg-surface-50 py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+              FAQ
+            </p>
+            <h2 className="text-3xl font-black text-black sm:text-4xl">
+              {isPt ? 'Envio, devoluções e pagamento' : 'Shipping, returns and payment'}
+            </h2>
+          </div>
+          <FaqAccordion items={faq} />
         </div>
       </section>
     </>

@@ -545,7 +545,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'o-que-e-correcao-de-pintura',
     date: '2026-06-27',
-    cover: '/blog/farois-amarelados.jpg',
+    cover: '/blog/proteger-pintura-verao.jpg',
     relatedService: 'paint-correction',
     pt: {
       category: 'Detailing',

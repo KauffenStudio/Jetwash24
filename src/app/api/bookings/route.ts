@@ -8,6 +8,7 @@ import { sendBookingEmails } from '@/lib/booking-emails';
 import { getStripe, isStripeConfigured, DEPOSIT_AMOUNT } from '@/lib/stripe';
 import { z } from 'zod';
 import { parseISO, startOfDay, endOfDay } from 'date-fns';
+import { earliestBookableDate, MIN_NOTICE_DAYS } from '@/lib/booking-window';
 
 // How long a PENDING (unpaid) booking holds its slot before expiring.
 // Kept just above Stripe Checkout's 30-minute minimum session lifetime.
@@ -118,6 +119,26 @@ export async function POST(req: NextRequest) {
   const vehicleAdj = getVehicleAdjustment(vehicleSize);
   const calculatedPrice = service.price + vehicleAdj + addonsPrice;
   const calculatedDuration = service.duration + addonsDuration;
+
+  // Same-day and past dates are refused with their own message.
+  //
+  // getAvailableSlots already returns nothing for these, so the check below
+  // would catch them anyway — but it would answer "that time is no longer
+  // available", which is wrong and confusing. The date is the problem, not the
+  // slot. This also catches the wizard left open across midnight: the date the
+  // customer picked as tomorrow is today by the time they submit.
+  if (date < earliestBookableDate()) {
+    return NextResponse.json(
+      {
+        error:
+          MIN_NOTICE_DAYS === 1
+            ? 'Same-day bookings are not available. Please choose a date from tomorrow onwards.'
+            : `Bookings need at least ${MIN_NOTICE_DAYS} days' notice. Please choose a later date.`,
+        earliest: earliestBookableDate(),
+      },
+      { status: 400 },
+    );
+  }
 
   // Re-check availability (prevent race conditions)
   const availableSlots = await getAvailableSlots(date, calculatedDuration);

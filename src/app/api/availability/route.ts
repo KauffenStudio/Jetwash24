@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAvailableSlots } from '@/lib/availability';
+import { earliestBookableDate } from '@/lib/booking-window';
 import { z } from 'zod';
 
 const querySchema = z.object({
@@ -21,17 +22,17 @@ export async function GET(req: NextRequest) {
 
   const { date, duration } = parsed.data;
 
-  // Don't allow past dates
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const requested = new Date(date);
-  if (requested < today) {
-    return NextResponse.json({ slots: [], date, duration });
+  // Answer early for dates that can never have slots. getAvailableSlots
+  // enforces the same rule, so this only saves the database round-trip; the
+  // `earliest` field lets the wizard show why a date is unavailable.
+  const earliest = earliestBookableDate();
+  if (date < earliest) {
+    return NextResponse.json({ slots: [], date, duration, earliest });
   }
 
   try {
     const slots = await getAvailableSlots(date, duration);
-    return NextResponse.json({ slots, date, duration });
+    return NextResponse.json({ slots, date, duration, earliest });
   } catch (err) {
     console.error('Availability error:', err);
     return NextResponse.json({ error: 'Failed to get availability' }, { status: 500 });

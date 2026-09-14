@@ -2,7 +2,9 @@ import { SITE_URL, BUSINESS } from '@/lib/seo/business';
 import { SERVICES } from '@/content/services';
 import { LOCATIONS } from '@/content/locations';
 import { SORTED_ARTICLES } from '@/content/blog';
-import { PRODUCT_CATEGORIES } from '@/lib/shop/catalog';
+import type { ProductCategory } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
+import { PRODUCT_CATEGORIES, categoryLabel } from '@/lib/shop/catalog';
 import { DELIVERY_DAYS, MIN_ORDER_TOTAL } from '@/lib/shop/shipping';
 
 /** This file is written in English, so prices use the English convention (€39.90). */
@@ -26,9 +28,55 @@ const euro = (amount: number) =>
  * pages, so this file cannot list a link that does not resolve.
  */
 
-export const dynamic = 'force-static';
+/**
+ * Products come from the database, so this can no longer be baked at build
+ * time — a static file would keep advertising last month's catalogue. Revalidated
+ * hourly rather than per request: assistants fetch it rarely, and it is a map of
+ * the site, not a price feed.
+ */
+export const revalidate = 3600;
 
-function build(): string {
+type ProductLine = {
+  slug: string;
+  nameEn: string;
+  price: number;
+  category: ProductCategory;
+  descriptionEn: string | null;
+};
+
+/**
+ * The catalogue, or an empty list if the database is unreachable. A missing
+ * shop section is a worse outcome than a stale one, but a failed build is the
+ * worst of the three.
+ */
+async function shopProducts(): Promise<ProductLine[]> {
+  try {
+    return await prisma.product.findMany({
+      where: { isActive: true },
+      select: {
+        slug: true,
+        nameEn: true,
+        price: true,
+        category: true,
+        descriptionEn: true,
+      },
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
+    });
+  } catch (err) {
+    console.error('llms.txt: could not load products:', err);
+    return [];
+  }
+}
+
+/** First sentence of the description — enough to identify the product, not a page of copy. */
+function firstSentence(text: string | null): string {
+  if (!text) return '';
+  const trimmed = text.trim();
+  const end = trimmed.search(/[.!?](\s|$)/);
+  return end === -1 ? trimmed.slice(0, 160) : trimmed.slice(0, end + 1);
+}
+
+function build(products: ProductLine[]): string {
   const lines: string[] = [];
 
   lines.push('# JetWash24 Detailing');
@@ -81,6 +129,21 @@ function build(): string {
   }
   lines.push('');
 
+  // Naming the actual products, with prices, is what lets an assistant answer
+  // "where can I buy a drying towel in the EU" with a specific item rather
+  // than a link to a catalogue it would have to crawl.
+  if (products.length > 0) {
+    lines.push('### Products');
+    lines.push('');
+    for (const product of products) {
+      const summary = firstSentence(product.descriptionEn);
+      lines.push(
+        `- [${product.nameEn}](${SITE_URL}/en/shop/${product.slug}): ${euro(product.price)}, ${categoryLabel(product.category, 'en')}.${summary ? ` ${summary}` : ''}`
+      );
+    }
+    lines.push('');
+  }
+
   lines.push('## Booking');
   lines.push('');
   lines.push(
@@ -99,8 +162,8 @@ function build(): string {
   return lines.join('\n');
 }
 
-export function GET() {
-  return new Response(build(), {
+export async function GET() {
+  return new Response(build(await shopProducts()), {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400',

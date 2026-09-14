@@ -8,10 +8,10 @@ import { BUSINESS, SERVICE_OFFERS, SITE_URL } from '@/lib/seo/business';
  * range and service catalogue, making the site eligible for rich results
  * and reinforcing the Google Business Profile in the local map pack.
  *
- * NOTE: aggregateRating is intentionally omitted. Google requires review
- * markup to reflect genuine reviews that are also visible on the page;
- * adding it without on-page reviews risks a manual action. Once real
- * reviews are embedded on the site, add an `aggregateRating` block here.
+ * NOTE: aggregateRating and review live in ReviewSchema, not here. Review
+ * markup has to reflect reviews visible on the same page, and this component
+ * renders on every page — so the rating is emitted by the Testimonials
+ * section instead, against this same `@id`.
  */
 export default function LocalBusinessSchema({ locale }: { locale: string }) {
   const isPt = locale === 'pt';

@@ -57,6 +57,17 @@ export default function ProductManager() {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [files, setFiles] = useState<FileList | null>(null);
   const [keptImages, setKeptImages] = useState<string[]>([]);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+
+  /** Moves one photo within the kept list. Index 0 is the catalogue cover. */
+  const moveImage = (from: number, to: number) =>
+    setKeptImages((imgs) => {
+      if (from === to || to < 0 || to >= imgs.length) return imgs;
+      const next = [...imgs];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
 
   const fetchProducts = async () => {
     const res = await fetch('/api/products?all=1');
@@ -239,21 +250,64 @@ export default function ProductManager() {
           <div className="mt-4">
             <span className="mb-1 block text-xs font-medium text-surface-500">Fotos</span>
             {keptImages.length > 0 && (
-              <div className="mb-3 flex flex-wrap gap-3">
-                {keptImages.map((url) => (
-                  <div key={url} className="relative h-20 w-20 overflow-hidden rounded border border-surface-200">
-                    <Image src={url} alt="" fill sizes="80px" className="object-contain p-1" />
-                    <button
-                      type="button"
-                      onClick={() => setKeptImages((imgs) => imgs.filter((i) => i !== url))}
-                      aria-label="Remover foto"
-                      className="absolute right-0 top-0 bg-black/70 px-1.5 text-xs text-white"
-                    >
-                      ×
-                    </button>
-                  </div>
+              <ul className="mb-3 flex flex-wrap gap-3">
+                {keptImages.map((url, i) => (
+                  <li
+                    key={url}
+                    draggable
+                    onDragStart={() => setDragIndex(i)}
+                    onDragEnd={() => setDragIndex(null)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (dragIndex !== null) moveImage(dragIndex, i);
+                      setDragIndex(null);
+                    }}
+                    className={`relative h-24 w-20 cursor-grab rounded border bg-white active:cursor-grabbing ${
+                      dragIndex === i ? 'border-gold opacity-50' : 'border-surface-200'
+                    }`}
+                  >
+                    <div className="relative h-20 w-full overflow-hidden rounded-t">
+                      <Image src={url} alt="" fill sizes="80px" className="object-contain p-1" />
+                      {i === 0 && (
+                        <span className="absolute left-0 top-0 bg-gold px-1 text-[10px] font-bold text-black">
+                          Capa
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setKeptImages((imgs) => imgs.filter((img) => img !== url))}
+                        aria-label={`Remover foto ${i + 1}`}
+                        className="absolute right-0 top-0 bg-black/70 px-1.5 text-xs text-white hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    {/* Arrows keep reordering usable by keyboard and on touch, where
+                        HTML5 drag events don't fire. */}
+                    <div className="flex h-4 items-stretch border-t border-surface-200 text-[11px] leading-none">
+                      <button
+                        type="button"
+                        onClick={() => moveImage(i, i - 1)}
+                        disabled={i === 0}
+                        aria-label={`Mover foto ${i + 1} para trás`}
+                        className="flex-1 text-surface-500 hover:bg-surface-100 hover:text-black disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        ←
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveImage(i, i + 1)}
+                        disabled={i === keptImages.length - 1}
+                        aria-label={`Mover foto ${i + 1} para a frente`}
+                        className="flex-1 border-l border-surface-200 text-surface-500 hover:bg-surface-100 hover:text-black disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        →
+                      </button>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
             <input
               type="file"
@@ -263,7 +317,9 @@ export default function ProductManager() {
               className="text-sm text-surface-600"
             />
             <p className="mt-1 text-xs text-surface-400">
-              A primeira foto é a que aparece no catálogo.
+              A primeira foto (&laquo;Capa&raquo;) é a que aparece no catálogo. Arraste as
+              fotos ou use as setas para as reordenar. Fotos novas entram no fim &mdash;
+              guarde e volte a editar para as mover.
             </p>
           </div>
 

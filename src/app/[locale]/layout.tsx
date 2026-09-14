@@ -9,6 +9,7 @@ import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
+import WebSiteSchema from '@/components/seo/WebSiteSchema';
 import SummerPromoPopup from '@/components/promo/SummerPromoPopup';
 import { CartProvider } from '@/components/shop/CartProvider';
 import { SITE_URL, LOCALES } from '@/lib/seo/business';
@@ -167,6 +168,7 @@ export default async function LocaleLayout({
           `}
         </Script>
         <LocalBusinessSchema locale={locale} />
+        <WebSiteSchema locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <CartProvider>

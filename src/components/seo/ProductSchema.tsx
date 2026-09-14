@@ -1,5 +1,5 @@
 import JsonLd from './JsonLd';
-import { SITE_URL, BUSINESS } from '@/lib/seo/business';
+import { SITE_URL } from '@/lib/seo/business';
 
 /**
  * Product structured data with an Offer, so the shop can win rich results
@@ -48,7 +48,10 @@ export default function ProductSchema({
           // advertised on the page.
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
-          seller: { '@type': 'Organization', name: BUSINESS.name, url: SITE_URL },
+          // Reference, not a restatement: a second Organization node carrying
+          // the same name reads as a different company to anything building an
+          // entity graph.
+          seller: { '@id': `${SITE_URL}/#business` },
         },
       }}
     />

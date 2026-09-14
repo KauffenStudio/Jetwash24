@@ -29,18 +29,14 @@ export default function ArticleSchema({
         dateModified: article.date,
         inLanguage: locale === 'pt' ? 'pt-PT' : 'en-GB',
         mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-        author: {
-          '@type': 'Organization',
-          name: BUSINESS.name,
-          url: SITE_URL,
-        },
+        author: { '@id': `${SITE_URL}/#business` },
         publisher: {
           '@type': 'Organization',
           '@id': `${SITE_URL}/#business`,
           name: BUSINESS.name,
           logo: {
             '@type': 'ImageObject',
-            url: `${SITE_URL}/${locale}/opengraph-image`,
+            url: `${SITE_URL}/logo.png`,
           },
         },
       }}

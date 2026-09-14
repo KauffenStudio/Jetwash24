@@ -44,6 +44,10 @@ export const BUSINESS = {
   // Google Business Profile (Maps) — consolidates the website with the GBP entity.
   googleMapsUrl:
     'https://maps.app.goo.gl/F5JnSNNxreYhAqJh7',
+  // Owned profiles that independently corroborate the entity. Everything listed
+  // here goes into `sameAs`, so only add profiles the business actually controls
+  // and that resolve — a dead sameAs link is worse than a short list.
+  instagramUrl: 'https://www.instagram.com/jetwash24detailing',
   address: {
     streetAddress: 'N125 610',
     addressLocality: 'Guia',

@@ -1,6 +1,7 @@
 import { getLocale } from 'next-intl/server';
 import { REVIEWS, HAS_REVIEWS } from '@/content/reviews';
 import { BUSINESS } from '@/lib/seo/business';
+import ReviewSchema from '@/components/seo/ReviewSchema';
 import Reveal from '@/components/ui/Reveal';
 
 function Stars({ rating }: { rating: number }) {
@@ -19,8 +20,10 @@ function Stars({ rating }: { rating: number }) {
 }
 
 /**
- * Real customer testimonials. Renders nothing (and emits no schema) until
- * content/reviews.ts holds at least one genuine review — see that file.
+ * Real customer testimonials, plus the rating/review markup describing them.
+ * Renders nothing (and emits no schema) until content/reviews.ts holds at
+ * least one genuine review — see that file. Keeping the schema here means it
+ * can never be published on a page where the reviews are not visible.
  */
 export default async function Testimonials() {
   if (!HAS_REVIEWS) return null;
@@ -30,6 +33,7 @@ export default async function Testimonials() {
 
   return (
     <section className="bg-surface-50 py-24">
+      <ReviewSchema locale={locale} />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal className="text-center mb-14">
           <p className="text-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">

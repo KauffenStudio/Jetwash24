@@ -12,8 +12,10 @@ import { ImageResponse } from 'next/og';
  * This is the same "JW / 24" mark as the favicon (src/app/icon.tsx), drawn at
  * a size the guidelines accept, on one locale-independent URL.
  */
-export const size = { width: 512, height: 512 };
-export const contentType = 'image/png';
+// Inlined rather than exported: a route handler may only export the HTTP verbs
+// and a fixed set of route options, so `size`/`contentType` exports (the image
+// file convention used by icon.tsx) are a type error here.
+const SIZE = { width: 512, height: 512 };
 
 export function GET() {
   return new ImageResponse(
@@ -37,6 +39,6 @@ export function GET() {
         <span style={{ fontSize: 208, color: '#C9A84C' }}>24</span>
       </div>
     ),
-    { ...size }
+    SIZE
   );
 }

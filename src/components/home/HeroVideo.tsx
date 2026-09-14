@@ -40,7 +40,10 @@ export default function HeroVideo() {
           autoPlay={i === 0}
           muted
           playsInline
-          preload={i === 0 ? 'auto' : 'metadata'}
+          // Only the first clip is visible on load. The other five used
+          // 'metadata', which still opens five connections before anyone has
+          // seen anything; they are fetched when the carousel reaches them.
+          preload={i === 0 ? 'auto' : 'none'}
           onEnded={i === active ? goNext : undefined}
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
           style={{

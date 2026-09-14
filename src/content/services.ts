@@ -209,8 +209,11 @@ export const SERVICES: ServiceContent[] = [
   },
   {
     slug: 'headlight-restoration',
-    fromPrice: 44.9,
-    compareAtPrice: 55,
+    fromPrice: 35,
+    // Was 44.90 with 55 struck through. The struck-through reference has to be
+    // the lowest price actually applied in the previous 30 days (Omnibus,
+    // DL 109-G/2021) — that is 44.90, not 55, so 55 would overstate the cut.
+    compareAtPrice: 44.9,
     durationLabelPt: '45 min – 1 h',
     durationLabelEn: '45 min – 1 h',
     pt: {

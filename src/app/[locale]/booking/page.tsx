@@ -23,8 +23,10 @@ async function getData() {
 }
 
 export default async function BookingPage({
+  params: { locale },
   searchParams,
 }: {
+  params: { locale: string };
   searchParams: { serviceId?: string };
 }) {
   const { services, addons } = await getData();
@@ -37,6 +39,11 @@ export default async function BookingPage({
 
   return (
     <div className="pt-16 md:pt-20">
+      {/* The page had no H1 at all — its outline started at H2. The wizard
+          carries its own step headings, so this names the page itself. */}
+      <h1 className="sr-only">
+        {locale === 'pt' ? 'Reservar serviço de detailing' : 'Book a detailing service'}
+      </h1>
       <BookingWizard
         services={services}
         addons={addons}

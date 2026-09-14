@@ -95,7 +95,7 @@ export default async function WhyChooseUs() {
   const isPt = locale === 'pt';
 
   return (
-    <section id="why-us" className="py-24 bg-surface-50">
+    <section id="why-us" className="py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal className="text-center mb-14">
           <p className="text-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">

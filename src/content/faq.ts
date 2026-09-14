@@ -102,3 +102,68 @@ export const HOME_FAQ: LocalizedFaq = {
     },
   ],
 };
+
+/**
+ * Shop FAQs shown on the catalogue page.
+ *
+ * These answer the questions that decide a purchase — where we ship, what it
+ * costs, how long it takes, how to send it back — and they are the passages an
+ * answer engine can lift when someone asks where to buy detailing products in
+ * the EU. Every figure here is read from lib/shop/shipping.ts: free delivery
+ * to all 27 EU countries, a EUR 10 order minimum, a 7-15 working-day default
+ * window, and the 14-day withdrawal right.
+ */
+export const SHOP_FAQ: LocalizedFaq = {
+  pt: [
+    {
+      q: 'Para que países enviam?',
+      a: 'Enviamos para os 27 países da União Europeia, de Portugal à Finlândia, incluindo Madeira e Açores. Vendemos apenas dentro da UE de propósito: não há declarações aduaneiras nem taxas de importação à chegada, por isso o preço que vê ao pagar é o preço final.',
+    },
+    {
+      q: 'Quanto custam os portes de envio?',
+      a: 'Nada. Os portes são grátis para toda a União Europeia, sem valor mínimo para ter envio gratuito. A única condição é que a encomenda chegue aos 10€ — abaixo disso o custo do envio ultrapassaria a margem do produto e não conseguimos expedir.',
+    },
+    {
+      q: 'Quanto tempo demora a entrega?',
+      a: 'A maioria das encomendas chega em 7 a 15 dias úteis após o pagamento. Alguns produtos saem de armazém europeu e chegam bem mais depressa — o pulverizador de espuma em 5 a 7 dias e a polidora compacta em 3 a 7. Cada produto indica o seu prazo.',
+    },
+    {
+      q: 'Posso devolver um produto?',
+      a: 'Sim. Tem 14 dias a contar da receção para devolver a encomenda, sem ter de justificar, como prevê a lei europeia do consumo. Escreva-nos para jetwash24detailing@gmail.com ou pelo WhatsApp para +351 928 380 478 e explicamos como enviar de volta.',
+    },
+    {
+      q: 'Como posso pagar?',
+      a: 'O pagamento é processado pela Stripe, que também trata dos pagamentos de milhares de lojas europeias. Aceitamos cartão de crédito e débito, MB WAY, Apple Pay e Klarna, entre outros métodos que variam consoante o país de quem compra. Não guardamos dados do seu cartão.',
+    },
+    {
+      q: 'São os mesmos produtos que usam no centro?',
+      a: 'São. Vendemos apenas o que usamos todos os dias nos carros dos nossos clientes no centro da Guia, em Albufeira. Se um produto não passa no nosso próprio trabalho, não entra na loja — é esse o único critério do catálogo.',
+    },
+  ],
+  en: [
+    {
+      q: 'Which countries do you ship to?',
+      a: 'We ship to all 27 European Union countries, from Portugal to Finland, including Madeira and the Azores. Selling only inside the EU is deliberate: no customs declarations and no import charges on arrival, so the price you see at checkout is the price you pay.',
+    },
+    {
+      q: 'How much does shipping cost?',
+      a: 'Nothing. Shipping is free across the whole European Union, with no minimum to unlock it. The only condition is that the order reaches EUR 10 — below that the postage costs more than the product margin, so we cannot dispatch it.',
+    },
+    {
+      q: 'How long does delivery take?',
+      a: 'Most orders arrive 7 to 15 working days after payment. Some products ship from an EU warehouse and arrive much sooner — the foam sprayer in 5 to 7 days, the compact polisher in 3 to 7. Each product page states its own window.',
+    },
+    {
+      q: 'Can I return a product?',
+      a: 'Yes. You have 14 days from delivery to return your order without giving a reason, as EU consumer law provides. Email jetwash24detailing@gmail.com or message us on WhatsApp at +351 928 380 478 and we will explain how to send it back.',
+    },
+    {
+      q: 'How can I pay?',
+      a: 'Payment is handled by Stripe, which also processes payments for thousands of European shops. We accept credit and debit cards, MB WAY, Apple Pay and Klarna, among other methods that vary with the buyer country. We never store your card details.',
+    },
+    {
+      q: 'Are these the same products you use at the centre?',
+      a: 'They are. We only sell what we use every day on our customers cars at our centre in Guia, Albufeira. If a product does not hold up in our own work it does not reach the shop — that is the only rule the catalogue follows.',
+    },
+  ],
+};

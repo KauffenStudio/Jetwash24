@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { trackAddToCart, toItem } from '@/lib/analytics';
 import { MAX_PER_LINE, useCart } from './CartProvider';
 
 export type CartProductInput = {
@@ -12,6 +13,8 @@ export type CartProductInput = {
   images: string[];
   deliveryMinDays: number | null;
   deliveryMaxDays: number | null;
+  brand?: string | null;
+  category?: string | null;
 };
 
 /**
@@ -53,6 +56,7 @@ export default function AddToCartButton({
       },
       quantity,
     );
+    trackAddToCart([toItem(product, locale, quantity)]);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1800);
   };

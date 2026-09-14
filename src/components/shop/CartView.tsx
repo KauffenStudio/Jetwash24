@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatEuro } from '@/lib/utils';
 import {
@@ -16,6 +16,13 @@ import {
   shippingCostFor,
   zoneFor,
 } from '@/lib/shop/shipping';
+import {
+  toItem,
+  trackBeginCheckout,
+  trackRemoveFromCart,
+  trackViewCart,
+  type AnalyticsItem,
+} from '@/lib/analytics';
 import { MAX_PER_LINE, useCart } from './CartProvider';
 
 type FormState = {
@@ -55,6 +62,28 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
   const isPt = locale === 'pt';
   const { items, ready, subtotal, setQuantity, remove } = useCart();
 
+  /** The basket in GA4 shape. Cart lines carry no brand or category. */
+  const analyticsItems: AnalyticsItem[] = useMemo(
+    () =>
+      items.map((i) =>
+        toItem(
+          { id: i.productId, namePt: i.namePt, nameEn: i.nameEn, price: i.price },
+          locale,
+          i.quantity,
+        ),
+      ),
+    [items, locale],
+  );
+
+  // view_cart once per visit to the page — after localStorage has been read,
+  // or the event reports an empty basket every time.
+  const viewedCart = useRef(false);
+  useEffect(() => {
+    if (!ready || viewedCart.current || items.length === 0) return;
+    viewedCart.current = true;
+    trackViewCart(analyticsItems);
+  }, [ready, items.length, analyticsItems]);
+
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,6 +122,7 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
 
     setSubmitting(true);
     setError(null);
+    trackBeginCheckout(analyticsItems);
 
     try {
       const res = await fetch('/api/orders', {
@@ -216,7 +246,21 @@ export default function CartView({ canceled = false }: { canceled?: boolean }) {
 
                   <button
                     type="button"
-                    onClick={() => remove(item.productId)}
+                    onClick={() => {
+                      trackRemoveFromCart([
+                        toItem(
+                          {
+                            id: item.productId,
+                            namePt: item.namePt,
+                            nameEn: item.nameEn,
+                            price: item.price,
+                          },
+                          locale,
+                          item.quantity,
+                        ),
+                      ]);
+                      remove(item.productId);
+                    }}
                     className="text-sm text-surface-400 underline-offset-4 hover:text-black hover:underline"
                   >
                     {t('remove')}

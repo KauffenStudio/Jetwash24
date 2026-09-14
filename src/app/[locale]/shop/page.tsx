@@ -13,27 +13,72 @@ import { SHOP_FAQ } from '@/content/faq';
 import Reveal from '@/components/ui/Reveal';
 import Spotlight from '@/components/ui/Spotlight';
 
+/**
+ * Category views are real pages, so they describe themselves.
+ *
+ * This used to ignore searchParams entirely: every `?category=` view returned
+ * the generic shop title and, worse, a canonical pointing back at bare /shop.
+ * llms.txt curates those seven category URLs as distinct citable pages, so a
+ * crawler that honours canonical was folding all seven back into one.
+ */
 export function generateMetadata({
   params: { locale },
+  searchParams,
 }: {
   params: { locale: string };
+  searchParams: { category?: string };
 }): Metadata {
   const isPt = locale === 'pt';
-  return {
-    title: isPt
+  const category = categoryBySlug(searchParams.category);
+  const suffix = category ? `?category=${category.slug}` : '';
+  const path = `/${locale}/shop${suffix}`;
+  const label = category ? (isPt ? category.pt : category.en) : null;
+
+  // The root layout appends ' | JetWash24 Detailing', so `title` stays brand-free
+  // to avoid saying the name twice. Social cards don't go through that template,
+  // so they carry the brand themselves.
+  const title = label
+    ? isPt
+      ? `${label} — Loja`
+      : `${label} — Shop`
+    : isPt
       ? 'Loja — Produtos de Limpeza Auto e Acessórios'
-      : 'Shop — Car Cleaning Products & Accessories',
-    description: isPt
+      : 'Shop — Car Cleaning Products & Accessories';
+
+  const socialTitle = label
+    ? isPt
+      ? `${label} — Loja JetWash24`
+      : `${label} — JetWash24 Shop`
+    : isPt
+      ? 'Loja JetWash24'
+      : 'JetWash24 Shop';
+
+  const description = label
+    ? isPt
+      ? `Produtos de ${label.toLowerCase()} usados no nosso centro de detailing em Guia, Albufeira. Portes grátis para toda a União Europeia.`
+      : `${label} products we use in our own detailing centre in Guia, Albufeira. Free shipping across the European Union.`
+    : isPt
       ? 'Produtos de limpeza automóvel e acessórios de detailing usados no nosso centro em Guia, Albufeira. Portes grátis para toda a União Europeia.'
-      : 'Car cleaning products and detailing accessories we use in our own centre in Guia, Albufeira. Free shipping across the European Union.',
+      : 'Car cleaning products and detailing accessories we use in our own centre in Guia, Albufeira. Free shipping across the European Union.';
+
+  return {
+    title,
+    description,
     alternates: {
-      canonical: `/${locale}/shop`,
-      languages: { 'pt-PT': '/pt/shop', 'en-GB': '/en/shop', 'x-default': '/pt/shop' },
+      canonical: path,
+      languages: {
+        'pt-PT': `/pt/shop${suffix}`,
+        'en-GB': `/en/shop${suffix}`,
+        'x-default': `/pt/shop${suffix}`,
+      },
     },
     openGraph: {
-      url: `${SITE_URL}/${locale}/shop`,
-      title: isPt ? 'Loja JetWash24' : 'JetWash24 Shop',
+      url: `${SITE_URL}${path}`,
+      title: socialTitle,
+      description,
+      images: [`${SITE_URL}/${locale}/opengraph-image`],
     },
+    twitter: { title: socialTitle, description },
   };
 }
 
@@ -108,6 +153,17 @@ export default async function ShopPage({
       {/* Catalogue */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          {/* Names the grid so the product cards' H3s have an H2 to sit under.
+              Visually redundant next to the hero, hence sr-only. */}
+          <h2 className="sr-only">
+            {activeCategory
+              ? isPt
+                ? activeCategory.pt
+                : activeCategory.en
+              : isPt
+                ? 'Todos os produtos'
+                : 'All products'}
+          </h2>
           {/* Category filter */}
           <nav className="mb-10 flex flex-wrap gap-2" aria-label={isPt ? 'Categorias' : 'Categories'}>
             <FilterPill

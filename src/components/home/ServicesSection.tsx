@@ -222,7 +222,7 @@ function ServiceCard({ service, locale }: { service: ServiceRow; locale: string 
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="flex items-center gap-2">
-            <h4 className="font-bold text-black text-base group-hover:text-gold transition-colors">{name}</h4>
+            <h3 className="font-bold text-black text-base group-hover:text-gold transition-colors">{name}</h3>
             {discount !== null && <DiscountBadge percent={discount} />}
           </div>
           <p className="text-surface-400 text-xs mt-0.5">{formatDurationLabel(service.duration, locale)}</p>

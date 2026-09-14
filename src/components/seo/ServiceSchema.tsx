@@ -22,6 +22,7 @@ export default function ServiceSchema({
       data={{
         '@context': 'https://schema.org',
         '@type': 'Service',
+        '@id': `${url}#service`,
         name: copy.name,
         serviceType: copy.name,
         description: copy.metaDescription,

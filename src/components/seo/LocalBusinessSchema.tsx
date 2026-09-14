@@ -27,7 +27,7 @@ export default function LocalBusinessSchema({ locale }: { locale: string }) {
       `${SITE_URL}/gallery/detail-1-after.jpg`,
       `${SITE_URL}/gallery/headlight-bmw-after.jpg`,
     ],
-    logo: `${SITE_URL}/${locale}/opengraph-image`,
+    logo: `${SITE_URL}/logo.png`,
     telephone: BUSINESS.telephone,
     email: BUSINESS.email,
     priceRange: BUSINESS.priceRange,
@@ -47,7 +47,7 @@ export default function LocalBusinessSchema({ locale }: { locale: string }) {
       longitude: BUSINESS.geo.longitude,
     },
     hasMap: BUSINESS.googleMapsUrl,
-    sameAs: [BUSINESS.googleMapsUrl],
+    sameAs: [BUSINESS.googleMapsUrl, BUSINESS.instagramUrl],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -75,6 +75,9 @@ export default function LocalBusinessSchema({ locale }: { locale: string }) {
         },
         itemOffered: {
           '@type': 'Service',
+          // Same @id the service page emits, so the catalogue entry and the
+          // page that describes it resolve to one service, not two.
+          '@id': `${SITE_URL}/${locale}/services/${service.slug}#service`,
           name: isPt ? service.namePt : service.nameEn,
           // Ties each catalogue entry to the page that describes it, so the
           // offer and the Service node on that page resolve to one entity.

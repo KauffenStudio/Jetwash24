@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { format, addDays, startOfToday, isToday, isBefore } from 'date-fns';
+import { format, addDays, parseISO } from 'date-fns';
+import { earliestBookableDate } from '@/lib/booking-window';
 import { ptBR } from 'date-fns/locale';
 
 interface DateTimeStepProps {
@@ -32,9 +33,13 @@ export default function DateTimeStep({
   const [slots, setSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // Show next 30 days for date picker
-  const today = startOfToday();
-  const dateOptions = Array.from({ length: 30 }, (_, i) => addDays(today, i));
+  // Starts at the first bookable date — tomorrow — not today.
+  //
+  // Derived from the shop's timezone rather than the browser's: a customer
+  // booking from the UK an hour behind would otherwise be offered a first date
+  // the server rejects, and see an empty slot list with no explanation.
+  const firstDate = parseISO(earliestBookableDate());
+  const dateOptions = Array.from({ length: 30 }, (_, i) => addDays(firstDate, i));
 
   const fetchSlots = useCallback(
     async (date: string) => {
@@ -70,10 +75,12 @@ export default function DateTimeStep({
       <div className="mb-8">
         <p className="text-sm font-semibold text-surface-500 uppercase tracking-wide mb-4">{t('selectDate')}</p>
         <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2">
-          {dateOptions.map((date) => {
+          {dateOptions.map((date, i) => {
             const dateStr = format(date, 'yyyy-MM-dd');
             const isSelected = selectedDate === dateStr;
-            const isToday_ = isToday(date);
+            // The dot used to mark today. Today is no longer offered, so it now
+            // marks the soonest date a customer can actually take.
+            const isEarliest = i === 0;
 
             return (
               <button
@@ -94,8 +101,8 @@ export default function DateTimeStep({
                 <p className={`text-xs ${isSelected ? 'text-white/50' : 'text-surface-400'}`}>
                   {format(date, 'MMM', { locale: dfLocale })}
                 </p>
-                {isToday_ && (
-                  <div className={`mt-1 w-1.5 h-1.5 rounded-full mx-auto ${isSelected ? 'bg-gold' : 'bg-gold'}`} />
+                {isEarliest && (
+                  <div className="mt-1 w-1.5 h-1.5 rounded-full mx-auto bg-gold" />
                 )}
               </button>
             );

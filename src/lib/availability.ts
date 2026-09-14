@@ -1,5 +1,6 @@
 import { prisma } from './prisma';
 import { parseISO, startOfDay, endOfDay } from 'date-fns';
+import { isBookableDate } from './booking-window';
 
 // Business hours (minutes from midnight)
 const OPEN_TIME = 9 * 60;   // 09:00 = 540 min
@@ -32,6 +33,15 @@ export async function getAvailableSlots(
   dateStr: string,       // 'YYYY-MM-DD'
   serviceDuration: number, // total service duration in minutes
 ): Promise<string[]> {
+  // Same-day and past dates have no slots at all.
+  //
+  // This guard sits here rather than in the route because POST /api/bookings
+  // re-checks availability through this same function. Enforcing it once here
+  // closes the API to a crafted request, not just the wizard — previously the
+  // POST had no date check whatsoever, so a direct call could book today, or
+  // any date already gone.
+  if (!isBookableDate(dateStr)) return [];
+
   const date = parseISO(dateStr);
   const dayStart = startOfDay(date);
   const dayEnd = endOfDay(date);

@@ -24,10 +24,12 @@ export default function HomePage({
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>
-      <WhyChooseUs />
+      {/* Proof before argument: the before/after work earns the claims that
+          follow, so the gallery runs ahead of "Porque nos escolhem". */}
       <Suspense fallback={<SectionSkeleton dark />}>
         <GallerySection />
       </Suspense>
+      <WhyChooseUs />
       <Testimonials />
       <BookingCTA />
       <FaqSection />

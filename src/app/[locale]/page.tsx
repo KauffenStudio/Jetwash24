@@ -17,10 +17,7 @@ export default function HomePage({
   return (
     <>
       <Hero />
-      {/* Shop first: the catalogue is now the main business, services follow. */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <ShopSection locale={locale} />
-      </Suspense>
+      {/* Services first: detailing is the main business, the shop follows. */}
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>
@@ -32,6 +29,9 @@ export default function HomePage({
       <WhyChooseUs />
       <Testimonials />
       <BookingCTA />
+      <Suspense fallback={<SectionSkeleton />}>
+        <ShopSection locale={locale} />
+      </Suspense>
       <FaqSection />
       <LocationSection />
     </>

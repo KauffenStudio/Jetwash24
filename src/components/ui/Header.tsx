@@ -23,8 +23,8 @@ export default function Header() {
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   const navLinks = [
-    { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}/services`, label: t('services') },
+    { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}#gallery`, label: t('gallery') },
     { href: `/${locale}/blog`, label: t('blog') },
     { href: `/${locale}#location`, label: t('contact') },

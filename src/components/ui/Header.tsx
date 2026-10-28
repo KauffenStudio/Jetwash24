@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
-import CartButton from '@/components/shop/CartButton';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -24,7 +23,6 @@ export default function Header() {
 
   const navLinks = [
     { href: `/${locale}/services`, label: t('services') },
-    { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}#gallery`, label: t('gallery') },
     { href: `/${locale}/blog`, label: t('blog') },
     { href: `/${locale}#location`, label: t('contact') },
@@ -62,7 +60,6 @@ export default function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <CartButton />
             <LanguageSwitcher />
             <Link
               href={`/${locale}/booking`}

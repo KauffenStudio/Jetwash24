@@ -11,7 +11,6 @@ import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
 import WebSiteSchema from '@/components/seo/WebSiteSchema';
 import SummerPromoPopup from '@/components/promo/SummerPromoPopup';
-import { CartProvider } from '@/components/shop/CartProvider';
 import { SITE_URL, LOCALES } from '@/lib/seo/business';
 import '../globals.css';
 
@@ -41,8 +40,6 @@ const SEO = {
       'limpeza interior carro',
       'polimento faróis algarve',
       'detailing albufeira',
-      'produtos de limpeza auto',
-      'loja detailing online',
       'jetwash24',
     ],
   },
@@ -61,7 +58,6 @@ const SEO = {
       'interior car cleaning',
       'headlight restoration algarve',
       'car detailing albufeira',
-      'car detailing products',
       'jetwash24',
     ],
   },
@@ -165,13 +161,11 @@ export default async function LocaleLayout({
         <WebSiteSchema locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
-            <CartProvider>
-              <Header />
-              <main>{children}</main>
-              <Footer />
-              <WhatsAppButton />
-              <SummerPromoPopup />
-            </CartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppButton />
+            <SummerPromoPopup />
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

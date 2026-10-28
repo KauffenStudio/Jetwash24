@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import Hero from '@/components/home/Hero';
-import ShopSection from '@/components/home/ShopSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 import GallerySection from '@/components/home/GallerySection';
@@ -9,15 +8,10 @@ import LocationSection from '@/components/home/LocationSection';
 import FaqSection from '@/components/home/FaqSection';
 import Testimonials from '@/components/home/Testimonials';
 
-export default function HomePage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* Services first: detailing is the main business, the shop follows. */}
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>
@@ -29,9 +23,6 @@ export default function HomePage({
       <WhyChooseUs />
       <Testimonials />
       <BookingCTA />
-      <Suspense fallback={<SectionSkeleton />}>
-        <ShopSection locale={locale} />
-      </Suspense>
       <FaqSection />
       <LocationSection />
     </>

@@ -153,7 +153,7 @@ export const LOCATIONS: LocationContent[] = [
         'Estamos na N125 em Guia, a 3 minutos do AlgarveShopping. Fácil de chegar e com estacionamento.',
       intro: [
         'A JetWash24 é o seu centro de detailing aqui em Guia. Trabalhamos a partir da N125, a três minutos do AlgarveShopping, o que torna fácil deixar o carro connosco enquanto faz as compras, vai ao cinema ou trata de recados.',
-        'Seja morador de Guia, das Ferreiras ou de Albufeira, fazemos limpeza profissional de interiores e exteriores, restauro de faróis e correção de pintura — o tipo de trabalho que devolve ao carro o aspeto de novo e que uma lavagem de rotina nunca faz. Reserve online e escolha a hora que lhe dá jeito.',
+        'Seja morador de Guia, das Ferreiras ou de Albufeira, fazemos limpeza profissional de interiores e exteriores, polimento e restauro de faróis — o tipo de trabalho que devolve ao carro o aspeto de novo e que uma lavagem de rotina nunca faz. Reserve online e escolha a hora que lhe dá jeito.',
       ],
       reasons: [
         {
@@ -162,7 +162,7 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           title: 'O detailer de confiança da zona',
-          body: 'Moradores de Guia, Ferreiras e Albufeira confiam-nos os carros — interior, exterior e correção de pintura feitos por profissionais.',
+          body: 'Moradores de Guia, Ferreiras e Albufeira confiam-nos os carros — interior, exterior e polimento feitos por profissionais.',
         },
         {
           title: 'Reserva online sem telefonemas',
@@ -180,7 +180,7 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           q: 'Quanto tempo demora um serviço?',
-          a: 'Depende do que escolher: a Lavagem Exterior Express demora 30 minutos e a Limpeza Interior Expresso 40. Os serviços detalhados levam de 1h30 a 2 horas, o Pacote Completo cerca de 3 horas e a Correção de Pintura até 5. A duração aparece sempre antes de confirmar a reserva.',
+          a: 'Depende do que escolher: a Lavagem Exterior Express demora 30 minutos e a Limpeza Interior Expresso 40. Os serviços detalhados levam de 1h30 a 2 horas, o Pacote Completo cerca de 3 horas e o Polimento de Brilho 2h30 a 3 horas. A duração aparece sempre antes de confirmar a reserva.',
         },
       ],
     },
@@ -196,7 +196,7 @@ export const LOCATIONS: LocationContent[] = [
         'We’re on the N125 in Guia, 3 minutes from AlgarveShopping. Easy to reach, with parking.',
       intro: [
         'JetWash24 is your detailing centre right here in Guia. We work from the N125, three minutes from AlgarveShopping, which makes it easy to drop your car with us while you shop, catch a film or run errands.',
-        'Whether you live in Guia, Ferreiras or Albufeira, we provide professional interior and exterior cleaning, headlight restoration and paint correction — the kind of work that brings a car back to new and that a routine wash never does. Book online and pick a time that suits you.',
+        'Whether you live in Guia, Ferreiras or Albufeira, we provide professional interior and exterior cleaning, polishing and headlight restoration — the kind of work that brings a car back to new and that a routine wash never does. Book online and pick a time that suits you.',
       ],
       reasons: [
         {
@@ -205,7 +205,7 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           title: 'The area’s trusted detailer',
-          body: 'Locals from Guia, Ferreiras and Albufeira trust us with their cars — interior, exterior and paint correction done by professionals.',
+          body: 'Locals from Guia, Ferreiras and Albufeira trust us with their cars — interior, exterior and polishing done by professionals.',
         },
         {
           title: 'Online booking, no phone calls',
@@ -223,7 +223,7 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           q: 'How long does a service take?',
-          a: 'It depends what you choose: the Express Exterior Wash takes 30 minutes and the Express Interior Refresh 40. Detailed services run 1h30 to 2 hours, the Complete Package around 3 hours, and Paint Correction up to 5. The duration is always shown before you confirm the booking.',
+          a: 'It depends what you choose: the Express Exterior Wash takes 30 minutes and the Express Interior Refresh 40. Detailed services run 1h30 to 2 hours, the Complete Package around 3 hours, and the Gloss Polish 2h30 to 3 hours. The duration is always shown before you confirm the booking.',
         },
       ],
     },
@@ -235,7 +235,7 @@ export const LOCATIONS: LocationContent[] = [
       city: 'Vilamoura',
       metaTitle: 'Car Detailing em Vilamoura — Detalhe Automóvel Premium',
       metaDescription:
-        'Detailing premium para Vilamoura: correção de pintura, restauro de faróis e proteção. Cuidado ao detalhe para o seu carro. Reserve online na JetWash24.',
+        'Detailing premium para Vilamoura: polimento, restauro de faróis e proteção. Cuidado ao detalhe para o seu carro. Reserve online na JetWash24.',
       eyebrow: 'Car Detailing · Vilamoura',
       h1: 'Car Detailing em Vilamoura',
       tagline: 'Cuidado premium ao detalhe — para o seu carro em Vilamoura.',
@@ -243,12 +243,12 @@ export const LOCATIONS: LocationContent[] = [
         'Estamos em Guia, a cerca de 12 minutos de Vilamoura pela N125 / A22. Fácil de combinar com a marina ou o golfe.',
       intro: [
         'Vilamoura é sinónimo de marina, golfe e carros que merecem ser cuidados ao detalhe. O sol intenso, o salitre vindo do mar e o pó fino das estradas tiram o brilho à pintura e amarelecem os faróis mais depressa do que se imagina — e num carro premium isso nota-se logo.',
-        'A JetWash24 oferece detailing de nível premium para a zona de Vilamoura a partir de Guia, a poucos minutos pela N125. Correção de pintura, restauro de faróis, restauração de interiores em couro e proteção — o trabalho minucioso que mantém o seu carro a parecer (e a valer) o que deve. Reserve online a hora que lhe der jeito.',
+        'A JetWash24 oferece detailing de nível premium para a zona de Vilamoura a partir de Guia, a poucos minutos pela N125. Polimento a máquina, restauro de faróis, restauração de interiores em couro e proteção — o trabalho minucioso que mantém o seu carro a parecer (e a valer) o que deve. Reserve online a hora que lhe der jeito.',
       ],
       reasons: [
         {
           title: 'Acabamento premium',
-          body: 'Correção de pintura, hidratação de couro e proteção UV — o nível de detalhe que um carro de gama alta exige.',
+          body: 'Polimento da pintura, hidratação de couro e proteção UV — o nível de detalhe que um carro de gama alta exige.',
         },
         {
           title: 'A minutos da marina',
@@ -256,13 +256,13 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           title: 'Protege o valor do carro',
-          body: 'Pintura corrigida e protegida e interior tratado preservam o aspeto e o valor de revenda do seu carro.',
+          body: 'Pintura polida e protegida e interior tratado preservam o aspeto e o valor de revenda do seu carro.',
         },
       ],
       faq: [
         {
-          q: 'Fazem correção de pintura para carros premium?',
-          a: 'Sim. A Correção de Pintura em duas fases começa em 249€ e demora cerca de 5 horas: medimos a espessura do verniz, cortamos e refinamos painel a painel para remover swirls e riscos ligeiros. Para carros bem mantidos que só perderam brilho, o Polimento de Brilho a partir de 149€ costuma chegar.',
+          q: 'Fazem polimento para carros premium?',
+          a: 'Sim. O Polimento de Brilho começa em 149€ e demora entre 2h30 e 3 horas: avaliamos a pintura, descontaminamos com clay bar, polimos a máquina painel a painel e selamos o resultado. Devolve brilho e profundidade à cor e atenua marcas de lavagem — o cuidado que um carro de gama alta pede.',
         },
         {
           q: 'Servem a zona de Vilamoura?',
@@ -278,7 +278,7 @@ export const LOCATIONS: LocationContent[] = [
       city: 'Vilamoura',
       metaTitle: 'Car Detailing in Vilamoura — Premium Auto Detailing',
       metaDescription:
-        'Premium detailing for Vilamoura: paint correction, headlight restoration and protection. Meticulous care for your car. Book online with JetWash24.',
+        'Premium detailing for Vilamoura: polishing, headlight restoration and protection. Meticulous care for your car. Book online with JetWash24.',
       eyebrow: 'Car Detailing · Vilamoura',
       h1: 'Car Detailing in Vilamoura',
       tagline: 'Premium, detail-obsessed care — for your car in Vilamoura.',
@@ -286,12 +286,12 @@ export const LOCATIONS: LocationContent[] = [
         'We’re in Guia, about 12 minutes from Vilamoura via the N125 / A22 — easy to pair with the marina or a round of golf.',
       intro: [
         'Vilamoura means marina, golf and cars that deserve proper care. Strong sun, sea salt and fine road dust dull the paint and yellow the headlights faster than you’d think — and on a premium car it shows immediately.',
-        'JetWash24 offers premium-level detailing for the Vilamoura area from our base in Guia, just minutes away on the N125. Paint correction, headlight restoration, leather interior restoration and protection — the meticulous work that keeps your car looking (and worth) what it should. Book online at a time that suits you.',
+        'JetWash24 offers premium-level detailing for the Vilamoura area from our base in Guia, just minutes away on the N125. Machine polishing, headlight restoration, leather interior restoration and protection — the meticulous work that keeps your car looking (and worth) what it should. Book online at a time that suits you.',
       ],
       reasons: [
         {
           title: 'Premium finish',
-          body: 'Paint correction, leather conditioning and UV protection — the level of detail a high-end car deserves.',
+          body: 'Paint polishing, leather conditioning and UV protection — the level of detail a high-end car deserves.',
         },
         {
           title: 'Minutes from the marina',
@@ -299,13 +299,13 @@ export const LOCATIONS: LocationContent[] = [
         },
         {
           title: 'Protects your car’s value',
-          body: 'Corrected, protected paint and a cared-for interior preserve your car’s looks and resale value.',
+          body: 'Polished, protected paint and a cared-for interior preserve your car’s looks and resale value.',
         },
       ],
       faq: [
         {
-          q: 'Do you do paint correction for premium cars?',
-          a: 'Yes. Two-stage Paint Correction starts at €249 and takes around 5 hours: we measure clear-coat thickness, then cut and refine panel by panel to remove swirls and light scratches. For well-kept cars that have only lost gloss, the Gloss Polish from €149 is usually enough.',
+          q: 'Do you polish premium cars?',
+          a: 'Yes. The Gloss Polish starts at €149 and takes 2h30 to 3 hours: we assess the paint, decontaminate it with a clay bar, machine-polish panel by panel and seal the result. It brings gloss and depth back to the colour and softens wash marks — the care a high-end car calls for.',
         },
         {
           q: 'Do you cover the Vilamoura area?',

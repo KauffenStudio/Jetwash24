@@ -21,7 +21,6 @@
   },
   "nav": {
     "home": "Home",
-    "shop": "Shop",
     "services": "Services",
     "blog": "Blog",
     "gallery": "Gallery",
@@ -34,10 +33,10 @@
   },
   "hero": {
     "tagline": "Guia · Albufeira · Algarve",
-    "headline": "Professional Car Detailing Products",
-    "description": "The products we use every day in our own centre in Guia — on sale, with free shipping across the European Union. Or let us do the work on your car.",
-    "cta": "Shop now",
-    "ctaSecondary": "Book a detailing"
+    "headline": "Professional Detailing in Algarve",
+    "description": "We transform the interior and exterior of your vehicle with premium detailing techniques. Results that speak for themselves.",
+    "cta": "Book Now",
+    "scrollDown": "See services"
   },
   "services": {
     "title": "Our Services",
@@ -294,42 +293,5 @@
     "aria": {
       "close": "Close offer"
     }
-  },
-  "shop": {
-    "cart": "Cart",
-    "loading": "Loading…",
-    "emptyCart": "Your cart is empty",
-    "emptyCartHint": "Browse the products we use in our own centre every day.",
-    "continueShopping": "Keep shopping",
-    "paymentCanceled": "Payment was cancelled. Your cart is untouched — you can try again.",
-    "quantity": "Quantity",
-    "decrease": "Decrease quantity",
-    "increase": "Increase quantity",
-    "remove": "Remove",
-    "yourDetails": "Your details",
-    "fullName": "Full name",
-    "phone": "Phone",
-    "nif": "Tax number (optional, for the invoice)",
-    "shippingAddress": "Shipping address",
-    "addressLine1": "Address",
-    "addressLine2": "Floor, door (optional)",
-    "postalCode": "Postcode",
-    "city": "Town",
-    "country": "Country",
-    "notes": "Delivery notes (optional)",
-    "subtotal": "Subtotal",
-    "shipping": "Shipping",
-    "shippingPending": "Enter your country and postcode",
-    "free": "Free",
-    "freeShippingMissing": "{amount}€ away from free shipping.",
-    "total": "Total",
-    "payNow": "Pay securely",
-    "processing": "Opening payment…",
-    "securePayment": "Secure card payment via Stripe.",
-    "errorPostalCode": "That postcode does not look valid for the country you picked.",
-    "errorBelowMinimum": "The minimum order is {amount}€.",
-    "errorOutOfStock": "One of the products just sold out. Adjust your cart and try again.",
-    "errorGeneric": "We couldn't start the payment. Please try again.",
-    "deliveryWindow": "Delivered {min} to {max} working days after payment. You have 14 days to return it, no reason needed."
   }
 }

@@ -2,7 +2,7 @@
  * Long-form, indexable content for individual service pages.
  *
  * These pages exist to capture specific, high-intent searches
- * ("restauro de faróis Albufeira", "correção de pintura Algarve")
+ * ("restauro de faróis Albufeira", "polimento carro Algarve")
  * that the single-page home cannot rank for on its own. Each entry is the
  * single source for the page copy, its <Service> JSON-LD and its metadata.
  *
@@ -304,7 +304,7 @@ export const SERVICES: ServiceContent[] = [
       tagline: 'O polimento que devolve o brilho de stand à sua pintura, numa só fase.',
       intro: [
         'Ao fim de alguns anos ao sol e ao sal do Algarve, a pintura perde brilho e ganha um aspeto baço mesmo depois de lavada. O polimento de brilho corrige exatamente isso: uma fase de máquina que refina o verniz, reaviva a cor e faz a luz voltar a refletir como deve ser.',
-        'É o passo intermédio entre uma lavagem detalhada e a correção de pintura completa. Não remove riscos profundos — para isso existe a Correção de Pintura — mas atenua marcas de lavagem ligeiras e devolve profundidade à cor por uma fração do preço.',
+        'É o passo seguinte a uma lavagem detalhada: não remove riscos profundos, mas atenua marcas de lavagem ligeiras e devolve profundidade à cor, numa só sessão.',
       ],
       includes: [
         'Lavagem segura e descontaminação',
@@ -323,12 +323,12 @@ export const SERVICES: ServiceContent[] = [
       idealFor: ['Pintura baça', 'Manutenção anual', 'Antes de vender', 'Carros bem tratados', 'Primeiro polimento'],
       faq: [
         {
-          q: 'Qual a diferença entre o Polimento de Brilho e a Correção de Pintura?',
-          a: 'O Polimento de Brilho é uma fase: refina o verniz, dá brilho e atenua marcas ligeiras. A Correção de Pintura são duas fases (corte + refinamento) e remove mesmo swirls e riscos ligeiros. Se a pintura está sã mas sem brilho, o polimento chega; se vê riscos circulares ao sol, precisa da correção.',
+          q: 'O Polimento de Brilho remove riscos?',
+          a: 'Atenua marcas de lavagem ligeiras e micro-riscos superficiais, que são o que deixa a pintura baça. Riscos que se sentem com a unha atravessaram o verniz e nenhum polimento os remove. O Polimento de Brilho é para pintura sã que perdeu brilho: refina o verniz numa fase e devolve profundidade à cor.',
         },
         {
           q: 'O polimento estraga o verniz?',
-          a: 'Não, quando é feito com critério. Um polimento numa fase remove uma camada mínima de verniz, muito menos do que uma correção agressiva. Avaliamos sempre a pintura antes de começar e trabalhamos dentro de margens seguras — um carro pode ser polido várias vezes ao longo da vida sem problema.',
+          a: 'Não, quando é feito com critério. Um polimento numa fase remove uma camada mínima de verniz, muito menos do que um polimento de corte agressivo. Avaliamos sempre a pintura antes de começar e trabalhamos dentro de margens seguras — um carro pode ser polido várias vezes ao longo da vida sem problema.',
         },
         {
           q: 'Quanto tempo dura o resultado?',
@@ -345,7 +345,7 @@ export const SERVICES: ServiceContent[] = [
       tagline: 'The polish that brings showroom gloss back to your paint, in a single stage.',
       intro: [
         'After a few years under the Algarve sun and salt, paint loses its gloss and looks dull even right after a wash. A gloss polish fixes exactly that: one machine stage that refines the clear coat, revives the colour and gets light reflecting properly again.',
-        'It is the middle step between a detailed wash and full paint correction. It will not remove deep scratches — that is what Paint Correction is for — but it softens light wash marks and brings depth back to the colour for a fraction of the price.',
+        'It is the step up from a detailed wash: it will not remove deep scratches, but it softens light wash marks and brings depth back to the colour, in a single session.',
       ],
       includes: [
         'Safe wash and decontamination',
@@ -364,97 +364,16 @@ export const SERVICES: ServiceContent[] = [
       idealFor: ['Dull paint', 'Yearly maintenance', 'Before selling', 'Well-kept cars', 'A first polish'],
       faq: [
         {
-          q: 'What is the difference between a Gloss Polish and Paint Correction?',
-          a: 'A Gloss Polish is one stage: it refines the clear coat, adds gloss and softens light marks. Paint Correction is two stages (cut + refine) and actually removes swirls and light scratches. If the paint is sound but dull, the polish is enough; if you can see circular swirls in sunlight, you need the correction.',
+          q: 'Does the Gloss Polish remove scratches?',
+          a: 'It softens light wash marks and shallow micro-scratches, which are what make paint look dull. Scratches you can feel with a fingernail have gone through the clear coat and no polish will remove them. The Gloss Polish is for sound paint that has lost its gloss: one stage that refines the clear coat and brings depth back.',
         },
         {
           q: 'Does polishing damage the clear coat?',
-          a: 'Not when it is done sensibly. A single-stage polish removes a minimal amount of clear coat, far less than an aggressive correction. We always assess the paint before starting and stay within safe margins — a car can be polished several times over its life without trouble.',
+          a: 'Not when it is done sensibly. A single-stage polish removes a minimal amount of clear coat, far less than an aggressive cutting polish. We always assess the paint before starting and stay within safe margins — a car can be polished several times over its life without trouble.',
         },
         {
           q: 'How long does the result last?',
           a: 'The gloss lasts until the paint marks up again, because the surface was genuinely refined rather than filled with wax. The sealant we apply on top protects for several months. What cuts the result short is roller-brush car washes, which reintroduce micro-scratches within a few passes.',
-        },
-      ],
-    },
-  },
-  {
-    slug: 'paint-correction',
-    fromPrice: 249,
-    compareAtPrice: 320,
-    durationLabelPt: '4 h – 6 h',
-    durationLabelEn: '4 h – 6 h',
-    pt: {
-      name: 'Correção de Pintura',
-      eyebrow: 'Premium',
-      metaTitle: 'Correção de Pintura (Polimento) em Guia, Albufeira',
-      metaDescription:
-        'Remova riscos, swirls e marcas de lavagem com correção de pintura profissional em Guia, Albufeira. Brilho de espelho duradouro. Reserve online.',
-      tagline: 'Removemos riscos e swirls e devolvemos um brilho de espelho profundo.',
-      intro: [
-        'Micro-riscos, swirls e marcas de lavagem tiram profundidade e brilho à pintura, sobretudo em cores escuras. A correção de pintura remove fisicamente essas imperfeições da camada de verniz, em vez de as esconder temporariamente.',
-        'Com máquina rotativa/orbital e polishes de corte progressivo, nivelamos o verniz e revelamos a cor real do carro. Recomendamos finalizar com proteção (selante ou cerâmico) para manter o resultado.',
-      ],
-      includes: [
-        'Lavagem e descontaminação prévia',
-        'Avaliação da espessura do verniz',
-        'Correção em duas fases (corte + refinamento)',
-        'Remoção de swirls e riscos ligeiros',
-        'Brilho profundo e uniforme',
-        'Proteção final (opcional)',
-      ],
-      process: [
-        { title: 'Preparação', body: 'Lavagem segura e descontaminação para uma superfície limpa.' },
-        { title: 'Diagnóstico', body: 'Medimos o verniz e definimos o nível de correção seguro.' },
-        { title: 'Polimento', body: 'Corte e refinamento por painéis até remover as imperfeições.' },
-        { title: 'Proteção', body: 'Selamos o resultado com proteção à escolha.' },
-      ],
-      idealFor: ['Cores escuras', 'Carros com swirls', 'Antes de cerâmico', 'Recuperar valor'],
-      faq: [
-        {
-          q: 'Qual a diferença entre polimento e correção de pintura?',
-          a: 'O nosso Polimento de Brilho (desde 149€) é uma fase: dá brilho e atenua marcas de lavagem ligeiras. A Correção de Pintura são duas fases, com diagnóstico e corte, e remove de facto swirls e riscos ligeiros do verniz — o resultado é permanente (até novos riscos). Se vê riscos circulares ao sol, é correção que precisa.',
-        },
-        {
-          q: 'É preciso aplicar proteção depois?',
-          a: 'Recomendamos vivamente. Depois da correção o verniz está no seu melhor estado, mas também desprotegido: sem selante ou revestimento cerâmico volta a marcar-se mais depressa. A proteção mantém o resultado durante meses, faz a água escorrer e torna as lavagens seguintes muito mais rápidas e seguras para a pintura.',
-        },
-      ],
-    },
-    en: {
-      name: 'Paint Correction',
-      eyebrow: 'Premium',
-      metaTitle: 'Paint Correction (Polishing) in Guia, Albufeira',
-      metaDescription:
-        'Remove scratches, swirls and wash marks with professional paint correction in Guia, Albufeira. Lasting mirror shine. Book online.',
-      tagline: 'We remove scratches and swirls and bring back a deep, mirror-like shine.',
-      intro: [
-        'Micro-scratches, swirls and wash marks rob paint of depth and shine, especially on dark colours. Paint correction physically removes these defects from the clear coat instead of hiding them temporarily.',
-        'Using rotary/orbital machines and progressive-cut polishes, we level the clear coat and reveal the car’s true colour. We recommend finishing with protection (sealant or ceramic) to preserve the result.',
-      ],
-      includes: [
-        'Prior wash and decontamination',
-        'Clear-coat thickness assessment',
-        'Two-stage correction (cut + refine)',
-        'Removal of swirls and light scratches',
-        'Deep, uniform shine',
-        'Final protection (optional)',
-      ],
-      process: [
-        { title: 'Preparation', body: 'Safe wash and decontamination for a clean surface.' },
-        { title: 'Diagnosis', body: 'We measure the clear coat and set a safe correction level.' },
-        { title: 'Polishing', body: 'Cut and refine panel by panel until defects are gone.' },
-        { title: 'Protection', body: 'We seal the result with your choice of protection.' },
-      ],
-      idealFor: ['Dark colours', 'Cars with swirls', 'Before ceramic coating', 'Restoring value'],
-      faq: [
-        {
-          q: 'What is the difference between a polish and paint correction?',
-          a: 'Our Gloss Polish (from €149) is a single stage: it adds shine and softens light wash marks. Paint Correction is two stages, with assessment and a cutting step, and actually removes swirls and light scratches from the clear coat, permanently. If you can see circular swirls in sunlight, correction is what you need.',
-        },
-        {
-          q: 'Do I need protection afterwards?',
-          a: 'We strongly recommend it. After correction the clear coat is at its best, but it is also unprotected: without a sealant or ceramic coating it marks up again faster. Protection holds the result for months, makes water bead off, and makes every later wash quicker and safer for the paint.',
         },
       ],
     },

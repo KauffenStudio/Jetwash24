@@ -4,7 +4,7 @@ import { BUSINESS, SITE_URL } from '@/lib/seo/business';
 /**
  * WebSite structured data.
  *
- * The site described LocalBusiness, Service, Product and BlogPosting nodes but
+ * The site described LocalBusiness, Service and BlogPosting nodes but
  * never the site itself, so nothing tied those together as one publication.
  * `publisher` points at the business by @id, which is what makes the two
  * resolve to a single entity rather than two unrelated things that happen to

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { releaseExpiredOrders } from '@/lib/shop/expire-orders';
 
 export const runtime = 'nodejs';
 
@@ -10,18 +9,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const now = new Date();
-
   const result = await prisma.booking.updateMany({
     where: {
       status: 'PENDING',
-      paymentExpiresAt: { lt: now },
+      paymentExpiresAt: { lt: new Date() },
     },
     data: { status: 'EXPIRED' },
   });
 
-  // Shop orders that were never paid: close them so the list stays clean.
-  const ordersExpired = await releaseExpiredOrders();
-
-  return NextResponse.json({ expired: result.count, ordersExpired });
+  return NextResponse.json({ expired: result.count });
 }

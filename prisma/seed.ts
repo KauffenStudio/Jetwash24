@@ -207,27 +207,6 @@ async function main() {
     },
   });
 
-  await prisma.service.upsert({
-    where: { id: 'svc-paint-correction' },
-    update: {},
-    create: {
-      id: 'svc-paint-correction',
-      name: 'Paint Correction',
-      namePt: 'Correção de Pintura',
-      nameEn: 'Paint Correction',
-      descriptionPt: 'Correção de pintura em duas fases que remove swirls e riscos ligeiros do verniz, com acabamento de brilho de espelho.',
-      descriptionEn: 'Two-stage paint correction that removes swirls and light scratches from the clear coat, finished to a mirror shine.',
-      includes: ['Safe wash and decontamination', 'Clay bar treatment', 'Clear-coat thickness assessment', 'Two-stage correction (cut + refine)', 'Removal of swirls and light scratches', 'Protective sealant'],
-      includesPt: ['Lavagem segura e descontaminação', 'Tratamento com clay bar', 'Avaliação da espessura do verniz', 'Correção em duas fases (corte + refinamento)', 'Remoção de swirls e riscos ligeiros', 'Selante de proteção'],
-      includesEn: ['Safe wash and decontamination', 'Clay bar treatment', 'Clear-coat thickness assessment', 'Two-stage correction (cut + refine)', 'Removal of swirls and light scratches', 'Protective sealant'],
-      price: 249,
-      compareAtPrice: 320,
-      duration: 300,
-      category: ServiceCategory.POLISHING,
-      sortOrder: 7,
-    },
-  });
-
   console.log('Services seeded.');
 
   // ─── Add-ons ──────────────────────────────────────────────────────────────────
